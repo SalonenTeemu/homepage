@@ -4,7 +4,7 @@ This is my homepage. It's build using NextJS and hosted at [salonenteemu.fi](htt
 
 ## Running the application
 
-Run it with `npm install` and `npm run dev`. The application doesn't have any database dependencies etc.
+Run the app with `npm install` and `npm run dev`. The application doesn't have any database dependencies etc.
 
 ### Application deployment
 
