@@ -3,7 +3,7 @@
 import Link from "next/link";
 import DownArrow from "@/app/assets/icons/downArrow";
 
-export default function aboutMeScroll() {
+export default function AboutMeScroll() {
   return (
     <Link
       href="#about"
