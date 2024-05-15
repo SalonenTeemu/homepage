@@ -5,7 +5,7 @@ export default function Introduction() {
   const highlightedText = "text-lime-500 font-bold selection:text-slate-950";
 
   return (
-    <div id="top" className="w-full h-screen relative">
+    <div id="introduction" className="w-full h-screen relative">
       <div
         id="landing-text-holder"
         className="h-full w-full flex flex-col justify-center items-center text-left pl-4 md:pl-0 pr-4 md:pr-0"
@@ -21,7 +21,7 @@ export default function Introduction() {
           <p
             className={`pt-2 text-xs sm:text-sm md:text-md lg:text-lg 2xl:text-xl ${roboto.variable} font-inter`}
           >
-            My strenghts lie especially in{" "}
+            My strengths lie especially in{" "}
             <span className={highlightedText}>full-stack</span> web development.
             <br />I am always <span className={highlightedText}>open</span> to
             new challenges and <span className={highlightedText}>excited</span>{" "}

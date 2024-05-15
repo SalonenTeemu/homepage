@@ -1,10 +1,15 @@
 import Image from "next/image";
+import Link from "next/link";
+import { aboutMeDescriptions } from "@/app/assets/content/descriptions";
 import LinkIconWrapper from "@/app/components/about/linkIconWrapper";
 import profilePicture from "@/public/profilePicture.jpg";
 import GitHubIcon from "@/app/assets/icons/gitHubIcon";
 import LinkedInIcon from "@/app/assets/icons/linkedInIcon";
+import EmailIcon from "@/app/assets/icons/emailIcon";
 
 export default function AboutMe() {
+  const descriptions = aboutMeDescriptions();
+
   return (
     <div
       id="about"
@@ -25,22 +30,22 @@ export default function AboutMe() {
       <div className="w-full lg:w-1/2 p-4 flex justify-center lg:justify-start">
         <div className="w-full md:w-4/5 lg:w-full xl:w-4/5 4xl:w-3/5 ml-0 lg:ml-4 lg:mr-8 xl:ml-16 xl:mr-16 flex flex-col justify-center lg:text-left">
           <p className="text-sm md:text-md lg:text-lg 2xl:text-xl 3xl:text-3xl">
-            My name is Teemu Salonen and I am a computer science student
-            currently pursuing a master&apos;s degree. I am dedicated to
-            continuous improvement in the field. While I excel in web
-            development, I look forward to new challenges and can quickly learn
-            new technologies. I am especially interested in cloud technologies
-            and want to expand my expertise in this area. My experience ranges
-            from smaller, independent projects to larger applications used
-            worldwide. I am passionate about learning and evolving as a
-            developer. I eagerly anticipate new opportunities and challenges in
-            the future.
+            {descriptions.aboutMe}
           </p>
           <div className="pt-8 flex flex-col justify-center lg:justify-start">
-            <p className="text-sm md:text-md lg:text-lg 2xl:text-xl 3xl:text-3xl">
-              Find me on LinkedIn or check out some of my projects on GitHub
+            <p className="pb-2 text-sm md:text-md lg:text-lg 2xl:text-xl 3xl:text-3xl">
+              Find me on LinkedIn or check out some of my projects on GitHub.
+              You can also reach me via email at{" "}
+              <Link
+                href="mailto:teemutapani.salonen@gmail.com"
+                target="_blank"
+                className="text-lime-500 hover:text-slate-50 selection:text-slate-950"
+              >
+                teemutapani.salonen@gmail.com
+              </Link>
+              {"."}
             </p>
-            <div className="flex justify-center lg:justify-start">
+            <div className="pb-2 flex justify-center lg:justify-start">
               <LinkIconWrapper
                 params={{
                   href: "https://www.linkedin.com/in/teemu-t-salonen/",
@@ -53,7 +58,21 @@ export default function AboutMe() {
                   icon: <GitHubIcon />,
                 }}
               />
+              <LinkIconWrapper
+                params={{
+                  href: "mailto:teemutapani.salonen@gmail.com",
+                  icon: <EmailIcon />,
+                }}
+              />
             </div>
+            <p className="text-sm md:text-md lg:text-lg 2xl:text-xl 3xl:text-3xl">
+              <Link
+                href="/resume"
+                className="text-md font-bold text-lime-500 hover:text-slate-50 selection:text-slate-950"
+              >
+                Find the resume page here.
+              </Link>
+            </p>
           </div>
         </div>
       </div>
