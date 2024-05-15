@@ -6,10 +6,7 @@ export default function Introduction() {
 
   return (
     <div id="introduction" className="w-full h-screen relative">
-      <div
-        id="landing-text-holder"
-        className="h-full w-full flex flex-col justify-center items-center text-left pl-4 md:pl-0 pr-4 md:pr-0"
-      >
+      <div className="h-full w-full flex flex-col justify-center items-center text-left pl-4 md:pl-0 pr-4 md:pr-0">
         <div className={`${roboto.variable} font-rubik`}>
           <p className="text-xl md:text-3xl lg:text-4xl 2xl:text-5xl mb-1">
             Hey, my name is{" "}
@@ -30,7 +27,7 @@ export default function Introduction() {
         </div>
       </div>
 
-      <div className="w-full absolute bottom-32 md:bottom-8 flex justify-center items-center text-slate-50">
+      <div className="w-full absolute bottom-32 md:bottom-24 flex justify-center items-center text-slate-50">
         <AboutMeScroll />
       </div>
     </div>
