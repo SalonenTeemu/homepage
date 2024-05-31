@@ -1,10 +1,10 @@
 # Homepage
 
-This is my homepage. It's build using NextJS and hosted at [salonenteemu.fi](https://salonenteemu.fi).
+This is my homepage. It's build with Next.js and hosted at [salonenteemu.fi](https://salonenteemu.fi).
 
 ## Running the application
 
-Run the app with `npm install` and `npm run dev`. The application doesn't have any database dependencies etc.
+Run the app with `npm install` and `npm run dev`. The application doesn't have database or other dependencies.
 
 ### Application deployment
 
