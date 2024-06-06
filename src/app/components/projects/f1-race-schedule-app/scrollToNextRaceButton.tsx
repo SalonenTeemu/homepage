@@ -1,6 +1,12 @@
 "use client";
 
-export default function ScrollToNextRaceButton({ nextRaceIndex }) {
+interface ScrollToNextRaceButtonProps {
+  nextRaceIndex: number;
+}
+
+export default function ScrollToNextRaceButton({
+  nextRaceIndex,
+}: ScrollToNextRaceButtonProps) {
   function scrollToNextRace() {
     const nextRaceElement = document.getElementById(`race${nextRaceIndex + 1}`);
     if (nextRaceElement) {

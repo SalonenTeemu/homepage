@@ -11,8 +11,8 @@ export default function Projects() {
           This page contains some miscellaneous projects that I wanted to add to
           the website.
           <br />
-          Try out a project by clicking its title. View the project's GitHub
-          page by clicking the icon.
+          Try out a project by clicking its title. View the project&apos;s
+          GitHub page by clicking the icon.
         </p>
       </div>
       <Project params={{ content: descriptions.f1ScheduleApp }} />

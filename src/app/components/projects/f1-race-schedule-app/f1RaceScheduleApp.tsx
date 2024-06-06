@@ -1,4 +1,4 @@
-import { RaceType } from "./types/types";
+import { RaceType } from "@/app/types/projectTypes";
 import {
   isRaceFinished,
   getNextRaceIndex,
@@ -17,7 +17,7 @@ export default async function F1RaceScheduleApp() {
     } else {
       throw new Error("No races found");
     }
-  } catch (err) {
+  } catch (err: any) {
     console.error("Error fetching data:", err);
     error = err.message || "Failed to fetch race schedule data";
   }
