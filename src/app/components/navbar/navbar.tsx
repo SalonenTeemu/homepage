@@ -6,7 +6,10 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 flex justify-center items-center">
         <ul className="flex space-x-6">
           <li>
-            <Link href="/" className="text-md font-bold hover:text-lime-500 selection:text-slate-950">
+            <Link
+              href="/"
+              className="text-md font-bold hover:text-lime-500 selection:text-slate-950"
+            >
               Home
             </Link>
           </li>
@@ -16,6 +19,14 @@ export default function Navbar() {
               className="text-md font-bold hover:text-lime-500 selection:text-slate-950"
             >
               Resume
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/projects"
+              className="text-md font-bold hover:text-lime-500 selection:text-slate-950"
+            >
+              Projects
             </Link>
           </li>
         </ul>
