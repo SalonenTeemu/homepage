@@ -1,4 +1,4 @@
-import makeId from "@/app/utils/utils";
+import { makeId } from "@/app/utils/utils";
 
 export default function Technologies({
   params,

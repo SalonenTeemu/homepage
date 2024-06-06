@@ -8,7 +8,7 @@ export default function AboutMeScroll() {
     <Link
       href="#about"
       scroll={false}
-      className="flex flex-col text-center justify-center items-center hover:text-lime-500"
+      className="flex flex-col text-center justify-center items-center hover:text-lime-500 transition-none md:transition ease-in-out md:hover:-translate-y-1 duration-150 motion-reduce:transition-none"
       onClick={(e) => {
         e.preventDefault();
 

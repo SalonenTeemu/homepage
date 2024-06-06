@@ -1,3 +1,4 @@
+// Represents a work experience type in the resume page
 export interface ExperienceType {
   company: string;
   title: string;
@@ -5,6 +6,7 @@ export interface ExperienceType {
   description: string[];
 }
 
+// Represents an education type in the resume page
 export interface EducationType {
   university: string;
   years: string;
