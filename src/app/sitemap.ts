@@ -29,7 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: "https://salonenteemu.fi/projects/f1-race-schedule-app",
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: "yearly",
       priority: 0.5,
     },
   ];

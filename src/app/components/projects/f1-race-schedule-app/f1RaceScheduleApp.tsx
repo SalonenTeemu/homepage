@@ -36,21 +36,21 @@ export default async function F1RaceScheduleApp() {
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-3xl font-bold">Formula 1 2024 Schedule</h1>
-        <div className="flex items-center">
-          <div className="flex items-center mr-4">
+        <div className="flex flex-wrap items-center">
+          <div className="flex items-center mr-4 mt-1">
             <div className="w-8 h-8 rounded-md bg-zinc-700 border border-slate-50 mr-2"></div>
             <span>Finished Race</span>
           </div>
-          <div className="flex items-center mr-4">
+          <div className="flex items-center mr-4 mt-1">
             <div className="w-8 h-8 rounded-md bg-lime-500 border border-slate-50 mr-2"></div>
             <span>Next Race</span>
           </div>
-          <div className="flex items-center mr-4">
+          <div className="flex items-center mr-4 mt-1">
             <div className="w-8 h-8 rounded-md bg-slate-950 border border-slate-50 mr-2"></div>
             <span>Upcoming Race</span>
           </div>
           {nextRaceIndex !== null && (
-            <div className="">
+            <div className="flex items-center mt-1">
               <ScrollToNextRaceButton nextRaceIndex={nextRaceIndex} />
             </div>
           )}
@@ -59,7 +59,6 @@ export default async function F1RaceScheduleApp() {
       <ul className="grid gap-4">
         {raceScheduleData.map((race, index) => {
           const formattedDateTime = formatDateTime(race.date, race.time);
-
           return (
             <li
               key={index}
