@@ -91,7 +91,9 @@ export default async function F1RaceScheduleApp() {
  * @throws {Error} If fetching the data fails or if the data format is invalid.
  */
 async function getRaceScheduleData(): Promise<RaceType[]> {
-  const res = await fetch("https://ergast.com/api/f1/current.json");
+  const res = await fetch("https://ergast.com/api/f1/current.json", {
+    cache: "no-store",
+  });
   if (!res.ok) {
     throw new Error("Failed to fetch race data");
   }
