@@ -38,7 +38,7 @@ async function getCompetitionAndStandingsData(): Promise<{
     data.area &&
     data.filters
   ) {
-    const standings = data.standings[0].table.map((PLteam: Team) => ({
+    const standings = data.standings[0].table.map((PLteam: any) => ({
       name: PLteam.team.name,
       position: PLteam.position,
       crest: PLteam.team.crest,
