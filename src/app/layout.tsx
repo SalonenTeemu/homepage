@@ -19,6 +19,7 @@ export const metadata: Metadata = {
     "Suomi",
     "Resume",
     "Projects",
+    "Premier League standings and fixtures application",
     "F1 Race Schedule App",
     "Teemu Salonen Homepage",
     "Teemu Salonen Resume",

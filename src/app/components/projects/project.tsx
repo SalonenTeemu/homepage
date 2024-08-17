@@ -19,7 +19,7 @@ export default function Project({
           </h2>
           <LinkIconWrapper
             params={{
-              href: "https://github.com/SalonenTeemu/f1-race-schedule-app",
+              href: params.content.gitHubLink,
               icon: <GitHubIcon />,
             }}
           />

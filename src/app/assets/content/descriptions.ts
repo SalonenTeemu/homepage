@@ -83,6 +83,14 @@ export const aboutMeDescriptions = () => {
 
 export const projectDescriptions = () => {
   return {
+    premierLeagueApp: {
+      title: "Premier League standings and fixtures application",
+      description: `A simple English Premier League application showing the league table and matches.
+      The application shows the standings table of the current season as well as all fixtures of the season and their respective results.
+      The app uses football-data.org API to fetch the data for the standings and matches.`,
+      link: "/projects/premier-league-app",
+      gitHubLink: "https://github.com/SalonenTeemu/premier-league-app",
+    },
     f1ScheduleApp: {
       title: "Formula 1 race schedule application",
       description: `A simple F1 schedule app.
@@ -92,6 +100,7 @@ export const projectDescriptions = () => {
       Unfortunately, the Ergast API is deprecated and will only be updated until
       the end of the 2024 season so sadly the application will not work after 2024.`,
       link: "/projects/f1-race-schedule-app",
+      gitHubLink: "https://github.com/SalonenTeemu/f1-race-schedule-app",
     },
   };
 };

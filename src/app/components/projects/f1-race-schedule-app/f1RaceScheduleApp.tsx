@@ -2,7 +2,7 @@ import { RaceType } from "@/app/types/projectTypes";
 import {
   isRaceFinished,
   getNextRaceIndex,
-  formatDateTime,
+  formatRaceDate,
 } from "../../../utils/utils";
 import ScrollToNextRaceButton from "@/app/components/projects/f1-race-schedule-app/scrollToNextRaceButton";
 
@@ -58,7 +58,7 @@ export default async function F1RaceScheduleApp() {
       </div>
       <ul className="grid gap-4">
         {raceScheduleData.map((race, index) => {
-          const formattedDateTime = formatDateTime(race.date, race.time);
+          const formattedDateTime = formatRaceDate(race.date, race.time);
           return (
             <li
               key={index}
@@ -92,7 +92,7 @@ export default async function F1RaceScheduleApp() {
  */
 async function getRaceScheduleData(): Promise<RaceType[]> {
   const res = await fetch("https://ergast.com/api/f1/current.json", {
-    cache: "no-store",
+    next: { revalidate: 3600 },
   });
   if (!res.ok) {
     throw new Error("Failed to fetch race data");
