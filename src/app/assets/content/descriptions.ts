@@ -93,7 +93,7 @@ export const projectDescriptions = () => {
     },
     f1ScheduleApp: {
       title: "Formula 1 race schedule application",
-      description: `A simple F1 schedule app.
+      description: `A simple F1 race schedule app.
       The app shows 2024 season race dates, times and locations. It also tells which races have already been finished, 
       what race is coming next and the races upcoming later in the season.
       The application uses Ergast Developer API to fetch the race schedule data. 
