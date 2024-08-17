@@ -38,7 +38,7 @@ async function getMatchData(): Promise<{
     data.matches[0].area &&
     data.filters
   ) {
-    const matches = data.matches.map((PLmatch: Match) => ({
+    const matches = data.matches.map((PLmatch: any) => ({
       matchday: PLmatch.matchday,
       date: PLmatch.utcDate,
       homeTeam: {
@@ -52,7 +52,6 @@ async function getMatchData(): Promise<{
         score: PLmatch.score.fullTime.away,
       },
     }));
-    console.log(matches[0]);
     const competition = {
       name: data.competition.name,
       flag: data.matches[0].area.flag,
@@ -70,7 +69,6 @@ async function getMatchData(): Promise<{
 
 export default async function Matches() {
   let error: string | null = null;
-
   let competition: Competition | null = null;
   let matches: Match[] | null = null;
   try {
@@ -86,8 +84,8 @@ export default async function Matches() {
     return <div className="text-slate-50">Error: {error}</div>;
   }
 
-  if (!matches || matches.length === 0) {
-    return <div className="text-slate-50">No matches found</div>;
+  if (!competition || !matches || matches.length === 0) {
+    return <div className="text-slate-50">No fixtures found</div>;
   }
 
   return <MatchesView competition={competition} matches={matches} />;

@@ -170,7 +170,7 @@ export default async function Standings() {
     return <div className="text-slate-50">Error: {error}</div>;
   }
 
-  if (!standings || standings.length === 0) {
+  if (!competition || !standings || standings.length === 0) {
     return <div className="text-slate-50">No standings found</div>;
   }
 
