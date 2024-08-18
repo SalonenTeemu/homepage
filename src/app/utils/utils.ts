@@ -1,4 +1,4 @@
-import { RaceType } from "../types/projectTypes";
+import { Race } from "../types/projectTypes";
 
 /**
  * Generates a random alphanumeric ID of a specified length.
@@ -31,10 +31,10 @@ export function isRaceFinished(raceDate: string): boolean {
 
 /**
  * Finds the index of the next race in the schedule.
- * @param {RaceType[]} races - An array of Race objects representing the race schedule.
+ * @param {Race[]} races - An array of Race objects representing the race schedule.
  * @returns {number} The index of the next race, or -1 if there are no future races.
  */
-export function getNextRaceIndex(races: RaceType[]): number {
+export function getNextRaceIndex(races: Race[]): number {
   const currentDate = new Date();
   for (let i = 0; i < races.length; i++) {
     const raceDateTime = new Date(races[i].date);
