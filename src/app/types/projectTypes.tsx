@@ -34,6 +34,7 @@ export interface Team {
 export interface Match {
   matchday: number;
   date: string;
+  live: boolean;
   homeTeam: {
     name: string;
     crest: string;
@@ -47,7 +48,7 @@ export interface Match {
 }
 
 // Represents a race event in the Formula 1 schedule.
-export interface RaceType {
+export interface Race {
   season: string;
   round: string;
   raceName: string;

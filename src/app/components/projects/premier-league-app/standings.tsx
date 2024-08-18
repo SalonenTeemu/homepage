@@ -171,7 +171,7 @@ export default async function Standings() {
   }
 
   if (!competition || !standings || standings.length === 0) {
-    return <div className="text-slate-50">No standings found</div>;
+    return <div className="text-slate-50">No standings found.</div>;
   }
 
   return <StandingsTable competition={competition} standings={standings} />;

@@ -102,10 +102,10 @@ export function formatRaceDate(date: string, time: string): any {
     utcDateTime.getTime() + offset * 60 * 60 * 1000
   );
 
-  const formattedDate = `${("0" + localDateTime.getUTCDate()).slice(-2)}.${(
+  const formattedDate = `${("0" + localDateTime.getUTCDate()).slice(-2)}/${(
     "0" +
     (localDateTime.getUTCMonth() + 1)
-  ).slice(-2)}.${localDateTime.getUTCFullYear()}`;
+  ).slice(-2)}/${localDateTime.getUTCFullYear()}`;
 
   const formattedTime = `${("0" + localDateTime.getUTCHours()).slice(-2)}:${(
     "0" + localDateTime.getUTCMinutes()

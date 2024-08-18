@@ -1,4 +1,4 @@
-import { RaceType } from "@/app/types/projectTypes";
+import { Race } from "@/app/types/projectTypes";
 import {
   isRaceFinished,
   getNextRaceIndex,
@@ -7,7 +7,7 @@ import {
 import ScrollToNextRaceButton from "@/app/components/projects/f1-race-schedule-app/scrollToNextRaceButton";
 
 export default async function F1RaceScheduleApp() {
-  let raceScheduleData: RaceType[] | null = null;
+  let raceScheduleData: Race[] | null = null;
   let error: string | null = null;
 
   try {
@@ -27,7 +27,7 @@ export default async function F1RaceScheduleApp() {
   }
 
   if (!raceScheduleData || raceScheduleData.length === 0) {
-    return <div className="text-slate-50">No races found</div>;
+    return <div className="text-slate-50">No races found.</div>;
   }
 
   const nextRaceIndex = getNextRaceIndex(raceScheduleData);
@@ -87,10 +87,10 @@ export default async function F1RaceScheduleApp() {
 
 /**
  * Fetches the race schedule data from external ergast f1 API.
- * @returns {Promise<RaceType[]>} A promise that resolves to an array of Race objects.
+ * @returns {Promise<Race[]>} A promise that resolves to an array of Race objects.
  * @throws {Error} If fetching the data fails or if the data format is invalid.
  */
-async function getRaceScheduleData(): Promise<RaceType[]> {
+async function getRaceScheduleData(): Promise<Race[]> {
   const res = await fetch("https://ergast.com/api/f1/current.json", {
     next: { revalidate: 3600 },
   });
@@ -101,7 +101,7 @@ async function getRaceScheduleData(): Promise<RaceType[]> {
   console.log("Fetched race data");
 
   if (data.MRData && data.MRData.RaceTable && data.MRData.RaceTable.Races) {
-    return data.MRData.RaceTable.Races.map((race: RaceType) => ({
+    return data.MRData.RaceTable.Races.map((race: Race) => ({
       season: race.season,
       round: race.round,
       raceName: race.raceName,

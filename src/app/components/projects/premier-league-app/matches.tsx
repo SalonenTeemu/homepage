@@ -41,6 +41,7 @@ async function getMatchData(): Promise<{
     const matches = data.matches.map((PLmatch: any) => ({
       matchday: PLmatch.matchday,
       date: PLmatch.utcDate,
+      live: ["LIVE", "IN_PLAY", "PAUSED"].includes(PLmatch.status),
       homeTeam: {
         name: PLmatch.homeTeam.name,
         crest: PLmatch.homeTeam.crest,
@@ -85,7 +86,7 @@ export default async function Matches() {
   }
 
   if (!competition || !matches || matches.length === 0) {
-    return <div className="text-slate-50">No fixtures found</div>;
+    return <div className="text-slate-50">No fixtures found.</div>;
   }
 
   return <MatchesView competition={competition} matches={matches} />;

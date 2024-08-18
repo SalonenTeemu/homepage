@@ -98,7 +98,7 @@ export default function MatchesView({
           <table className="w-full table-auto border-collapse text-center">
             <thead className="bg-slate-800 text-slate-50">
               <tr className="border border-slate-700">
-                <th className="w-1/6 px-2 py-1">Date</th>
+                <th className="w-3/12 px-2 py-1">Date</th>
                 <th className="w-2/6 px-2 py-1"></th>
                 <th className="w-1/12 px-2 py-1">Fixture</th>
                 <th className="w-2/6 px-2 py-1"></th>
@@ -110,7 +110,14 @@ export default function MatchesView({
                   key={index}
                   className="border border-slate-700 hover:bg-slate-800 h-12 border-slate-700"
                 >
-                  <td className="px-2 py-1">{formatMatchDate(match.date)}</td>
+                  <td className="px-2 py-1">
+                    {formatMatchDate(match.date)}
+                    {match.live && (
+                      <span className="ml-2 text-lime-500 animate-pulse">
+                        LIVE
+                      </span>
+                    )}
+                  </td>
                   <td className="px-2 py-1">
                     <div className="flex items-center justify-end">
                       <span>{match.homeTeam.name}</span>
@@ -140,7 +147,7 @@ export default function MatchesView({
           </table>
         ) : (
           <div className="text-center text-slate-50">
-            No matches found for this matchweek
+            No fixtures found for this matchday.
           </div>
         )}
       </div>
