@@ -4,7 +4,7 @@ export default function CustomCursor() {
   return (
     <AnimatedCursor
       innerSize={0}
-      outerSize={500}
+      outerSize={200}
       innerScale={0}
       outerScale={1}
       outerAlpha={1}
