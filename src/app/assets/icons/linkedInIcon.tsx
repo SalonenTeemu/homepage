@@ -1,3 +1,8 @@
+/**
+ * LinkedIn SVG icon.
+ *
+ * @returns {JSX.Element} The LinkedIn icon component
+ */
 export default function LinkedInIcon() {
   return (
     <svg

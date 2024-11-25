@@ -1,5 +1,11 @@
 import { EducationType } from "@/app/types/resumeTypes";
 
+/**
+ * Component for displaying education information.
+ *
+ * @param param0 content: EducationType
+ * @returns {JSX.Element} The education component
+ */
 export default function Education({
   params,
 }: {

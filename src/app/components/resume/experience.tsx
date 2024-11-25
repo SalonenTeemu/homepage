@@ -1,5 +1,11 @@
 import { ExperienceType } from "@/app/types/resumeTypes";
 
+/**
+ * Component for displaying experience information.
+ *
+ * @param param0 content: ExperienceType
+ * @returns {JSX.Element} The experience component
+ */
 export default function Experience({
   params,
 }: {

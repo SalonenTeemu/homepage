@@ -1,4 +1,6 @@
-// Represents a project in the projects page
+/**
+ * Represents a project in the projects page.
+ */
 export interface ProjectType {
   title: string;
   description: string;
@@ -6,7 +8,9 @@ export interface ProjectType {
   gitHubLink: string;
 }
 
-// Represents the Premier League competition
+/**
+ * Represents the Premier League competition.
+ */
 export interface Competition {
   name: string;
   flag: string;
@@ -15,7 +19,9 @@ export interface Competition {
   currentMatchday: number;
 }
 
-// Represents a Premier League team
+/**
+ * Represents a Premier League team.
+ */
 export interface Team {
   name: string;
   position: number;
@@ -30,7 +36,9 @@ export interface Team {
   goalDifference: number;
 }
 
-// Represents a Premier League match
+/**
+ * Represents a Premier League match.
+ */
 export interface Match {
   matchday: number;
   date: string;
@@ -47,7 +55,9 @@ export interface Match {
   };
 }
 
-// Represents a race event in the Formula 1 schedule.
+/**
+ * Represents a race event in the Formula 1 schedule.
+ */
 export interface Race {
   season: string;
   round: string;

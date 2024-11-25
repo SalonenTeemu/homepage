@@ -1,3 +1,8 @@
+/**
+ * Down arrow SVG icon.
+ *
+ * @returns {JSX.Element} The down arrow icon component
+ */
 export default function DownArrow() {
   return (
     <svg

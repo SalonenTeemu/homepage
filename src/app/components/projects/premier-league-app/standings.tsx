@@ -2,9 +2,9 @@ import { Competition, Team } from "@/app/types/projectTypes";
 
 /**
  * Fetches the competition and standings data from external football-data.org API.
- * @returns {Promise<any[]>} A promise that resolves to an object containing competition data and an array of Team objects.
- * @returns An an object containing competition data and an standings data.
- * @throws {Error} If fetching the data fails or if the data format is invalid.
+ *
+ * @returns {Promise<{ competition: Competition, standings: Team[] }>} The competition and standings data
+ * @throws {Error} If fetching the data fails or if the data format is invalid
  */
 async function getCompetitionAndStandingsData(): Promise<{
   competition: Competition;
@@ -67,6 +67,12 @@ async function getCompetitionAndStandingsData(): Promise<{
   }
 }
 
+/**
+ * Standings table component that displays the Premier League standings.
+ *
+ * @param param0 competition: Competition object, standings: Team array
+ * @returns {JSX.Element} The standings table component
+ */
 function StandingsTable({
   competition,
   standings,
@@ -153,6 +159,11 @@ function StandingsTable({
   );
 }
 
+/**
+ * Standings component that fetches and displays the Premier League standings.
+ *
+ * @returns {JSX.Element} The Standings component
+ */
 export default async function Standings() {
   let error: string | null = null;
   let competition: Competition | null = null;

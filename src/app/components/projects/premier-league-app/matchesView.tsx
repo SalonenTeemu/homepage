@@ -4,6 +4,12 @@ import { useState, useEffect } from "react";
 import { Competition, Match } from "@/app/types/projectTypes";
 import { formatMatchDate } from "@/app/utils/utils";
 
+/**
+ * Component that displays the matches for a specific matchday.
+ *
+ * @param param0 competition: Competition object, matches: Match array
+ * @returns {JSX.Element} MatchesView component
+ */
 export default function MatchesView({
   competition,
   matches,

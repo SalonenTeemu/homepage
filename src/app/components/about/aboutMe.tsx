@@ -7,6 +7,11 @@ import GitHubIcon from "@/app/assets/icons/gitHubIcon";
 import LinkedInIcon from "@/app/assets/icons/linkedInIcon";
 import EmailIcon from "@/app/assets/icons/emailIcon";
 
+/**
+ * Component for the about me section of the homepage.
+ *
+ * @returns {JSX.Element} The about me component
+ */
 export default function AboutMe() {
   const descriptions = aboutMeDescriptions();
 

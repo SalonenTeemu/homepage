@@ -1,5 +1,10 @@
 import Link from "next/link";
 
+/**
+ * Navigation bar for the Premier League App.
+ *
+ * @returns {JSX.Element} Navbar component
+ */
 export default function Navbar() {
   return (
     <nav className="bg-slate-900 py-2 mt-2">

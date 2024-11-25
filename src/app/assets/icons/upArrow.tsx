@@ -1,3 +1,8 @@
+/**
+ * Up arrow SVG icon.
+ *
+ * @returns {JSX.Element} The up arrow icon component
+ */
 export default function UpArrow() {
   return (
     <svg

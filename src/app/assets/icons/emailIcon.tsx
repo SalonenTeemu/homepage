@@ -1,3 +1,8 @@
+/**
+ * Email SVG icon.
+ *
+ * @returns {JSX.Element} The email icon component
+ */
 export default function EmailIcon() {
   return (
     <svg

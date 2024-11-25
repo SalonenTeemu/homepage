@@ -6,6 +6,9 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
+/**
+ * Metadata for the website.
+ */
 export const metadata: Metadata = {
   title: "Teemu Salonen",
   description: "Homepage of Teemu Salonen",

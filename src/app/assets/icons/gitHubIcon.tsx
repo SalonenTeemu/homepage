@@ -1,3 +1,8 @@
+/**
+ * GitHub SVG icon.
+ *
+ * @returns {JSX.Element} The GitHub icon component
+ */
 export default function GitHubIcon() {
   return (
     <svg

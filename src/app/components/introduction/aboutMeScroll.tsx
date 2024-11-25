@@ -3,6 +3,11 @@
 import Link from "next/link";
 import DownArrow from "@/app/assets/icons/downArrow";
 
+/**
+ * An arrow component that scrolls to the about section.
+ * 
+ * @returns {JSX.Element} AboutMeScroll component
+ */
 export default function AboutMeScroll() {
   return (
     <Link

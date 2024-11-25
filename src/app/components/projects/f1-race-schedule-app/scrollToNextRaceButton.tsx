@@ -4,6 +4,12 @@ interface ScrollToNextRaceButtonProps {
   nextRaceIndex: number;
 }
 
+/**
+ * Button to scroll to the next upcoming race.
+ *
+ * @param param0 nextRaceIndex: Index of the race to scroll to
+ * @returns {JSX.Element} ScrollToNextRaceButton component
+ */
 export default function ScrollToNextRaceButton({
   nextRaceIndex,
 }: ScrollToNextRaceButtonProps) {

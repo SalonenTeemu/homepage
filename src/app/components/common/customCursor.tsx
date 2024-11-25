@@ -1,5 +1,10 @@
 import AnimatedCursor from "react-animated-cursor";
 
+/**
+ * A custom cursor component using react-animated-cursor.
+ *
+ * @returns {JSX.Element} The custom cursor component
+ */
 export default function CustomCursor() {
   return (
     <AnimatedCursor

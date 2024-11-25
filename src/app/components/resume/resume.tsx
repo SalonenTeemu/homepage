@@ -4,6 +4,11 @@ import Hobbies from "@/app/components/resume/hobbies";
 import Technologies from "@/app/components/resume/technologies";
 import { resumeDescriptions } from "@/app/assets/content/descriptions";
 
+/**
+ * Main component for the resume page.
+ *
+ * @returns {JSX.Element} Resume component
+ */
 export default function Resume() {
   const descriptions = resumeDescriptions();
 

@@ -3,6 +3,11 @@
 import Link from "next/link";
 import LeftArrow from "@/app/assets/icons/leftArrow";
 
+/**
+ * A button that redirects the user back to the projects page.
+ * 
+ * @returns {JSX.Element} GoBackButton component
+ */
 export default function GoBackButton() {
   return (
     <Link

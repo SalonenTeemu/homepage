@@ -1,5 +1,10 @@
 import { MetadataRoute } from "next";
 
+/**
+ * Sitemap for the website.
+ *
+ * @returns {MetadataRoute.Sitemap} The sitemap
+ */
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {

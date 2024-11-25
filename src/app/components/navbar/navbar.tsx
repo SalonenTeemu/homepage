@@ -1,5 +1,10 @@
 import Link from "next/link";
 
+/**
+ * The navigation bar component containing links to the homepage, resume, and projects.
+ *
+ * @returns {JSX.Element} Navbar component
+ */
 export default function Navbar() {
   return (
     <nav className="w-full py-4 bg-slate-950 text-slate-50">

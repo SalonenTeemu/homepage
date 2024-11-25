@@ -1,5 +1,8 @@
 import { Roboto, Inter } from "next/font/google";
 
+/**
+ * Google Font Roboto.
+ */
 export const roboto = Roboto({
   subsets: ["latin"],
   style: ["normal"],
@@ -8,6 +11,9 @@ export const roboto = Roboto({
   variable: "--font-roboto",
 });
 
+/**
+ * Google Font Inter.
+ */
 export const inter = Inter({
   subsets: ["latin"],
   style: ["normal"],

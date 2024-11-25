@@ -1,5 +1,11 @@
 import { makeId } from "@/app/utils/utils";
 
+/**
+ * Component for displaying a list of technologies.
+ *
+ * @param param0 content: string[]
+ * @returns {JSX.Element} Technologies component
+ */
 export default function Technologies({
   params,
 }: {

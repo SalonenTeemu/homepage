@@ -1,3 +1,9 @@
+/**
+ * Component for displaying hobbies information.
+ *
+ * @param param0 content: string[]
+ * @returns {JSX.Element} The hobbies component
+ */
 export default function Hobbies({
   params,
 }: {

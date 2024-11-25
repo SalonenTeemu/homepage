@@ -6,6 +6,11 @@ import {
 } from "../../../utils/utils";
 import ScrollToNextRaceButton from "@/app/components/projects/f1-race-schedule-app/scrollToNextRaceButton";
 
+/**
+ * F1RaceScheduleApp project component.
+ *
+ * @returns {JSX.Element} F1RaceScheduleApp component
+ */
 export default async function F1RaceScheduleApp() {
   let raceScheduleData: Race[] | null = null;
   let error: string | null = null;
@@ -86,9 +91,10 @@ export default async function F1RaceScheduleApp() {
 }
 
 /**
- * Fetches the race schedule data from external ergast f1 API.
- * @returns {Promise<Race[]>} A promise that resolves to an array of Race objects.
- * @throws {Error} If fetching the data fails or if the data format is invalid.
+ * Fetches the race schedule data from external ergast F1 API.
+ *
+ * @returns {Promise<Race[]>} A promise that resolves to an array of Race objects
+ * @throws {Error} If fetching the data fails or if the data format is invalid
  */
 async function getRaceScheduleData(): Promise<Race[]> {
   const res = await fetch("https://ergast.com/api/f1/current.json", {

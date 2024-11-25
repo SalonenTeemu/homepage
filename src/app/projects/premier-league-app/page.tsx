@@ -6,7 +6,12 @@ import FooterText from "@/app/components/common/footerText";
 import Standings from "@/app/components/projects/premier-league-app/standings";
 import PremAppNavbar from "@/app/components/projects/premier-league-app/navbar";
 
-export default function Home() {
+/**
+ * Home page of Premier League App project.
+ *
+ * @returns {JSX.Element} PremierLeagueAppPage component
+ */
+export default function PremierLeagueAppPage() {
   return (
     <main className="w-full min-h-screen relative bg-slate-950 text-slate-50 selection:bg-lime-500 scroll-smooth">
       <Navbar />

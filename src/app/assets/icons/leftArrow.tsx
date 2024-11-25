@@ -1,3 +1,8 @@
+/**
+ * Left arrow SVG icon.
+ * 
+ * @returns {JSX.Element} The left arrow icon component
+ */
 export default function LeftArrow() {
   return (
     <svg

@@ -2,8 +2,9 @@ import { Race } from "../types/projectTypes";
 
 /**
  * Generates a random alphanumeric ID of a specified length.
- * @param {number} length - The length of the generated ID.
- * @returns {string} The generated ID.
+ *
+ * @param {number} length The length of the generated ID
+ * @returns {string} The generated ID
  */
 export function makeId(length: number) {
   let result = "";
@@ -20,8 +21,9 @@ export function makeId(length: number) {
 
 /**
  * Checks if a race is finished based on its date.
- * @param {string} raceDate - The date of the race.
- * @returns {boolean} True if the race is finished, otherwise false.
+ *
+ * @param {string} raceDate The date of the race
+ * @returns {boolean} True if the race is finished, otherwise false
  */
 export function isRaceFinished(raceDate: string): boolean {
   const currentDate = new Date();
@@ -31,8 +33,9 @@ export function isRaceFinished(raceDate: string): boolean {
 
 /**
  * Finds the index of the next race in the schedule.
- * @param {Race[]} races - An array of Race objects representing the race schedule.
- * @returns {number} The index of the next race, or -1 if there are no future races.
+ *
+ * @param {Race[]} races Array of Race objects representing the race schedule
+ * @returns {number} The index of the next race, or -1 if there are no future races
  */
 export function getNextRaceIndex(races: Race[]): number {
   const currentDate = new Date();
@@ -47,8 +50,9 @@ export function getNextRaceIndex(races: Race[]): number {
 
 /**
  * Formats the date and time of a Premier League match.
- * @param {string} utcDate - The date and time of the match in UTC format.
- * @returns {string} The formatted date and time of the match.
+ *
+ * @param {string} utcDate The date and time of the match in UTC format
+ * @returns {string} The formatted date and time of the match
  */
 export function formatMatchDate(utcDate: string): string {
   const localDate = new Date(utcDate);
@@ -84,9 +88,10 @@ export function formatMatchDate(utcDate: string): string {
 
 /**
  * Formats the date and time of a race.
- * @param {string} date - The date of the race.
- * @param {string} time - The time of the race.
- * @returns {Object} An object containing the formatted date and time.
+ *
+ * @param {string} date The date of the race
+ * @param {string} time The time of the race
+ * @returns {Object} An object containing the formatted date and time
  */
 export function formatRaceDate(date: string, time: string): any {
   const utcDateTime = new Date(`${date}T${time}`);

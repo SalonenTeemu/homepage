@@ -3,6 +3,11 @@
 import { useEffect, useState } from "react";
 import UpArrow from "@/app/assets/icons/upArrow";
 
+/**
+ * A scroll to top button component that appears when the user scrolls down the page.
+ *
+ * @returns {JSX.Element} The scroll top button component
+ */
 export default function ScrollTopButton() {
   const [visible, setVisible] = useState(false);
 

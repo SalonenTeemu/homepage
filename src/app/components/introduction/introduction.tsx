@@ -1,6 +1,11 @@
 import { roboto } from "@/app/components/common/fonts";
 import AboutMeScroll from "@/app/components/introduction/aboutMeScroll";
 
+/**
+ * The front page introduction component.
+ *
+ * @returns {JSX.Element} Introduction component
+ */
 export default function Introduction() {
   const highlightedText = "text-lime-500 font-bold selection:text-slate-950";
 

@@ -1,6 +1,11 @@
 import Project from "@/app/components/projects/project";
 import { projectDescriptions } from "@/app/assets/content/descriptions";
 
+/**
+ * Component that displays the projects page with a description of each project.
+ *
+ * @returns {JSX.Element} Projects component
+ */
 export default function Projects() {
   const descriptions = projectDescriptions();
 

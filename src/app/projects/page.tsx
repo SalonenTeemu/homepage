@@ -5,6 +5,11 @@ import Projects from "@/app/components/projects/projects";
 import FooterText from "../components/common/footerText";
 import { inter } from "@/app/components/common/fonts";
 
+/**
+ * The projects page.
+ *
+ * @returns {JSX.Element} The projects page
+ */
 export default function ProjectsPage() {
   return (
     <main className="w-full min-h-screen relative bg-slate-950 text-slate-50 selection:bg-lime-500 scroll-smooth">

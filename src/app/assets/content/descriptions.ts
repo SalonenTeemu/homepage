@@ -1,3 +1,8 @@
+/**
+ * Descriptions for the resume section.
+ *
+ * @returns Object containing descriptions for the resume section
+ */
 export const resumeDescriptions = () => {
   return {
     workExperience: {
@@ -68,6 +73,11 @@ export const resumeDescriptions = () => {
   };
 };
 
+/**
+ * Descriptions for the about me section.
+ *
+ * @returns Object containing descriptions for the about me section
+ */
 export const aboutMeDescriptions = () => {
   return {
     aboutMe: `My name is Teemu Salonen, a computer science student currently
@@ -82,6 +92,11 @@ export const aboutMeDescriptions = () => {
   };
 };
 
+/**
+ * Descriptions for the projects section.
+ *
+ * @returns Object containing descriptions for the projects section
+ */
 export const projectDescriptions = () => {
   return {
     premierLeagueApp: {

@@ -3,6 +3,12 @@ import LinkIconWrapper from "@/app/components/about/linkIconWrapper";
 import GitHubIcon from "@/app/assets/icons/gitHubIcon";
 import { ProjectType } from "@/app/types/projectTypes";
 
+/**
+ * A component that displays a project's title, description, and GitHub link.
+ *
+ * @param param0 content: ProjectType
+ * @returns {JSX.Element} Project component
+ */
 export default function Project({
   params,
 }: {

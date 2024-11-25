@@ -1,5 +1,10 @@
 import Link from "next/link";
 
+/**
+ * Component for a link to the resume PDF.
+ *
+ * @returns {JSX.Element} ResumePDFLink component
+ */
 export default function ResumePDFLink() {
   return (
     <div className="w-full flex justify-center pb-8">

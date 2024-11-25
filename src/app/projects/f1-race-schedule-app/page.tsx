@@ -6,7 +6,12 @@ import F1RaceScheduleApp from "@/app/components/projects/f1-race-schedule-app/f1
 import FooterText from "@/app/components/common/footerText";
 import { inter } from "@/app/components/common/fonts";
 
-export default function ProjectsPage() {
+/**
+ * The F1 Race Schedule App page.
+ *
+ * @returns {JSX.Element} The F1 Race Schedule App page
+ */
+export default function F1RaceScheduleAppPage() {
   return (
     <main className="w-full min-h-screen relative bg-slate-950 text-slate-50 selection:bg-lime-500 scroll-smooth">
       <CustomCursor />

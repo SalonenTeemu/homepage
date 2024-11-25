@@ -1,5 +1,11 @@
 import Link from "next/link";
 
+/**
+ * Wrapper for icons that are links.
+ *
+ * @param param0 href: link to the page, icon: icon to display
+ * @returns {JSX.Element} The link icon wrapper component
+ */
 export default function LinkIconWrapper({
   params,
 }: {
