@@ -13,9 +13,9 @@ export default function Education({
         <p className="pl-0 pt-2">{params.content.university}</p>
         <p className="pl-0">{params.content.level}</p>
         <p className="pl-0 pb-2 text-slate-300">{params.content.years}</p>
-        <p className={`pl-0 ${params.content.minor ? "" : "pb-2"}`}>
-          Major: {params.content.major}
-        </p>
+        {params.content.major && (
+          <p className="pl-0 pb-2">Major: {params.content.major}</p>
+        )}
         {params.content.minor && (
           <p className="pl-0 pb-2">Minor: {params.content.minor}</p>
         )}

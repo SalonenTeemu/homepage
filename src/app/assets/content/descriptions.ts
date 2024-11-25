@@ -23,8 +23,7 @@ export const resumeDescriptions = () => {
       bachelor: {
         university: "Tampere University",
         years: "2021-2024",
-        level: "Bachelor of Science",
-        major: "Computer Science",
+        level: "Bachelor of Science in Computer Science",
         minor: "Business Studies",
       },
     },
@@ -57,6 +56,9 @@ export const resumeDescriptions = () => {
       "RabbitMQ",
       "PostgreSQL",
       "Git",
+      "GitHub Actions",
+      "Terraform",
+      "Kubernetes",
       "Docker",
       "Vercel",
       "AWS",
@@ -70,11 +72,10 @@ export const aboutMeDescriptions = () => {
   return {
     aboutMe: `My name is Teemu Salonen, a computer science student currently
     pursuing a master's degree majoring in software engineering. I
-    am dedicated to continuous improvement in the field. While I excel
-    in web development, I look forward to new challenges and can quickly
-    learn new technologies. I am especially interested in cloud
-    technologies and want to expand my expertise in this area. My
-    experience ranges from smaller, independent projects to larger
+    am dedicated to continuous improvement in the field. While my strengths lie
+    in web development, I look forward to learning new technologies and environments.
+    I am especially interested in cloud technologies and want to expand my expertise in this area. 
+    My experience ranges from smaller, independent projects to larger
     applications used worldwide. I am passionate about learning and
     evolving as a developer and I eagerly anticipate new opportunities
     and challenges in the future.`,

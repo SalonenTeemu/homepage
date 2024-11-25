@@ -18,7 +18,7 @@ export default function Resume() {
             params={{ content: descriptions.workExperience.valmet }}
           />
           <p className="text-md lg:text-lg 2xl:text-xl 3xl:text-3xl pt-8 pb-4">
-            Technologies I have knowledge of
+            Technologies I am familiar with
           </p>
           <Technologies params={{ content: descriptions.technologies }} />
         </div>

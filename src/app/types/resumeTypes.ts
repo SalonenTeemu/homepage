@@ -11,6 +11,6 @@ export interface EducationType {
   university: string;
   years: string;
   level: string;
-  major: string;
+  major?: string;
   minor?: string;
 }

@@ -18,7 +18,7 @@ export default function Introduction() {
           <p
             className={`pt-2 text-xs sm:text-sm md:text-md lg:text-lg 2xl:text-xl ${roboto.variable} font-inter`}
           >
-            My strengths lie especially in{" "}
+            My strengths lie in{" "}
             <span className={highlightedText}>full-stack</span> web development.
             <br />I am always <span className={highlightedText}>open</span> to
             new challenges and <span className={highlightedText}>excited</span>{" "}
