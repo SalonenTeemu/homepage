@@ -26,8 +26,8 @@ export default function Introduction() {
             My strengths lie in{" "}
             <span className={highlightedText}>full-stack</span> web development.
             <br />I am always <span className={highlightedText}>open</span> to
-            new challenges and <span className={highlightedText}>excited</span>{" "}
-            to learn new technologies.
+            new challenges and <span className={highlightedText}>interested</span>{" "}
+            in learning new technologies.
           </p>
         </div>
       </div>

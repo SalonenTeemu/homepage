@@ -1,4 +1,5 @@
 import { EducationType } from "@/app/types/resumeTypes";
+import Link from "next/link";
 
 /**
  * Component for displaying education information.
@@ -24,6 +25,16 @@ export default function Education({
         )}
         {params.content.minor && (
           <p className="pl-0 pb-2">Minor: {params.content.minor}</p>
+        )}
+        {params.content.thesis && (
+          <p className="pl-0 pb-2">Thesis:{" "}
+            <Link
+              href="https://trepo.tuni.fi/handle/10024/157793"
+              className="text-lime-500 hover:text-slate-50 selection:text-slate-950"
+            >
+              {params.content.thesis}
+            </Link>
+          </p>
         )}
       </div>
     </div>
