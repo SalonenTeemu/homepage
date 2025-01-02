@@ -2,7 +2,7 @@ import CustomCursor from "@/app/components/common/customCursor";
 import Navbar from "@/app/components/navbar/navbar";
 import ScrollTopButton from "@/app/components/common/scrollTopButton";
 import Projects from "@/app/components/projects/projects";
-import FooterText from "../components/common/footerText";
+import Footer from "../components/common/footer";
 import { inter } from "@/app/components/common/fonts";
 
 /**
@@ -20,7 +20,7 @@ export default function ProjectsPage() {
       >
         <Projects />
         <ScrollTopButton />
-        <FooterText />
+        <Footer />
       </div>
     </main>
   );

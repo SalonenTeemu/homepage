@@ -3,7 +3,7 @@ import Navbar from "@/app/components/navbar/navbar";
 import ScrollTopButton from "@/app/components/common/scrollTopButton";
 import Resume from "@/app/components/resume/resume";
 import ResumePDFLink from "../components/resume/resumePDFLink";
-import FooterText from "../components/common/footerText";
+import Footer from "../components/common/footer";
 import { inter } from "@/app/components/common/fonts";
 
 /**
@@ -17,12 +17,11 @@ export default function ResumePage() {
       <CustomCursor />
       <Navbar />
       <div
-        className={`w-full h-full flex flex-col items-center justify-between ${inter.variable} font-inter`}
-      >
+        className={`w-full h-full flex flex-col items-center justify-between ${inter.variable} font-inter`}>
         <Resume />
         <ScrollTopButton />
-        <ResumePDFLink />
-        <FooterText />
+        <ResumePDFLink linkText="View the complete resume here." />
+        <Footer />
       </div>
     </main>
   );

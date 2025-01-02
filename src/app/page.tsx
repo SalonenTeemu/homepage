@@ -3,7 +3,7 @@ import Navbar from "./components/navbar/navbar";
 import Introduction from "@/app/components/introduction/introduction";
 import AboutMe from "@/app/components/about/aboutMe";
 import ScrollTopButton from "@/app/components/common/scrollTopButton";
-import FooterText from "./components/common/footerText";
+import Footer from "./components/common/footer";
 import { inter } from "@/app/components/common/fonts";
 
 /**
@@ -17,12 +17,11 @@ export default function HomePage() {
       <CustomCursor />
       <Navbar />
       <div
-        className={`w-full h-full flex flex-col items-center justify-between ${inter.variable} font-inter`}
-      >
+        className={`w-full h-full flex flex-col items-center justify-between ${inter.variable} font-inter`}>
         <Introduction />
         <AboutMe />
         <ScrollTopButton />
-        <FooterText />
+        <Footer />
       </div>
     </main>
   );

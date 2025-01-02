@@ -18,8 +18,7 @@ export default function AboutMe() {
   return (
     <div
       id="about"
-      className="w-full h-full text-center pt-12 lg:pt-24 pb-12 lg:pb-24 flex flex-col lg:flex-row justify-center items-center"
-    >
+      className="w-full h-full text-center pt-12 lg:pt-24 pb-12 lg:pb-24 flex flex-col lg:flex-row justify-center items-center">
       <div className="w-full lg:w-1/2 p-4 flex justify-center lg:justify-end">
         <div className="-full md:w-4/5 lg:w-full xl:w-4/5 2xl:w-4/5 mr-0 lg:ml-8 lg:mr-4 xl:ml-16 xl:mr-16 flex flex-row justify-center">
           <div className="w-2/3 overflow-hidden rounded-xl">
@@ -44,13 +43,12 @@ export default function AboutMe() {
               <Link
                 href="mailto:teemutapani.salonen@gmail.com"
                 target="_blank"
-                className="text-lime-500 hover:text-slate-50 selection:text-slate-950"
-              >
+                className="text-lime-500 hover:text-slate-50 selection:text-slate-950">
                 teemutapani.salonen@gmail.com
               </Link>
               {"."}
             </p>
-            <div className="pb-2 flex justify-center lg:justify-start">
+            <div className="pb-2 flex justify-center lg:justify-start gap-4">
               <LinkIconWrapper
                 params={{
                   href: "https://www.linkedin.com/in/teemu-t-salonen/",
@@ -73,8 +71,7 @@ export default function AboutMe() {
             <p className="text-sm md:text-md lg:text-lg 2xl:text-xl 3xl:text-3xl">
               <Link
                 href="/resume"
-                className="text-md font-bold text-lime-500 hover:text-slate-50 selection:text-slate-950"
-              >
+                className="text-md font-bold text-lime-500 hover:text-slate-50 selection:text-slate-950">
                 Find the resume page here.
               </Link>
             </p>

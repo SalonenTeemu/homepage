@@ -72,6 +72,7 @@ export const resumeDescriptions = () => {
       "Vercel",
       "AWS",
       "Firebase",
+      "Databricks",
     ],
     hobbies: ["Sports", "Videogames", "Running"],
   };
