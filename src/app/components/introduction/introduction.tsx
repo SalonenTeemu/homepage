@@ -22,7 +22,7 @@ export default function Introduction() {
           </p>
           <p
             className={`pt-2 text-xs sm:text-sm md:text-md lg:text-lg 2xl:text-xl ${roboto.variable} font-inter`}>
-            I am a computer science student pursuing a master's degree.
+            I am a computer science student currently pursuing a {"master's"} degree.
             <br />I am passionate about software engineering and always{" "}
             <span className={highlightedText}>open</span> to new challenges and{" "}
             <span className={highlightedText}>interested</span> in learning new
