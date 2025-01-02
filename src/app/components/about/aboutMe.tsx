@@ -72,7 +72,7 @@ export default function AboutMe() {
               <Link
                 href="/resume"
                 className="text-md font-bold text-lime-500 hover:text-slate-50 selection:text-slate-950">
-                Find the resume page here.
+                Find my resume page here.
               </Link>
             </p>
           </div>

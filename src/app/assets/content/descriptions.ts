@@ -11,7 +11,7 @@ export const resumeDescriptions = () => {
         title: "Trainee",
         years: "2023-2024",
         description: [
-          "Programmed global pricing application with VBA",
+          "Programmed global pricing application",
           "Updated global pricing models for products",
           "Created and updated SharePoint sites and report templates",
           "Gathered and analysed data for pricing models",
@@ -86,13 +86,13 @@ export const resumeDescriptions = () => {
 export const aboutMeDescriptions = () => {
   return {
     aboutMe: `My name is Teemu Salonen, a computer science student currently
-    pursuing a master's degree majoring in software engineering. I
+    pursuing a master's degree majoring in software engineering at Tampere University. I
     am dedicated to continuous improvement in the field. While my strengths lie
-    in web development, I look forward to learning new technologies and environments.
-    I am especially interested in cloud technologies and want to expand my expertise in this area. 
+    in full-stack web development, I look forward to learning new technologies and environments.
+    I am especially interested in cloud technologies and want to expand my knowledge in this area. 
     My experience ranges from smaller, independent projects to larger
     applications used worldwide. I am passionate about learning and
-    evolving as a developer and I eagerly anticipate new opportunities
+    evolving as a developer and ready for new opportunities
     and challenges in the future.`,
   };
 };
