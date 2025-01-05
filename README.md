@@ -14,6 +14,12 @@ The website is deployed with Vercel.
 
 The projects page includes some miscellaneous projects that I wanted to add to the website. Below are short explanations of them and links to their original GitHub repositories.
 
+#### ai-chatbot
+
+Simple AI chatbot implemented with Google Gemini API using the 1.5 Flash model. You can type messages and it will answer them. It was interesting to test how AI can be used in web development. **Remember to not give any personal information to the chatbot.**
+
+[ai-chatbot original GitHub repository](https://github.com/SalonenTeemu/ai-chatbot)
+
 #### premier-league-app
 
 English Premier League football application showing the league table and matches. The app shows the standings table of the current season as well as all fixtures of the season and their respective results. The application uses [football-data.org API](https://www.football-data.org/) to fetch the data for the standings and matches.
