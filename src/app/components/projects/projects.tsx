@@ -20,6 +20,7 @@ export default function Projects() {
           the project by clicking the GitHub icon.
         </p>
       </div>
+      <Project params={{ content: descriptions.aiChatbotApp }} />
       <Project params={{ content: descriptions.premierLeagueApp }} />
       <Project params={{ content: descriptions.f1ScheduleApp }} />
     </div>

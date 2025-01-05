@@ -123,5 +123,13 @@ export const projectDescriptions = () => {
       link: "/projects/f1-race-schedule-app",
       gitHubLink: "https://github.com/SalonenTeemu/f1-race-schedule-app",
     },
+    aiChatbotApp: {
+      title: "AI chatbot application",
+      description: `A simple AI chatbot implemented with Google Gemini API using the 1.5 Flash model. 
+      You can type messages and it will answer. It was interesting to test how AI can be used in web development.
+      Remember to not give any personal information to the chatbot.`,
+      link: "/projects/ai-chatbot-app",
+      gitHubLink: "https://github.com/SalonenTeemu/ai-chatbot",
+    },
   };
 };

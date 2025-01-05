@@ -2,7 +2,7 @@ import CustomCursor from "@/app/components/common/customCursor";
 import Navbar from "@/app/components/navbar/navbar";
 import ScrollTopButton from "@/app/components/common/scrollTopButton";
 import GoBackButton from "@/app/components/projects/goBackButton";
-import FooterText from "@/app/components/common/footer";
+import Footer from "@/app/components/common/footer";
 import Matches from "@/app/components/projects/premier-league-app/matches";
 import PremAppNavbar from "@/app/components/projects/premier-league-app/navbar";
 
@@ -21,7 +21,7 @@ export default function MatchesPage() {
         <Matches />
         <GoBackButton />
         <ScrollTopButton />
-        <FooterText />
+        <Footer />
       </div>
     </main>
   );
