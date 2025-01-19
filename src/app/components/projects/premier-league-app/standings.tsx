@@ -120,8 +120,7 @@ function StandingsTable({
           {standings.map((team, index) => (
             <tr
               key={index}
-              className="border border-slate-700 hover:bg-slate-800"
-            >
+              className="border border-slate-700 hover:bg-slate-800">
               <td className="border border-slate-700 px-4 py-2">
                 {team.position}
               </td>

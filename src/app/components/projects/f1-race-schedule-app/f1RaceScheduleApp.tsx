@@ -3,7 +3,7 @@ import {
   isRaceFinished,
   getNextRaceIndex,
   formatRaceDate,
-} from "../../../utils/utils";
+} from "../../../utils/f1RaceScheduleAppUtils";
 import ScrollToNextRaceButton from "@/app/components/projects/f1-race-schedule-app/scrollToNextRaceButton";
 
 /**
@@ -70,8 +70,9 @@ export default async function F1RaceScheduleApp() {
               id={`race${index + 1}`}
               className={`border p-4 rounded-md ${
                 isRaceFinished(race.date) ? "bg-zinc-700" : ""
-              } ${index === nextRaceIndex ? "bg-lime-500 text-slate-950" : ""}`}
-            >
+              } ${
+                index === nextRaceIndex ? "bg-lime-500 text-slate-950" : ""
+              }`}>
               <h2 className="text-xl font-bold">
                 {race.round}. {race.raceName}
               </h2>

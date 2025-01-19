@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Competition, Match } from "@/app/types/projectTypes";
-import { formatMatchDate } from "@/app/utils/utils";
+import { formatMatchDate } from "@/app/utils/premierLeagueAppUtils";
 
 /**
  * Component that displays the matches for a specific matchday.
@@ -74,14 +74,12 @@ export default function MatchesView({
         <button
           onClick={handlePrevMatchday}
           disabled={currentMatchday === 1}
-          className="btn bg-slate-700 text-slate-50 px-4 py-2 mx-1 disabled:bg-slate-900 hover:text-lime-500 disabled:hover:text-slate-50"
-        >
+          className="btn bg-slate-700 text-slate-50 px-4 py-2 mx-1 disabled:bg-slate-900 hover:text-lime-500 disabled:hover:text-slate-50">
           Previous Matchday
         </button>
         <button
           onClick={handleShowCurrentMatchday}
-          className="btn bg-slate-700 text-slate-50 px-4 py-2 mx-1 disabled:bg-slate-900 hover:text-lime-500 disabled:hover:text-slate-50"
-        >
+          className="btn bg-slate-700 text-slate-50 px-4 py-2 mx-1 disabled:bg-slate-900 hover:text-lime-500 disabled:hover:text-slate-50">
           Current Matchday
         </button>
         <button
@@ -90,8 +88,7 @@ export default function MatchesView({
             currentMatchday ===
             Math.max(...matches.map((match) => match.matchday))
           }
-          className="btn bg-slate-700 text-slate-50 px-4 py-2 mx-1 disabled:bg-slate-900 hover:text-lime-500 disabled:hover:text-slate-50"
-        >
+          className="btn bg-slate-700 text-slate-50 px-4 py-2 mx-1 disabled:bg-slate-900 hover:text-lime-500 disabled:hover:text-slate-50">
           Next Matchday
         </button>
       </div>
@@ -114,8 +111,7 @@ export default function MatchesView({
               {filteredMatches.map((match, index) => (
                 <tr
                   key={index}
-                  className="border border-slate-700 hover:bg-slate-800 h-12 border-slate-700"
-                >
+                  className="border border-slate-700 hover:bg-slate-800 h-12 border-slate-700">
                   <td className="px-2 py-1">
                     {formatMatchDate(match.date)}
                     {match.live && (

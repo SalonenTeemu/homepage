@@ -131,5 +131,13 @@ export const projectDescriptions = () => {
       link: "/projects/ai-chatbot-app",
       gitHubLink: "https://github.com/SalonenTeemu/ai-chatbot",
     },
+    aiChessApp: {
+      title: "Chess against AI application",
+      description: `This is a chess application designed for users to play against an AI opponent. The AI is powered by the minimax algorithm with alpha-beta pruning.
+      The application allows the player to play as white or black, select from three different AI difficulty level (easy, medium, hard), undo moves and reset the game. 
+      The app also includes sound effects for moves, captures, checkmate etc.`,
+      link: "/projects/ai-chess-app",
+      gitHubLink: "https://github.com/SalonenTeemu/ai-chess",
+    },
   };
 };
