@@ -21,14 +21,14 @@ const formatResponse = (text: string): any => {
     if (trimmedLine.startsWith("* ")) {
       if (!inList) {
         formatted.push(
-          <ul key={`list-start-${index}`} className="ml-4 list-disc"></ul>
+          <ul key={`list-start-${index}`} className="list-disc"></ul>
         );
         inList = true;
       }
 
       const listItem = trimmedLine.slice(2).trim();
       formatted.push(
-        <li key={index} className="mb-1 ml-6">
+        <li key={index} className="mb-1 ml-4">
           {listItem
             .split(/(\*\*.*?\*\*)/)
             .map((part, i) =>
