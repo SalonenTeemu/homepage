@@ -4,7 +4,11 @@ This is my homepage. It's build with Next.js and hosted at [salonenteemu.fi](htt
 
 ## Running the application
 
-Run the app with `npm install` and `npm run dev` in the project root directory. The application doesn't have database or other dependencies.
+Install the required dependencies with: `npm install`
+
+Start the development server with: `npm run dev`
+
+Open the application in a browser at: `http://localhost:3000/`
 
 ### Application deployment
 
@@ -13,6 +17,12 @@ The website is deployed with Vercel.
 ### Notes on the projects page
 
 The projects page includes some miscellaneous projects that I wanted to add to the website. Below are short explanations of them and links to their original GitHub repositories.
+
+#### ai-chess
+
+Chess application designed for users to play against an AI opponent. The AI is powered by the minimax algorithm with alpha-beta pruning. The application allows the player to play as white or black, select from three different AI difficulty level (easy, medium, hard), undo moves and reset the game. The app also includes sound effects for moves, captures, checkmate etc.
+
+[ai-chess original GitHub repository](https://github.com/SalonenTeemu/ai-chess)
 
 #### ai-chatbot
 
