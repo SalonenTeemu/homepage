@@ -15,6 +15,8 @@ export const metadata: Metadata = {
   keywords: [
     "Teemu Salonen",
     "Salonen Teemu",
+    "salonenteemu",
+    "salonenteemu.fi",
     "Homepage",
     "Developer",
     "Finland",
@@ -25,6 +27,7 @@ export const metadata: Metadata = {
     "Premier League standings and fixtures application",
     "F1 Race Schedule App",
     "AI chatbot App",
+    "AI chess App",
     "Teemu Salonen Homepage",
     "Teemu Salonen Resume",
     "Teemu Salonen Projects",

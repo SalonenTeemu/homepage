@@ -1,5 +1,5 @@
 import CustomCursor from "@/app/components/common/customCursor";
-import Navbar from "@/app/components/navbar/navbar";
+import Navbar from "@/app/components/common/navbar";
 import ScrollTopButton from "@/app/components/common/scrollTopButton";
 import GoBackButton from "@/app/components/projects/goBackButton";
 import AIChatbotApp from "@/app/components/projects/ai-chatbot-app/aiChatbotApp";

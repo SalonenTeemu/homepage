@@ -1,5 +1,5 @@
 import CustomCursor from "@/app/components/common/customCursor";
-import Navbar from "@/app/components/navbar/navbar";
+import Navbar from "@/app/components/common/navbar";
 import ScrollTopButton from "@/app/components/common/scrollTopButton";
 import Resume from "@/app/components/resume/resume";
 import ResumePDFLink from "../components/resume/resumePDFLink";

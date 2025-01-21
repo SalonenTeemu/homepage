@@ -59,6 +59,7 @@ export const resumeDescriptions = () => {
       "Redux.js",
       "Tailwind CSS",
       "Bootstrap",
+      "Swagger",
       "Mocha",
       "Coveralls",
       "RabbitMQ",

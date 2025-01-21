@@ -1,5 +1,5 @@
 import CustomCursor from "@/app/components/common/customCursor";
-import Navbar from "./components/navbar/navbar";
+import Navbar from "./components/common/navbar";
 import Introduction from "@/app/components/introduction/introduction";
 import AboutMe from "@/app/components/about/aboutMe";
 import ScrollTopButton from "@/app/components/common/scrollTopButton";
