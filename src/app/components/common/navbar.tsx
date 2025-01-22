@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
-import Sidebar from "@/app/components/common/sidebar";
+import PopupMenu from "@/app/components/common/popupMenu";
 import MenuIcon from "@/app/assets/icons/menuIcon";
 
 export default function Navbar() {
@@ -81,7 +81,7 @@ export default function Navbar() {
               <MenuIcon />
             </button>
 
-            {sidebarOpen && <Sidebar isOpen={sidebarOpen} />}
+            {sidebarOpen && <PopupMenu isOpen={sidebarOpen} />}
           </div>
         </div>
       </nav>
