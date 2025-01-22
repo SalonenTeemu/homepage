@@ -1,15 +1,16 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Register() {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [captchaValue, setCaptchaValue] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -18,6 +19,11 @@ export default function Register() {
 
     if (!captchaValue) {
       setError("Please verify the CAPTCHA.");
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
       return;
     }
 
@@ -50,7 +56,7 @@ export default function Register() {
             />
           </div>
           <div className="mb-4">
-            <label className="block mb-1 ml-1">Email (optional)</label>
+            <label className="block mb-1 ml-1">Email (Optional)</label>
             <input
               type="email"
               className="w-full p-2 bg-slate-700 text-slate-50 rounded-md"
@@ -58,8 +64,8 @@ export default function Register() {
               onChange={(e) => setEmail(e.target.value)}
             />
             <p className="text-sm text-gray-400 mt-2 ml-1">
-              Email is optional and can be used for account recovery and profile
-              updates (password reset).
+              Email is optional and is used for account recovery and profile
+              updates (e.g., password reset).
             </p>
           </div>
           <div className="mb-4">
@@ -72,14 +78,22 @@ export default function Register() {
               required
             />
           </div>
-
+          <div className="mb-4">
+            <label className="block mb-1 ml-1">Confirm Password</label>
+            <input
+              type="password"
+              className="w-full p-2 bg-slate-700 text-slate-50 rounded-md"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+          </div>
           <div className="mb-4 flex justify-center">
             <ReCAPTCHA
               sitekey="6LfLB8AqAAAAAHspOOhsK4xnydZ5aFcSTfegjZRe"
               onChange={onCaptchaChange}
             />
           </div>
-
           <button
             type="submit"
             className="w-full py-2 bg-lime-500 text-slate-950 rounded-md hover:bg-lime-600">

@@ -9,6 +9,7 @@ import MenuIcon from "@/app/assets/icons/menuIcon";
 export default function Navbar() {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const toggleSidebar = () => {
@@ -81,7 +82,9 @@ export default function Navbar() {
               <MenuIcon />
             </button>
 
-            {sidebarOpen && <PopupMenu isOpen={sidebarOpen} />}
+            {sidebarOpen && (
+              <PopupMenu isOpen={sidebarOpen} isLoggedIn={isLoggedIn} />
+            )}
           </div>
         </div>
       </nav>
