@@ -26,3 +26,35 @@ export const playSound = function (sound: string) {
   const audio = new Audio(`/projects/audio/${sound}.mp3`);
   audio.play();
 };
+
+/**
+ * Minimum lengths for username and password.
+ */
+export const usernameMinLength = 4;
+export const passwordMinLength = 8;
+
+/**
+ * Validate username length.
+ *
+ * @param username The username to validate
+ * @returns The result of the validation
+ */
+export const isUsernameValid = (username: string) => username.length >= 4;
+
+/**
+ * Validate password strength.
+ *
+ * @param password The password to validate
+ * @returns The result of the validation
+ */
+export const isPasswordValid = (password: string) =>
+  password.length >= 8 && /[A-Z]/.test(password) && /\d/.test(password);
+
+/**
+ * Validate email address.
+ *
+ * @param email The email address to validate
+ * @returns The result of the validation
+ */
+export const isEmailValid = (email: string) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);

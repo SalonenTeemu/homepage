@@ -1,9 +1,16 @@
 "use client";
 
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+import {
+  isUsernameValid,
+  isPasswordValid,
+  isEmailValid,
+  usernameMinLength,
+  passwordMinLength,
+} from "@/app/utils/utils";
 
 export default function Register() {
   const router = useRouter();
@@ -14,7 +21,7 @@ export default function Register() {
   const [captchaValue, setCaptchaValue] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!captchaValue) {
@@ -22,16 +29,54 @@ export default function Register() {
       return;
     }
 
+    if (!isUsernameValid(username)) {
+      setError(`Username must be at least ${usernameMinLength} characters.`);
+      return;
+    }
+
+    if (email.length > 0) {
+      if (!isEmailValid(email)) {
+        setError("Invalid email address.");
+        return;
+      }
+    }
+
+    if (!isPasswordValid(password)) {
+      setError(
+        `Password must be at least ${passwordMinLength} characters, include at least one uppercase letter, and at least one number.`
+      );
+      return;
+    }
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
 
-    // Perform registration logic here (e.g., API call)
+    try {
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+          recaptcha: captchaValue,
+        }),
+      });
 
-    // Simulating successful registration and navigating to the login page
-    alert("Registration successful!");
-    router.push("/login");
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(`Registration failed: ${data.response}`);
+        return;
+      }
+
+      router.push("/login");
+    } catch (e) {
+      setError("Registration failed. Please try again later.");
+    }
   };
 
   const onCaptchaChange = (value: string | null) => {

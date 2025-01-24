@@ -1,6 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import {
+  isUsernameValid,
+  isPasswordValid,
+  usernameMinLength,
+  passwordMinLength,
+} from "@/app/utils/utils";
 
 export default function Profile() {
   const [isEditing, setIsEditing] = useState(false);
@@ -11,6 +17,16 @@ export default function Profile() {
   const [error, setError] = useState<string | null>(null);
 
   const handleSave = () => {
+    if (!isUsernameValid(username)) {
+      setError(`Username must be at least ${usernameMinLength} characters.`);
+      return;
+    }
+    if (!isPasswordValid(password)) {
+      setError(
+        `Password must be at least ${passwordMinLength} characters, include at least one uppercase letter, and at least one number.`
+      );
+      return;
+    }
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
