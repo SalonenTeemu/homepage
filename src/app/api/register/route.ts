@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import { saveUserToDynamoDB } from "@/app/lib/userService";
 import {
   isUsernameValid,
   isPasswordValid,
@@ -74,7 +75,7 @@ export async function POST(req: Request) {
     }
 
     const hashedPassword = bcrypt.hashSync(password, 10);
-    // TODO: Save user to database
+    saveUserToDynamoDB({ username, email, password: hashedPassword });
 
     return new Response(
       JSON.stringify({ response: "User registered successfully" }),
