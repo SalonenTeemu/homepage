@@ -23,7 +23,7 @@ export default function Projects() {
       <Project params={{ content: descriptions.aiChessApp }} />
       <Project params={{ content: descriptions.aiChatbotApp }} />
       <Project params={{ content: descriptions.premierLeagueApp }} />
-      <Project params={{ content: descriptions.f1ScheduleApp }} />
+      <Project params={{ content: descriptions.f1App }} />
     </div>
   );
 }

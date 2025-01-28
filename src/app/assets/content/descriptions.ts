@@ -112,16 +112,15 @@ export const projectDescriptions = () => {
       link: "/projects/premier-league-app",
       gitHubLink: "https://github.com/SalonenTeemu/premier-league-app",
     },
-    f1ScheduleApp: {
-      title: "Formula 1 race schedule application",
-      description: `A simple F1 race schedule app.
-      The app shows 2024 season race dates, times and locations. It also tells which races have already been finished, 
-      what race is coming next and the races upcoming later in the season.
-      The application uses Ergast Developer API to fetch the race schedule data. 
-      Unfortunately, the Ergast API is deprecated and will only be updated until
-      the end of the 2024 season so sadly the application will not work after 2024.`,
-      link: "/projects/f1-race-schedule-app",
-      gitHubLink: "https://github.com/SalonenTeemu/f1-race-schedule-app",
+    f1App: {
+      title: "Formula 1 application",
+      description: `A simple Formula 1 application.
+      The app shows the race schedule, driver standings and the constructor standings of the current season. 
+      It tells which races have already been finished, what race is coming next and the races upcoming later in the season.
+      The application uses jolpica-f1 API to fetch the data.
+      The driver and constructor standings might not work before the start of the season so those pages will likely give an error.`,
+      link: "/projects/f1-app",
+      gitHubLink: "https://github.com/SalonenTeemu/f1-app",
     },
     aiChatbotApp: {
       title: "AI chatbot application",
