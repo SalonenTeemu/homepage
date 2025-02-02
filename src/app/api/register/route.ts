@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { saveUserToDynamoDB } from "@/app/lib/userService";
+import { saveUserToDB, getUserByUsernameOrEmail } from "@/app/lib/services/userService";
 import {
   isUsernameValid,
   isPasswordValid,
@@ -75,8 +75,32 @@ export async function POST(req: Request) {
     }
 
     const hashedPassword = bcrypt.hashSync(password, 10);
-    saveUserToDynamoDB({ username, email, password: hashedPassword });
 
+    const existingUser = await getUserByUsernameOrEmail(username, email);
+
+    if (existingUser) {
+      if (existingUser.username === username) {
+        return new Response(
+          JSON.stringify({
+            response: "User with the given username already exists",
+          }),
+          {
+            status: 400,
+          }
+        );
+      } else if (existingUser.email === email) {
+        return new Response(
+          JSON.stringify({
+            response: "User with the given email already exists",
+          }),
+          {
+            status: 400,
+          }
+        );
+      }
+    } else {
+      saveUserToDB({ username, email, password: hashedPassword });
+    }
     return new Response(
       JSON.stringify({ response: "User registered successfully" }),
       {

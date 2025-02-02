@@ -15,7 +15,7 @@ export default function Login() {
     e.preventDefault();
 
     if (!username || !isUsernameValid(username)) {
-      setError("Login failed: Invalid username.");
+      setError("Login failed. Invalid username.");
       return;
     }
 
@@ -34,12 +34,13 @@ export default function Login() {
           username,
           password,
         }),
+        credentials: "include",
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        setError(`Login failed: ${data.response}`);
+        setError(`Login failed. ${data.response}`);
         return;
       }
 

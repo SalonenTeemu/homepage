@@ -69,7 +69,7 @@ export default function Register() {
       const data = await res.json();
 
       if (!res.ok) {
-        setError(`Registration failed: ${data.response}`);
+        setError(`Registration failed. ${data.response}`);
         return;
       }
 
@@ -101,7 +101,7 @@ export default function Register() {
             />
           </div>
           <div className="mb-4">
-            <label className="block mb-1 ml-1">Email (Optional)</label>
+            <label className="block mb-1 ml-1">Email (optional)</label>
             <input
               type="email"
               className="w-full p-2 bg-slate-700 text-slate-50 rounded-md"

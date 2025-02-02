@@ -1,50 +1,90 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
-  isUsernameValid,
-  isPasswordValid,
-  usernameMinLength,
   passwordMinLength,
+  isPasswordValid,
+  isEmailValid,
 } from "@/app/utils/utils";
+import { useAuth } from "../../context/authContext";
+import { fetchWithAuth } from "@/app/utils/apiUtils";
 
+/**
+ * The Profile component.
+ *
+ * @returns {JSX.Element} The Profile component
+ */
 export default function Profile() {
+  const router = useRouter();
+  const authContext = useAuth();
+  if (!authContext) {
+    return <p>Loading...</p>;
+  }
+  const { user, fetchProfile } = authContext;
   const [isEditing, setIsEditing] = useState(false);
-  const [username, setUsername] = useState("JohnDoe");
-  const [email, setEmail] = useState("johndoe@example.com");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  const handleSave = () => {
-    if (!isUsernameValid(username)) {
-      setError(`Username must be at least ${usernameMinLength} characters.`);
+  const handleSave = async () => {
+    if (email && !isEmailValid(email)) {
+      setError("Invalid email address.");
       return;
     }
-    if (!isPasswordValid(password)) {
+    if (password && !isPasswordValid(password)) {
       setError(
         `Password must be at least ${passwordMinLength} characters, include at least one uppercase letter, and at least one number.`
       );
       return;
     }
-    if (password !== confirmPassword) {
+    if (password && password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
     }
 
-    // Simulate saving changes (replace this with API call)
-    alert("Profile updated successfully!");
-    setPassword(""); // Clear password inputs
-    setConfirmPassword("");
-    setIsEditing(false);
+    try {
+      const res = await fetchWithAuth("/api/profile", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      if (res) {
+        const data = await res.json();
+
+        if (!res.ok) {
+          setError(`Profile update failed. ${data.response}`);
+          return;
+        }
+        setEmail(data.email);
+        setPassword("");
+        setConfirmPassword("");
+        setError(null);
+        setIsEditing(false);
+
+        await fetchProfile();
+      } else {
+        router.push("/login");
+      }
+    } catch (err) {
+      setError("Error updating profile. Please try again.");
+    }
   };
 
   const handleCancel = () => {
     setIsEditing(false);
+    setEmail("");
     setPassword("");
     setConfirmPassword("");
     setError(null);
   };
+
+  if (!user) return <p>Loading...</p>;
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-950 text-slate-50">
@@ -54,11 +94,11 @@ export default function Profile() {
         {!isEditing ? (
           <div>
             <p className="mb-4">
-              <span className="font-bold">Username:</span> {username}
+              <span className="font-bold">Username:</span> {user.username}
             </p>
             <p className="mb-4">
               <span className="font-bold">Email:</span>{" "}
-              {email || "Not provided"}
+              {user.email || "Not provided"}
             </p>
             <button
               className="w-full py-2 bg-lime-500 text-slate-950 rounded-md hover:bg-lime-600"
@@ -73,27 +113,15 @@ export default function Profile() {
               handleSave();
             }}>
             <div className="mb-4">
-              <label className="block mb-1 ml-1">Username</label>
-              <input
-                type="text"
-                className="w-full p-2 bg-slate-700 text-slate-50 rounded-md"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block mb-1 ml-1">Email</label>
+              <label className="block mb-1 ml-1">
+                New Email (leave empty to keep previous)
+              </label>
               <input
                 type="email"
                 className="w-full p-2 bg-slate-700 text-slate-50 rounded-md"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              <p className="text-sm text-gray-400 mt-2 ml-1">
-                Email is optional and is used for account recovery and profile
-                updates (e.g., password reset).
-              </p>
             </div>
             <div className="mb-4">
               <label className="block mb-1 ml-1">New Password</label>

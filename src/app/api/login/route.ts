@@ -1,4 +1,9 @@
 import bcrypt from "bcrypt";
+import {
+  createHeaderCookies,
+  createTokens,
+} from "../../lib/services/authService";
+import { getUserByUsernameOrEmail } from "../../lib/services/userService";
 import { isUsernameValid, isPasswordValid } from "@/app/utils/utils";
 
 /**
@@ -23,20 +28,28 @@ export async function POST(req: Request) {
   }
 
   try {
-    /*const user = await getUserByUsername(username);
+    const user = await getUserByUsernameOrEmail(username);
     if (!user) {
-      return new Response(JSON.stringify({ response: "User not found" }), {
-        status: 400,
-      });
+      return new Response(
+        JSON.stringify({ response: "Invalid username or password" }),
+        {
+          status: 400,
+        }
+      );
     }
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return new Response(JSON.stringify({ response: "Invalid password" }), {
         status: 400,
       });
-    } */
+    }
+
+    const { accessToken, refreshToken } = await createTokens(user);
+    const headers = createHeaderCookies(accessToken, refreshToken);
+
     return new Response(JSON.stringify({ response: "Login successful" }), {
       status: 200,
+      headers: headers,
     });
   } catch (error) {
     return new Response(JSON.stringify({ response: "Login failed" }), {
