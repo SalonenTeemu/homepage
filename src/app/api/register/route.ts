@@ -1,5 +1,10 @@
 import bcrypt from "bcrypt";
-import { saveUserToDB, getUserByUsernameOrEmail } from "@/app/lib/services/userService";
+import {
+  saveUserToDB,
+  getUserByUsernameOrEmail,
+} from "@/app/lib/services/userService";
+import { createEmailConfirmationToken } from "@/app/lib/services/authService";
+import { sendConfirmationEmail } from "@/app/lib/services/emailService";
 import {
   isUsernameValid,
   isPasswordValid,
@@ -100,6 +105,11 @@ export async function POST(req: Request) {
       }
     } else {
       saveUserToDB({ username, email, password: hashedPassword });
+
+      if (email) {
+        const confirmationToken = await createEmailConfirmationToken(username);
+        await sendConfirmationEmail(email, confirmationToken);
+      }
     }
     return new Response(
       JSON.stringify({ response: "User registered successfully" }),

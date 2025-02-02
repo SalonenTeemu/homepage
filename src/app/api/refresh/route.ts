@@ -5,6 +5,7 @@ import {
   revokeUserRefreshToken,
   createHeaderCookies,
 } from "@/app/lib/services/authService";
+import { deleteRefreshToken } from "@/app/lib/services/tokenService";
 
 /**
  * Responds to a POST request to refresh a user's refresh token.
@@ -27,7 +28,7 @@ export async function POST() {
   try {
     const user = await verifyRefreshToken(oldRefreshToken.value);
     if (!user) {
-      await revokeUserRefreshToken(oldRefreshToken.value);
+      await deleteRefreshToken(oldRefreshToken.value);
       return new Response(
         JSON.stringify({ response: "Invalid or expired refresh token" }),
         {
@@ -40,6 +41,8 @@ export async function POST() {
     const headers = createHeaderCookies(accessToken, refreshToken);
 
     console.log("Token refreshed for user:", user.username);
+
+    await deleteRefreshToken(oldRefreshToken.value);
 
     return new Response(JSON.stringify({ response: "Token refreshed" }), {
       status: 200,

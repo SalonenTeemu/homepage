@@ -113,15 +113,18 @@ export default function Profile() {
               handleSave();
             }}>
             <div className="mb-4">
-              <label className="block mb-1 ml-1">
-                New Email (leave empty to keep previous)
-              </label>
+              <label className="block mb-1 ml-1">New Email</label>
               <input
                 type="email"
                 className="w-full p-2 bg-slate-700 text-slate-50 rounded-md"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
+              <p className="text-sm text-gray-400 mt-2 ml-1">
+                Email is optional and can be used for account recovery (e.g.,
+                password reset). Leave this field empty to keep your previous
+                email address.
+              </p>
             </div>
             <div className="mb-4">
               <label className="block mb-1 ml-1">New Password</label>
@@ -133,7 +136,7 @@ export default function Profile() {
               />
             </div>
             <div className="mb-4">
-              <label className="block mb-1 ml-1">Confirm Password</label>
+              <label className="block mb-1 ml-1">Confirm New Password</label>
               <input
                 type="password"
                 className="w-full p-2 bg-slate-700 text-slate-50 rounded-md"

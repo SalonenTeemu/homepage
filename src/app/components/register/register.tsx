@@ -109,8 +109,8 @@ export default function Register() {
               onChange={(e) => setEmail(e.target.value)}
             />
             <p className="text-sm text-gray-400 mt-2 ml-1">
-              Email is optional and is used for account recovery and profile
-              updates (e.g., password reset).
+              Email is optional and can be used for account recovery (e.g.,
+              password reset).
             </p>
           </div>
           <div className="mb-4">

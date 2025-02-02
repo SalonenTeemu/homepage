@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { fetchWithAuth } from "../utils/apiUtils";
 import { User } from "@/app/types/authTypes";
 
@@ -20,6 +21,8 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
  * @returns The AuthProvider component
  */
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+  const pathname = usePathname();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -48,6 +51,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = async () => {
     await fetch("/api/logout", { method: "POST", credentials: "include" });
+    if (pathname === "/profile") {
+      router.push("/");
+    }
     setUser(null);
   };
 

@@ -10,7 +10,7 @@ import { User } from "../../types/authTypes";
 
 const secret = process.env.JWT_SECRET;
 const refreshSecret = process.env.REFRESH_SECRET;
-const expiration = process.env.ACCESS_TOKEN_EXPIRATION || "5m";
+const expiration = process.env.ACCESS_TOKEN_EXPIRATION || "15m";
 const refreshExpiration = process.env.REFRESH_TOKEN_EXPIRATION || "7d";
 const isProduction = process.env.ENV == "development" ? false : true;
 
@@ -44,6 +44,25 @@ export async function createTokens(user: any) {
   } catch (error) {
     console.error("Error creating tokens:", error);
     throw new Error("Error creating tokens");
+  }
+}
+
+/**
+ * Create JWT token for email confirmation.
+ *
+ * @param username The username to create the token for
+ * @returns The email confirmation token
+ */
+export async function createEmailConfirmationToken(username: string) {
+  try {
+    const token = await new SignJWT({ username })
+      .setExpirationTime("1h")
+      .setProtectedHeader({ alg: "HS256" })
+      .sign(new TextEncoder().encode(secret));
+    return token;
+  } catch (error) {
+    console.error("Error creating email confirmation token:", error);
+    throw new Error("Error creating email confirmation token");
   }
 }
 
@@ -95,6 +114,19 @@ export async function verifyRefreshToken(refreshToken: string) {
   } catch (error) {
     console.error("Refresh token verification failed:", error);
     return null;
+  }
+}
+
+export async function verifyConfirmEmailToken(token: string) {
+  try {
+    // Verify the access token with jose
+    const { payload } = await jwtVerify(
+      token,
+      new TextEncoder().encode(secret)
+    );
+    return payload as unknown as { username: string };
+  } catch (err) {
+    throw new Error("Invalid access token");
   }
 }
 

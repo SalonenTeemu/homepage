@@ -27,6 +27,7 @@ export async function saveUserToDB(user: {
     Item: {
       username: user.username,
       email: sanitizedEmail,
+      emailConfirmed: false,
       role: "user",
       password: user.password,
       createdAt: new Date().toISOString(),
@@ -112,7 +113,7 @@ export async function getUserByEmail(email: string) {
  */
 export async function updateUser(
   username: string,
-  updates: { email?: string; hashedPassword?: string }
+  updates: { email?: string; hashedPassword?: string; emailConfirmed?: boolean }
 ) {
   let updateExpression = "SET ";
   const expressionAttributeValues: Record<string, any> = {};
@@ -124,9 +125,17 @@ export async function updateUser(
     expressionAttributeNames["#email"] = "email";
   }
 
-  updateExpression += "#password = :password, ";
-  expressionAttributeValues[":password"] = updates.hashedPassword;
-  expressionAttributeNames["#password"] = "password";
+  if (updates.hashedPassword) {
+    updateExpression += "#password = :password, ";
+    expressionAttributeValues[":password"] = updates.hashedPassword;
+    expressionAttributeNames["#password"] = "password";
+  }
+
+  if (updates.emailConfirmed) {
+    updateExpression += "#emailConfirmed = :emailConfirmed, ";
+    expressionAttributeValues[":emailConfirmed"] = updates.emailConfirmed;
+    expressionAttributeNames["#emailConfirmed"] = "emailConfirmed";
+  }
 
   // Remove trailing comma and space
   updateExpression = updateExpression.replace(/, $/, "");
@@ -146,7 +155,6 @@ export async function updateUser(
     };
 
     const result = await ddbDocClient.send(new UpdateCommand(params));
-    console.log("User updated:", result.Attributes);
     return result.Attributes;
   } catch (error) {
     console.error("Error updating user:", error);

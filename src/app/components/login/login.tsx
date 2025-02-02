@@ -3,10 +3,12 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "../../context/authContext";
 import { isUsernameValid, isPasswordValid } from "@/app/utils/utils";
 
 export default function Login() {
   const router = useRouter();
+  const authContext = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -43,7 +45,7 @@ export default function Login() {
         setError(`Login failed. ${data.response}`);
         return;
       }
-
+      await authContext?.fetchProfile();
       router.push("/profile");
     } catch (e) {
       setError("Login failed. Please try again later.");

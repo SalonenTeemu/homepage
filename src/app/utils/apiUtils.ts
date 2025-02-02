@@ -10,7 +10,7 @@ export async function fetchWithAuth(url: string, options = {}) {
 
   // If request fails due to an expired access token (401)
   if (res.status === 401) {
-    console.warn("Access token expired, attempting to refresh...");
+    console.log("Access token expired, attempting to refresh...");
 
     // Try to refresh the token
     const refreshRes = await fetch("/api/refresh", {
@@ -19,7 +19,7 @@ export async function fetchWithAuth(url: string, options = {}) {
     });
 
     if (!refreshRes.ok) {
-      console.error("Refresh token expired or invalid.");
+      console.log("Refresh token expired or invalid.");
       return null; // Refresh token is also invalid → user must log in again
     }
 

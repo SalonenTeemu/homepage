@@ -9,7 +9,7 @@ import { ddbDocClient } from "../dynamoDbClient";
 const tableName = process.env.AWS_REFRESH_TOKEN_TABLE;
 
 /**
- * Store a refresh token in the database.
+ * Store a refresh token to the database.
  *
  * @param username The username of the user
  * @param refreshToken The refresh token
