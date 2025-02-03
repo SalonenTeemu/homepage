@@ -1,8 +1,6 @@
 import { cookies } from "next/headers";
-import {
-  revokeUserRefreshToken,
-  createRevokedHeaderCookies,
-} from "@/app/lib/services/authService";
+import { createRevokedHeaderCookies } from "@/app/lib/services/authService";
+import { deleteRefreshToken } from "@/app/lib/services/tokenService";
 
 /**
  * Responds to a POST request to log out the user.
@@ -15,7 +13,7 @@ export async function POST() {
 
   try {
     if (refreshToken) {
-      await revokeUserRefreshToken(refreshToken.value);
+      await deleteRefreshToken(refreshToken.value);
     }
 
     const headers = createRevokedHeaderCookies();
@@ -28,5 +26,8 @@ export async function POST() {
     );
   } catch (error) {
     console.log("Logout failed:", error);
+    return new Response(JSON.stringify({ response: "Logout failed" }), {
+      status: 500,
+    });
   }
 }

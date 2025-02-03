@@ -27,6 +27,9 @@ export default function Profile() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [emailConfirmationStatus, setEmailConfirmationStatus] = useState<
+    string | null
+  >(null);
 
   const handleSave = async () => {
     if (email && !isEmailValid(email)) {
@@ -84,6 +87,27 @@ export default function Profile() {
     setError(null);
   };
 
+  const resendConfirmationEmail = async () => {
+    try {
+      const res = await fetchWithAuth("/api/resend-confirmation-email", {
+        method: "POST",
+      });
+
+      if (res) {
+        if (res.ok) {
+          setEmailConfirmationStatus("A new confirmation email has been sent.");
+        } else {
+          const data = await res.json();
+          setEmailConfirmationStatus(`Error. ${data.message}`);
+        }
+      } else {
+        router.push("/login");
+      }
+    } catch (err) {
+      setEmailConfirmationStatus("An error occurred. Please try again.");
+    }
+  };
+
   if (!user) return <p>Loading...</p>;
 
   return (
@@ -91,6 +115,11 @@ export default function Profile() {
       <div className="w-full max-w-sm p-6 bg-slate-800 text-slate-50 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center mb-4">Profile</h2>
         {error && <p className="text-red-500 text-sm text-center">{error}</p>}
+        {emailConfirmationStatus && (
+          <p className="text-green-500 text-sm text-center mb-4">
+            {emailConfirmationStatus}
+          </p>
+        )}
         {!isEditing ? (
           <div>
             <p className="mb-4">
@@ -100,6 +129,13 @@ export default function Profile() {
               <span className="font-bold">Email:</span>{" "}
               {user.email || "Not provided"}
             </p>
+            {user.email && !user.emailConfirmed && (
+              <button
+                className="w-full py-2 mb-4 bg-lime-500 text-slate-950 rounded-md hover:bg-lime-600"
+                onClick={resendConfirmationEmail}>
+                Resend Confirmation Email
+              </button>
+            )}
             <button
               className="w-full py-2 bg-lime-500 text-slate-950 rounded-md hover:bg-lime-600"
               onClick={() => setIsEditing(true)}>

@@ -108,7 +108,16 @@ export async function POST(req: Request) {
 
       if (email) {
         const confirmationToken = await createEmailConfirmationToken(username);
-        await sendConfirmationEmail(email, confirmationToken);
+        if (confirmationToken)
+          await sendConfirmationEmail(email, confirmationToken);
+        else {
+          return new Response(
+            JSON.stringify({ response: "Email confirmation failed" }),
+            {
+              status: 500,
+            }
+          );
+        }
       }
     }
     return new Response(

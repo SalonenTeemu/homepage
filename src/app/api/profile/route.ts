@@ -1,6 +1,5 @@
 import { cookies } from "next/headers";
 import bcrypt from "bcrypt";
-import { verifyAccessToken } from "@/app/lib/services/authService";
 import {
   getUserByUsernameOrEmail,
   getUserByEmail,
@@ -11,6 +10,7 @@ import {
   isPasswordValid,
   passwordMinLength,
 } from "@/app/utils/utils";
+import { validateAccessToken } from "@/app/utils/apiUtils";
 
 /**
  * Responds to a GET request to retrieve user's data.
@@ -19,25 +19,14 @@ import {
  */
 export async function GET() {
   const cookieStore = await cookies();
-  const access_token = cookieStore.get("access_token");
 
-  if (!access_token) {
-    return new Response(JSON.stringify({ response: "Unauthorized" }), {
-      status: 401,
-    });
+  const { status, userToken, error } = await validateAccessToken(cookieStore);
+
+  if (status !== 200) {
+    return new Response(JSON.stringify({ response: error }), { status });
   }
 
   try {
-    const userToken = verifyAccessToken(access_token.value);
-    if (!userToken) {
-      return new Response(
-        JSON.stringify({ response: "Invalid or expired access token" }),
-        {
-          status: 403,
-        }
-      );
-    }
-
     const user = await getUserByUsernameOrEmail((await userToken).username);
 
     if (!user) {
@@ -50,6 +39,7 @@ export async function GET() {
         username: user.username,
         email: user.email,
         role: user.role || "user",
+        emailConfirmed: user.emailConfirmed || false,
       }),
       {
         status: 200,
@@ -73,23 +63,11 @@ export async function GET() {
  */
 export async function PUT(req: Request) {
   const cookieStore = await cookies();
-  console.log(cookieStore);
-  const access_token = cookieStore.get("access_token");
 
-  if (!access_token) {
-    return new Response(JSON.stringify({ response: "Unauthorized" }), {
-      status: 401,
-    });
-  }
+  const { status, userToken, error } = await validateAccessToken(cookieStore);
 
-  const userToken = verifyAccessToken(access_token.value);
-  if (!userToken) {
-    return new Response(
-      JSON.stringify({ response: "Invalid or expired access token" }),
-      {
-        status: 403,
-      }
-    );
+  if (status !== 200) {
+    return new Response(JSON.stringify({ response: error }), { status });
   }
 
   const body = await req.json();

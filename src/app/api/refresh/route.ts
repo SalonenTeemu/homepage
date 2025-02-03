@@ -2,13 +2,12 @@ import { cookies } from "next/headers";
 import {
   verifyRefreshToken,
   createTokens,
-  revokeUserRefreshToken,
   createHeaderCookies,
 } from "@/app/lib/services/authService";
 import { deleteRefreshToken } from "@/app/lib/services/tokenService";
 
 /**
- * Responds to a POST request to refresh a user's refresh token.
+ * Responds to a POST request to refresh a user's access token.
  *
  * @returns {Response} the response object
  */
@@ -37,14 +36,23 @@ export async function POST() {
       );
     }
 
-    const { accessToken, refreshToken } = await createTokens(user);
+    const tokens = await createTokens(user);
+    if (!tokens) {
+      return new Response(
+        JSON.stringify({ response: "Failed to create tokens" }),
+        {
+          status: 500,
+        }
+      );
+    }
+    const { accessToken, refreshToken } = tokens;
     const headers = createHeaderCookies(accessToken, refreshToken);
 
-    console.log("Token refreshed for user:", user.username);
+    console.log("Tokens refreshed for user:", user.username);
 
     await deleteRefreshToken(oldRefreshToken.value);
 
-    return new Response(JSON.stringify({ response: "Token refreshed" }), {
+    return new Response(JSON.stringify({ response: "Tokens refreshed" }), {
       status: 200,
       headers: headers,
     });

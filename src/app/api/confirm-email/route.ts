@@ -20,7 +20,6 @@ export async function GET(req: Request) {
     });
   }
   try {
-    // Check if the token is valid
     const decoded = await verifyConfirmEmailToken(token);
     if (!decoded) {
       return new Response(

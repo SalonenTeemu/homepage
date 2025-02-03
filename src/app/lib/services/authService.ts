@@ -5,8 +5,6 @@ import {
   storeRefreshToken,
   revokeRefreshToken,
 } from "./tokenService";
-import { getUserByUsernameOrEmail } from "./userService";
-import { User } from "../../types/authTypes";
 
 const secret = process.env.JWT_SECRET;
 const refreshSecret = process.env.REFRESH_SECRET;
@@ -18,7 +16,7 @@ const isProduction = process.env.ENV == "development" ? false : true;
  * Create JWT tokens for a given user.
  *
  * @param user The user object
- * @returns The access and refresh tokens
+ * @returns The access and refresh tokens, null otherwise
  */
 export async function createTokens(user: any) {
   try {
@@ -43,7 +41,7 @@ export async function createTokens(user: any) {
     return { accessToken, refreshToken };
   } catch (error) {
     console.error("Error creating tokens:", error);
-    throw new Error("Error creating tokens");
+    return null;
   }
 }
 
@@ -51,7 +49,7 @@ export async function createTokens(user: any) {
  * Create JWT token for email confirmation.
  *
  * @param username The username to create the token for
- * @returns The email confirmation token
+ * @returns The email confirmation token, null otherwise
  */
 export async function createEmailConfirmationToken(username: string) {
   try {
@@ -62,7 +60,7 @@ export async function createEmailConfirmationToken(username: string) {
     return token;
   } catch (error) {
     console.error("Error creating email confirmation token:", error);
-    throw new Error("Error creating email confirmation token");
+    return null;
   }
 }
 
@@ -70,6 +68,7 @@ export async function createEmailConfirmationToken(username: string) {
  * Verify an access token.
  *
  * @param token The access token
+ * @returns The user object if valid, null otherwise
  */
 export async function verifyAccessToken(token: string) {
   try {
@@ -78,9 +77,10 @@ export async function verifyAccessToken(token: string) {
       token,
       new TextEncoder().encode(secret)
     );
-    return payload as unknown as User;
+    return payload as unknown as { username: string; role: string };
   } catch (err) {
-    throw new Error("Invalid access token");
+    console.log("Access token verification failed:", err);
+    return null;
   }
 }
 
@@ -97,6 +97,9 @@ export async function verifyRefreshToken(refreshToken: string) {
       refreshToken,
       new TextEncoder().encode(refreshSecret)
     );
+    if (!payload) {
+      return null;
+    }
 
     // Check if refresh token exists in DB and is valid
     const tokenRecord = await getRefreshTokenFromDB(refreshToken);
@@ -104,19 +107,19 @@ export async function verifyRefreshToken(refreshToken: string) {
       return null;
     }
 
-    // Retrieve user from DB based on the decoded refresh token payload
-    const user = await getUserByUsernameOrEmail((payload as any).username);
-    if (!user) {
-      return null;
-    }
-
-    return user;
+    return payload as unknown as { username: string; role: string };
   } catch (error) {
     console.error("Refresh token verification failed:", error);
     return null;
   }
 }
 
+/**
+ * Verify an email confirmation token.
+ *
+ * @param token The email confirmation token
+ * @returns The username if valid, null otherwise
+ */
 export async function verifyConfirmEmailToken(token: string) {
   try {
     // Verify the access token with jose
@@ -126,7 +129,8 @@ export async function verifyConfirmEmailToken(token: string) {
     );
     return payload as unknown as { username: string };
   } catch (err) {
-    throw new Error("Invalid access token");
+    console.log("Email confirmation token verification failed:", err);
+    return null;
   }
 }
 
