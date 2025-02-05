@@ -10,69 +10,81 @@ import { useAuth } from "@/app/context/authContext";
  * @returns {JSX.Element} The confirm email component
  */
 export default function ConfirmEmail() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
-  const authContext = useAuth();
-  const user = authContext?.user;
-  const [status, setStatus] = useState<string>("Validating...");
-  const [timer, setTimer] = useState<number>(5);
+	const router = useRouter();
+	const searchParams = useSearchParams();
+	const token = searchParams.get("token");
+	const authContext = useAuth();
+	const user = authContext?.user;
+	const [status, setStatus] = useState<string>("Validating...");
+	const [timer, setTimer] = useState<number>(10);
 
-  const redirectAfterTimeout = (user: any, router: any) => {
-    const countdown = setInterval(() => {
-      setTimer((prev) => prev - 1);
-    }, 1000);
+	const redirectAfterTimeout = (user: any, router: any) => {
+		const countdown = setInterval(() => {
+			setTimer((prev) => prev - 1);
+		}, 1000);
 
-    setTimeout(() => {
-      clearInterval(countdown);
-      console.log(user)
-      if (user) {
-        router.push("/profile");
-      } else {
-        router.push("/login");
-      }
-    }, 5000);
-  };
+		setTimeout(() => {
+			clearInterval(countdown);
+			if (user) {
+				router.push("/profile");
+			} else {
+				router.push("/login");
+			}
+		}, 10000);
+	};
 
-  useEffect(() => {
-    if (token) {
-      const confirmEmail = async () => {
-        try {
-          const res = await fetch(`/api/confirm-email?token=${token}`);
-          const data = await res.json();
+	useEffect(() => {
+		if (token) {
+			const confirmEmail = async () => {
+				try {
+					const res = await fetch(`/api/confirm-email?token=${token}`);
+					const data = await res.json();
 
-          if (res.ok) {
-            setStatus("Your email has been confirmed successfully!");
-            redirectAfterTimeout(user, router);
-          } else {
-            setStatus(
-              `Error. ${data.message}. You can request a new confirmation email from the profile page.`
-            );
-            redirectAfterTimeout(user, router);
-          }
-        } catch (err) {
-          console.log("Error:", err);
-          setStatus(
-            "An error occurred while confirming your email. You can request a new confirmation email from the profile page."
-          );
-          redirectAfterTimeout(user, router);
-        }
-      };
+					if (res.ok) {
+						setStatus("Your email has been confirmed successfully!");
+						if (user) {
+							authContext.fetchProfile();
+						}
+						redirectAfterTimeout(user, router);
+					} else {
+						setStatus(
+							`Error. ${data.response}. You can request a new confirmation email from the profile page.`
+						);
+						redirectAfterTimeout(user, router);
+					}
+				} catch (err) {
+					console.log("Error:", err);
+					setStatus(
+						"An error occurred while confirming your email. You can request a new confirmation email from the profile page."
+					);
+					redirectAfterTimeout(user, router);
+				}
+			};
 
-      confirmEmail();
-    } else {
-      setStatus("Error confirming email. No token found in the URL.");
-      redirectAfterTimeout(user, router);
-    }
-  }, [token]);
+			confirmEmail();
+		} else {
+			setStatus("Error confirming email. No token found in the URL.");
+			redirectAfterTimeout(user, router);
+		}
+	}, [token, authContext, router, user]);
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-950 text-slate-50">
-      <div className="w-full max-w-md p-6 bg-slate-800 text-slate-50 rounded-lg shadow-lg text-center">
-        <h1 className="text-2xl font-bold mb-4">Email Confirmation</h1>
-        <p>{status}</p>
-        <p className="mt-4 text-green-500">Redirecting in {timer} seconds...</p>
-      </div>
-    </div>
-  );
+	const getStatusClass = () => {
+		if (status.includes("successfully")) {
+			return "text-green-500";
+		} else if (status.includes("Error")) {
+			return "text-red-500";
+		} else {
+			return "text-slate-50";
+		}
+	};
+
+	return (
+		<div className="flex min-h-screen items-center justify-center bg-slate-950 text-slate-50">
+			<div className="w-full max-w-md rounded-lg bg-slate-800 p-6 text-center text-slate-50 shadow-lg">
+				<h1 className="mb-4 text-2xl font-bold">Email Confirmation</h1>
+				<p className={getStatusClass()}>{status}</p>
+				<p className="mt-4 text-slate-50">Redirecting in {timer} seconds...</p>
+			</div>
+		</div>
+	);
 }

@@ -9,29 +9,29 @@ import EmailIcon from "@/app/assets/icons/emailIcon";
  * @returns {JSX.Element} The footer component
  */
 export default function Footer() {
-  return (
-    <div className="w-full flex flex-col items-center justify-center pb-8 mt-2">
-      <div className="flex justify-center gap-4">
-        <LinkIconWrapper
-          params={{
-            href: "https://www.linkedin.com/in/teemu-t-salonen/",
-            icon: <LinkedInIcon />,
-          }}
-        />
-        <LinkIconWrapper
-          params={{
-            href: "https://github.com/SalonenTeemu/",
-            icon: <GitHubIcon />,
-          }}
-        />
-        <LinkIconWrapper
-          params={{
-            href: "mailto:teemutapani.salonen@gmail.com",
-            icon: <EmailIcon />,
-          }}
-        />
-      </div>
-      <div className="text-center">Teemu Salonen, 2025</div>
-    </div>
-  );
+	return (
+		<div className="mt-2 flex w-full flex-col items-center justify-center pb-8">
+			<div className="flex justify-center gap-4">
+				<LinkIconWrapper
+					params={{
+						href: "https://www.linkedin.com/in/teemu-t-salonen/",
+						icon: <LinkedInIcon />,
+					}}
+				/>
+				<LinkIconWrapper
+					params={{
+						href: "https://github.com/SalonenTeemu/",
+						icon: <GitHubIcon />,
+					}}
+				/>
+				<LinkIconWrapper
+					params={{
+						href: "mailto:teemutapani.salonen@gmail.com",
+						icon: <EmailIcon />,
+					}}
+				/>
+			</div>
+			<div className="text-center">Teemu Salonen, {new Date().getFullYear()}</div>
+		</div>
+	);
 }

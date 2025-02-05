@@ -12,17 +12,16 @@ import { inter } from "@/app/components/common/fonts";
  * @returns {JSX.Element} The F1 Race Schedule App page
  */
 export default function F1RaceScheduleAppPage() {
-  return (
-    <main className="w-full min-h-screen relative bg-slate-950 text-slate-50 selection:bg-lime-500 scroll-smooth">
-      <CustomCursor />
-      <Navbar />
-      <div
-        className={`w-full h-full flex flex-col items-center justify-between ${inter.variable} font-inter`}>
-        <F1RaceScheduleApp />
-        <GoBackButton />
-        <ScrollTopButton />
-        <Footer />
-      </div>
-    </main>
-  );
+	return (
+		<main className="relative min-h-screen w-full scroll-smooth bg-slate-950 text-slate-50 selection:bg-lime-500">
+			<CustomCursor />
+			<Navbar />
+			<div className={`flex h-full w-full flex-col items-center justify-between ${inter.variable} font-inter`}>
+				<F1RaceScheduleApp />
+				<GoBackButton />
+				<ScrollTopButton />
+				<Footer />
+			</div>
+		</main>
+	);
 }

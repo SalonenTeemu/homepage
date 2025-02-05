@@ -8,26 +8,23 @@ import { deleteRefreshToken } from "@/app/lib/services/tokenService";
  * @returns {Response} the response object
  */
 export async function POST() {
-  const cookieStore = await cookies();
-  const refreshToken = cookieStore.get("refresh_token");
+	const cookieStore = await cookies();
+	const refreshToken = cookieStore.get("refresh_token");
 
-  try {
-    if (refreshToken) {
-      await deleteRefreshToken(refreshToken.value);
-    }
+	try {
+		if (refreshToken) {
+			await deleteRefreshToken(refreshToken.value);
+		}
 
-    const headers = createRevokedHeaderCookies();
-    return new Response(
-      JSON.stringify({ response: "Logged out successfully" }),
-      {
-        status: 200,
-        headers: headers,
-      }
-    );
-  } catch (error) {
-    console.log("Logout failed:", error);
-    return new Response(JSON.stringify({ response: "Logout failed" }), {
-      status: 500,
-    });
-  }
+		const headers = createRevokedHeaderCookies();
+		return new Response(JSON.stringify({ response: "Logged out successfully" }), {
+			status: 200,
+			headers: headers,
+		});
+	} catch (error) {
+		console.log("Logout failed:", error);
+		return new Response(JSON.stringify({ response: "Logout failed" }), {
+			status: 500,
+		});
+	}
 }

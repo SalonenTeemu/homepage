@@ -7,19 +7,20 @@ import Link from "next/link";
  * @returns {JSX.Element} The link icon wrapper component
  */
 export default function LinkIconWrapper({
-  params,
+	params,
 }: {
-  params: {
-    href: string;
-    icon: JSX.Element;
-  };
+	params: {
+		href: string;
+		icon: JSX.Element;
+	};
 }) {
-  return (
-    <Link
-      href={params.href}
-      target="_blank"
-      className="h-8 w-8 md:h-10 md:w-10 3xl:h-16 3xl:w-16 mt-4 mb-4 hover:text-lime-500">
-      {params.icon}
-    </Link>
-  );
+	return (
+		<Link
+			href={params.href}
+			target="_blank"
+			className="3xl:h-16 3xl:w-16 mb-4 mt-4 h-8 w-8 hover:text-lime-500 md:h-10 md:w-10"
+		>
+			{params.icon}
+		</Link>
+	);
 }

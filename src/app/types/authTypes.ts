@@ -2,8 +2,8 @@
  * Represents a user.
  */
 export interface User {
-  email?: string;
-  username: string;
-  role: string;
-  emailConfirmed: boolean;
+	email?: string;
+	username: string;
+	role: string;
+	emailConfirmed: boolean;
 }
