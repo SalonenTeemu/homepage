@@ -35,7 +35,7 @@ export async function POST() {
 		const { accessToken, refreshToken } = tokens;
 		const headers = createHeaderCookies(accessToken, refreshToken);
 
-		console.log("Tokens refreshed for user:", user.username);
+		console.log("Tokens refreshed for user:", user.id);
 
 		await deleteRefreshToken(oldRefreshToken.value);
 

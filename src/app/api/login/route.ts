@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { createHeaderCookies, createTokens } from "../../lib/services/authService";
-import { getUserByUsernameOrEmail } from "../../lib/services/userService";
+import { getUserByUsername } from "../../lib/services/userService";
 import { isUsernameValid, isPasswordValid } from "@/app/utils/utils";
 
 /**
@@ -25,7 +25,7 @@ export async function POST(req: Request) {
 	}
 
 	try {
-		const user = await getUserByUsernameOrEmail(username);
+		const user = await getUserByUsername(username);
 		if (!user) {
 			return new Response(JSON.stringify({ response: "Invalid username or password" }), {
 				status: 400,
@@ -38,7 +38,13 @@ export async function POST(req: Request) {
 			});
 		}
 
-		const { accessToken, refreshToken } = await createTokens(user);
+		const tokens = await createTokens(user);
+		if (!tokens) {
+			return new Response(JSON.stringify({ response: "Token creation failed" }), {
+				status: 500,
+			});
+		}
+		const { accessToken, refreshToken } = tokens;
 		const headers = createHeaderCookies(accessToken, refreshToken);
 
 		return new Response(JSON.stringify({ response: "Login successful" }), {

@@ -42,7 +42,7 @@ export default function Login() {
 			const data = await res.json();
 
 			if (!res.ok) {
-				setError(`Login failed. ${data.response}`);
+				setError(`Login failed. ${data.response}.`);
 				return;
 			}
 			await authContext?.fetchProfile();

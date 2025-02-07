@@ -1,5 +1,5 @@
 import bcrypt from "bcrypt";
-import { saveUserToDB, getUserByUsernameOrEmail } from "@/app/lib/services/userService";
+import { saveUserToDB, getUserByUsernameOrEmail, getUserByUsername } from "@/app/lib/services/userService";
 import { createEmailConfirmationToken } from "@/app/lib/services/authService";
 import { sendConfirmationEmail } from "@/app/lib/services/emailService";
 import {
@@ -84,7 +84,7 @@ export async function POST(req: Request) {
 			if (existingUser.username === username) {
 				return new Response(
 					JSON.stringify({
-						response: "User with the given username already exists",
+						response: "Username taken",
 					}),
 					{
 						status: 400,
@@ -93,7 +93,7 @@ export async function POST(req: Request) {
 			} else if (existingUser.email === email) {
 				return new Response(
 					JSON.stringify({
-						response: "User with the given email already exists",
+						response: "Email taken",
 					}),
 					{
 						status: 400,
@@ -104,11 +104,18 @@ export async function POST(req: Request) {
 			saveUserToDB({ username, email, password: hashedPassword });
 
 			if (email) {
-				const confirmationToken = await createEmailConfirmationToken(username);
-				if (confirmationToken) await sendConfirmationEmail(email, confirmationToken);
-				else {
-					return new Response(JSON.stringify({ response: "Email confirmation failed" }), {
-						status: 500,
+				const user = await getUserByUsername(username);
+				if (user) {
+					const confirmationToken = await createEmailConfirmationToken(user.id);
+					if (confirmationToken) await sendConfirmationEmail(email, confirmationToken);
+					else {
+						return new Response(JSON.stringify({ response: "Email confirmation failed" }), {
+							status: 500,
+						});
+					}
+				} else {
+					return new Response(JSON.stringify({ response: "User not found" }), {
+						status: 404,
 					});
 				}
 			}

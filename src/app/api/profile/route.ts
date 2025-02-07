@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import bcrypt from "bcrypt";
-import { getUserByUsernameOrEmail, updateUser } from "@/app/lib/services/userService";
+import { getUserById, getUserByUsernameOrEmail, updateUser } from "@/app/lib/services/userService";
 import { isEmailValid, isPasswordValid, passwordMinLength } from "@/app/utils/utils";
 import { validateAccessToken } from "@/app/utils/apiUtils";
 import { sendConfirmationEmail } from "@/app/lib/services/emailService";
@@ -21,7 +21,7 @@ export async function GET() {
 	}
 
 	try {
-		const user = await getUserByUsernameOrEmail((await userToken).username);
+		const user = await getUserById((await userToken).id);
 
 		if (!user) {
 			return new Response(JSON.stringify({ response: "User not found" }), {
@@ -62,7 +62,7 @@ export async function PUT(req: Request) {
 	}
 
 	const body = await req.json();
-	const { email, password } = body;
+	const { email, password, username } = body;
 
 	if (password && !isPasswordValid(password)) {
 		return new Response(
@@ -74,7 +74,12 @@ export async function PUT(req: Request) {
 	}
 
 	try {
-		const existingUser = await getUserByUsernameOrEmail((await userToken).username, email);
+		const user = await getUserById((await userToken).id);
+		if (!user) {
+			return new Response(JSON.stringify({ response: "User not found" }), {
+				status: 404,
+			});
+		}
 		if (email) {
 			if (!isEmailValid(email)) {
 				return new Response(JSON.stringify({ response: "Invalid email address" }), {
@@ -82,10 +87,25 @@ export async function PUT(req: Request) {
 				});
 			}
 
-			if (existingUser && existingUser.email === email && existingUser.username !== (await userToken).username) {
+			const userWithEmail = await getUserByUsernameOrEmail(email);
+			if (userWithEmail && userWithEmail.id !== user.id) {
 				return new Response(
 					JSON.stringify({
-						response: "User with the given email already exists",
+						response: "Email taken",
+					}),
+					{
+						status: 400,
+					}
+				);
+			}
+		}
+
+		if (username !== user.username) {
+			const userWithUsername = await getUserByUsernameOrEmail(username);
+			if (userWithUsername) {
+				return new Response(
+					JSON.stringify({
+						response: "Username taken",
 					}),
 					{
 						status: 400,
@@ -100,16 +120,17 @@ export async function PUT(req: Request) {
 		}
 
 		let updatedUser;
-		if (email && existingUser && email != existingUser.email) {
-			updatedUser = await updateUser((await userToken).username, {
+		if (email && email != user.email) {
+			updatedUser = await updateUser((await userToken).id, {
 				email,
 				hashedPassword,
 				emailConfirmed: false,
+				username,
 			});
 		} else {
-			updatedUser = await updateUser((await userToken).username, {
-				email,
+			updatedUser = await updateUser((await userToken).id, {
 				hashedPassword,
+				username,
 			});
 		}
 
@@ -119,8 +140,8 @@ export async function PUT(req: Request) {
 			});
 		}
 
-		if (existingUser && email != existingUser.email) {
-			const confirmationToken = await createEmailConfirmationToken(updatedUser.username);
+		if (email != user.email) {
+			const confirmationToken = await createEmailConfirmationToken(updatedUser.id);
 			if (!confirmationToken) {
 				return new Response(JSON.stringify({ response: "Email confirmation failed" }), {
 					status: 500,

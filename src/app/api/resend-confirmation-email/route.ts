@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { sendConfirmationEmail } from "@/app/lib/services/emailService";
 import { createEmailConfirmationToken } from "@/app/lib/services/authService";
-import { getUserByUsernameOrEmail } from "@/app/lib/services/userService";
+import { getUserById } from "@/app/lib/services/userService";
 import { validateAccessToken } from "@/app/utils/apiUtils";
 
 /**
@@ -22,7 +22,7 @@ export async function POST() {
 	}
 
 	try {
-		const user = await getUserByUsernameOrEmail(userToken.username);
+		const user = await getUserById((await userToken).id);
 		if (!user) {
 			return new Response(JSON.stringify({ response: "User not found" }), {
 				status: 404,
@@ -33,7 +33,7 @@ export async function POST() {
 					status: 400,
 				});
 			}
-			const confirmationToken = await createEmailConfirmationToken(user.username);
+			const confirmationToken = await createEmailConfirmationToken(user.id);
 			if (!confirmationToken) {
 				return new Response(JSON.stringify({ response: "Email confirmation failed" }), {
 					status: 500,

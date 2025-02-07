@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 import { PutCommand, GetCommand, QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
 import { ReturnValue } from "@aws-sdk/client-dynamodb";
 import { ddbDocClient } from "../dynamoDbClient";
@@ -15,6 +16,7 @@ export async function saveUserToDB(user: { username: string; email?: string; pas
 	const params = {
 		TableName: tableName,
 		Item: {
+			id: uuidv4(),
 			username: user.username,
 			email: sanitizedEmail,
 			emailConfirmed: false,
@@ -34,6 +36,31 @@ export async function saveUserToDB(user: { username: string; email?: string; pas
 }
 
 /**
+ * Retrieves a user by id.
+ *
+ * @param id The user's id
+ * @returns The user object if found, otherwise null
+ */
+export async function getUserById(id: string) {
+	const params = {
+		TableName: tableName,
+		Key: { id },
+	};
+	try {
+		const result = await ddbDocClient.send(new GetCommand(params));
+
+		if (result.Item) {
+			return result.Item;
+		}
+
+		return null;
+	} catch (error) {
+		console.error("Error checking existing user:", error);
+		throw new Error("Error querying user from database.");
+	}
+}
+
+/**
  * Checks if a user already exists by username or email and returns the user object.
  *
  * @param username The user's username
@@ -41,20 +68,42 @@ export async function saveUserToDB(user: { username: string; email?: string; pas
  * @returns The user object if found, otherwise null
  */
 export async function getUserByUsernameOrEmail(username: string, email?: string) {
-	const params = {
-		TableName: tableName,
-		Key: { username },
-	};
 	try {
-		const usernameResult = await ddbDocClient.send(new GetCommand(params));
-
-		if (usernameResult.Item) {
-			return usernameResult.Item;
+		if (username) {
+			return await getUserByUsername(username);
 		}
-
 		if (email) {
 			return await getUserByEmail(email);
 		}
+		return null;
+	} catch (error) {
+		console.error("Error checking existing user:", error);
+		throw new Error("Error querying user from database.");
+	}
+}
+
+/**
+ * Retrieves a user by username.
+ *
+ * @param username The user's username
+ * @returns The user object if found, otherwise null
+ */
+export async function getUserByUsername(username: string) {
+	const params = {
+		TableName: tableName,
+		IndexName: "username-index",
+		KeyConditionExpression: "username = :username",
+		ExpressionAttributeValues: {
+			":username": username,
+		},
+	};
+	try {
+		const result = await ddbDocClient.send(new QueryCommand(params));
+
+		if (result.Items && result.Items.length > 0) {
+			return result.Items[0];
+		}
+
 		return null;
 	} catch (error) {
 		console.error("Error checking existing user:", error);
@@ -99,12 +148,18 @@ export async function getUserByEmail(email: string) {
  * @returns The updated user object
  */
 export async function updateUser(
-	username: string,
-	updates: { email?: string; hashedPassword?: string; emailConfirmed?: boolean }
+	id: string,
+	updates: { username?: string; email?: string; hashedPassword?: string; emailConfirmed?: boolean }
 ) {
 	let updateExpression = "SET ";
 	const expressionAttributeValues: Record<string, any> = {};
 	const expressionAttributeNames: Record<string, any> = {};
+
+	if (updates.username) {
+		updateExpression += "#username = :username, ";
+		expressionAttributeValues[":username"] = updates.username;
+		expressionAttributeNames["#username"] = "username";
+	}
 
 	if (updates.email) {
 		updateExpression += "#email = :email, ";
@@ -134,7 +189,7 @@ export async function updateUser(
 
 		const params = {
 			TableName: tableName,
-			Key: { username },
+			Key: { id },
 			UpdateExpression: updateExpression,
 			ExpressionAttributeValues: expressionAttributeValues,
 			ExpressionAttributeNames: expressionAttributeNames,

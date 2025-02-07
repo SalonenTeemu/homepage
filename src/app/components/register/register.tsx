@@ -34,7 +34,7 @@ export default function Register() {
 			return;
 		}
 
-		if (email.length > 0) {
+		if (email) {
 			if (!isEmailValid(email)) {
 				setError("Invalid email address.");
 				return;
@@ -69,7 +69,7 @@ export default function Register() {
 			const data = await res.json();
 
 			if (!res.ok) {
-				setError(`Registration failed. ${data.response}`);
+				setError(`Registration failed. ${data.response}.`);
 				return;
 			}
 

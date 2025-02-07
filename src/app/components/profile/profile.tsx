@@ -2,7 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { passwordMinLength, isPasswordValid, isEmailValid } from "@/app/utils/utils";
+import {
+	passwordMinLength,
+	isPasswordValid,
+	isEmailValid,
+	isUsernameValid,
+	usernameMinLength,
+} from "@/app/utils/utils";
 import { useAuth } from "../../context/authContext";
 import { fetchWithAuth } from "@/app/utils/apiUtils";
 
@@ -15,6 +21,7 @@ export default function Profile() {
 	const router = useRouter();
 	const authContext = useAuth();
 	const [isEditing, setIsEditing] = useState(false);
+	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
@@ -44,6 +51,7 @@ export default function Profile() {
 
 	useEffect(() => {
 		if (user) {
+			setUsername(user.username || "");
 			setEmail(user.email || "");
 			setIsEditing(false);
 			setError(null);
@@ -55,13 +63,14 @@ export default function Profile() {
 
 	useEffect(() => {
 		if (!isEditing) {
+			setUsername(user?.username || "");
 			setEmail(user?.email || "");
 			setPassword("");
 			setConfirmPassword("");
 			setError(null);
 			setIsPasswordUpdate(false);
 		}
-	}, [isEditing, user?.email]);
+	}, [isEditing, user]);
 
 	if (!authContext) {
 		return <p>Loading...</p>;
@@ -72,6 +81,10 @@ export default function Profile() {
 	}
 
 	const handleSave = async () => {
+		if (username && !isUsernameValid(username)) {
+			setError(`Username must be at least ${usernameMinLength} characters.`);
+			return;
+		}
 		if (email && !isEmailValid(email)) {
 			setError("Invalid email address.");
 			return;
@@ -98,6 +111,7 @@ export default function Profile() {
 				body: JSON.stringify({
 					email: emailToAdd,
 					password: isPasswordUpdate ? password : undefined,
+					username,
 				}),
 			});
 
@@ -109,6 +123,7 @@ export default function Profile() {
 					return;
 				}
 				setEmail(data.email);
+				setUsername(data.username);
 				setPassword("");
 				setConfirmPassword("");
 				setError(null);
@@ -126,6 +141,7 @@ export default function Profile() {
 	const handleCancel = () => {
 		setIsEditing(false);
 		setEmail(user?.email || "");
+		setUsername(user?.username || "");
 		setPassword("");
 		setConfirmPassword("");
 		setError(null);
@@ -197,6 +213,16 @@ export default function Profile() {
 							handleSave();
 						}}
 					>
+						<div className="mb-4">
+							<label className="mb-1 ml-1 block">New Username</label>
+							<input
+								type="text"
+								className="w-full rounded-md bg-slate-700 p-2 text-slate-50"
+								value={username}
+								onChange={(e) => setUsername(e.target.value)}
+							/>
+						</div>
+
 						<div className="mb-4">
 							<label className="mb-1 ml-1 block">New Email</label>
 							<input

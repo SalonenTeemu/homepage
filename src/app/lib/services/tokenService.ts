@@ -6,15 +6,15 @@ const tableName = process.env.AWS_REFRESH_TOKEN_TABLE;
 /**
  * Store a refresh token to the database.
  *
- * @param username The username of the user
+ * @param username The id of the user
  * @param refreshToken The refresh token
  */
-export async function storeRefreshToken(username: string, refreshToken: string) {
+export async function storeRefreshToken(id: string, refreshToken: string) {
 	const params = {
 		TableName: tableName,
 		Item: {
 			refreshToken,
-			username,
+			id,
 			is_revoked: false,
 			createdAt: new Date().toISOString(),
 		},

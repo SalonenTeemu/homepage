@@ -17,7 +17,7 @@ const isProduction = process.env.ENV == "development" ? false : true;
 export async function createTokens(user: any) {
 	try {
 		const accessToken = await new SignJWT({
-			username: user.username,
+			id: user.id,
 			role: user.role,
 		})
 			.setExpirationTime(expiration)
@@ -25,7 +25,7 @@ export async function createTokens(user: any) {
 			.sign(new TextEncoder().encode(secret));
 
 		const refreshToken = await new SignJWT({
-			username: user.username,
+			id: user.id,
 			role: user.role,
 		})
 			.setExpirationTime(refreshExpiration)
@@ -44,12 +44,12 @@ export async function createTokens(user: any) {
 /**
  * Create JWT token for email confirmation.
  *
- * @param username The username to create the token for
+ * @param username The id of the user
  * @returns The email confirmation token, null otherwise
  */
-export async function createEmailConfirmationToken(username: string) {
+export async function createEmailConfirmationToken(id: string) {
 	try {
-		const token = await new SignJWT({ username })
+		const token = await new SignJWT({ id })
 			.setExpirationTime("1h")
 			.setProtectedHeader({ alg: "HS256" })
 			.sign(new TextEncoder().encode(secret));
@@ -70,7 +70,7 @@ export async function verifyAccessToken(token: string) {
 	try {
 		// Verify the access token with jose
 		const { payload } = await jwtVerify(token, new TextEncoder().encode(secret));
-		return payload as unknown as { username: string; role: string };
+		return payload as unknown as { id: string; role: string };
 	} catch (err) {
 		console.log("Access token verification failed:", err);
 		return null;
@@ -97,7 +97,7 @@ export async function verifyRefreshToken(refreshToken: string) {
 			return null;
 		}
 
-		return payload as unknown as { username: string; role: string };
+		return payload as unknown as { id: string; role: string };
 	} catch (error) {
 		console.error("Refresh token verification failed:", error);
 		return null;
@@ -108,13 +108,13 @@ export async function verifyRefreshToken(refreshToken: string) {
  * Verify an email confirmation token.
  *
  * @param token The email confirmation token
- * @returns The username if valid, null otherwise
+ * @returns The id of the user if valid, null otherwise
  */
 export async function verifyConfirmEmailToken(token: string) {
 	try {
 		// Verify the access token with jose
 		const { payload } = await jwtVerify(token, new TextEncoder().encode(secret));
-		return payload as unknown as { username: string };
+		return payload as unknown as { id: string };
 	} catch (err) {
 		console.log("Email confirmation token verification failed:", err);
 		return null;

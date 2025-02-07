@@ -1,5 +1,5 @@
 import { verifyConfirmEmailToken } from "@/app/lib/services/authService";
-import { getUserByUsernameOrEmail, updateUser } from "@/app/lib/services/userService";
+import { getUserById, updateUser } from "@/app/lib/services/userService";
 
 /**
  * Responds to a GET request to confirm a user's email.
@@ -24,13 +24,13 @@ export async function GET(req: Request) {
 			});
 		}
 
-		const user = await getUserByUsernameOrEmail(decoded.username);
+		const user = await getUserById(decoded.id);
 		if (!user) {
 			return new Response(JSON.stringify({ response: "User not found" }), {
 				status: 404,
 			});
 		}
-		await updateUser(user.username, { emailConfirmed: true });
+		await updateUser(user.id, { emailConfirmed: true });
 
 		return new Response(JSON.stringify({ response: "User email confirmed" }), {
 			status: 200,
