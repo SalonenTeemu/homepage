@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { sendConfirmationEmail } from "@/app/lib/services/emailService";
-import { createEmailConfirmationToken } from "@/app/lib/services/authService";
+import { createToken } from "@/app/lib/services/authService";
 import { getUserById } from "@/app/lib/services/userService";
 import { validateAccessToken } from "@/app/utils/apiUtils";
 
@@ -33,7 +33,7 @@ export async function POST() {
 					status: 400,
 				});
 			}
-			const confirmationToken = await createEmailConfirmationToken(user.id);
+			const confirmationToken = await createToken(user.id, "1h");
 			if (!confirmationToken) {
 				return new Response(JSON.stringify({ response: "Email confirmation failed" }), {
 					status: 500,

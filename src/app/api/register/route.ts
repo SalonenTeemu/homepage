@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { saveUserToDB, getUserByUsernameOrEmail, getUserByUsername } from "@/app/lib/services/userService";
-import { createEmailConfirmationToken } from "@/app/lib/services/authService";
+import { createToken } from "@/app/lib/services/authService";
 import { sendConfirmationEmail } from "@/app/lib/services/emailService";
 import {
 	isUsernameValid,
@@ -106,7 +106,7 @@ export async function POST(req: Request) {
 			if (email) {
 				const user = await getUserByUsername(username);
 				if (user) {
-					const confirmationToken = await createEmailConfirmationToken(user.id);
+					const confirmationToken = await createToken(user.id, "1h");
 					if (confirmationToken) await sendConfirmationEmail(email, confirmationToken);
 					else {
 						return new Response(JSON.stringify({ response: "Email confirmation failed" }), {

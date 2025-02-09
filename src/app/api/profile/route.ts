@@ -4,7 +4,7 @@ import { getUserById, getUserByUsernameOrEmail, updateUserById, deleteUserById }
 import { isEmailValid, isPasswordValid, passwordMinLength } from "@/app/utils/utils";
 import { validateAccessToken } from "@/app/utils/apiUtils";
 import { sendConfirmationEmail } from "@/app/lib/services/emailService";
-import { createEmailConfirmationToken } from "@/app/lib/services/authService";
+import { createToken } from "@/app/lib/services/authService";
 
 /**
  * Responds to a GET request to retrieve user's data.
@@ -141,7 +141,7 @@ export async function PUT(req: Request) {
 		}
 
 		if (email != user.email) {
-			const confirmationToken = await createEmailConfirmationToken(updatedUser.id);
+			const confirmationToken = await createToken(updatedUser.id, "1h");
 			if (!confirmationToken) {
 				return new Response(JSON.stringify({ response: "Email confirmation failed" }), {
 					status: 500,
@@ -183,6 +183,12 @@ export async function DELETE() {
 	}
 
 	try {
+		const user = await getUserById((await userToken).id);
+		if (!user) {
+			return new Response(JSON.stringify({ response: "User not found" }), {
+				status: 404,
+			});
+		}
 		await deleteUserById(userToken.id);
 		return new Response(JSON.stringify({ response: "User deleted" }), {
 			status: 200,

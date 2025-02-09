@@ -1,4 +1,4 @@
-import { verifyConfirmEmailToken } from "@/app/lib/services/authService";
+import { verifyToken } from "@/app/lib/services/authService";
 import { getUserById, updateUserById } from "@/app/lib/services/userService";
 
 /**
@@ -17,9 +17,9 @@ export async function GET(req: Request) {
 		});
 	}
 	try {
-		const decoded = await verifyConfirmEmailToken(token);
+		const decoded = await verifyToken(token);
 		if (!decoded) {
-			return new Response(JSON.stringify({ response: "Invalid or expired refresh token" }), {
+			return new Response(JSON.stringify({ response: "Invalid or expired token" }), {
 				status: 403,
 			});
 		}

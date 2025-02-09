@@ -25,7 +25,6 @@ export default function ConfirmEmail() {
 
 		setTimeout(() => {
 			clearInterval(countdown);
-			console.log(user);
 			if (user) {
 				router.push("/profile");
 			} else {

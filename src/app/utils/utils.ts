@@ -40,7 +40,8 @@ export const passwordMaxLength = 50;
  * @param username The username to validate
  * @returns The result of the validation
  */
-export const isUsernameValid = (username: string) => username.length >= usernameMinLength && username.length <= usernameMaxLength;
+export const isUsernameValid = (username: string) =>
+	username.length >= usernameMinLength && username.length <= usernameMaxLength;
 
 /**
  * Validate password strength.
@@ -49,7 +50,10 @@ export const isUsernameValid = (username: string) => username.length >= username
  * @returns The result of the validation
  */
 export const isPasswordValid = (password: string) =>
-	password.length >= passwordMinLength && password.length <= passwordMaxLength && /[A-Z]/.test(password) && /\d/.test(password);
+	password.length >= passwordMinLength &&
+	password.length <= passwordMaxLength &&
+	/[A-Z]/.test(password) &&
+	/\d/.test(password);
 
 /**
  * Validate email address.

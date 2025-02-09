@@ -99,13 +99,13 @@ export default function Register() {
 		<div className="flex min-h-screen items-center justify-center bg-slate-950 text-slate-50">
 			<div className="w-full max-w-sm rounded-lg bg-slate-800 p-6 text-slate-50 shadow-lg">
 				<h2 className="mb-4 text-center text-2xl font-bold">Register</h2>
-				{error && <p className="text-center text-sm text-red-500">{error}</p>}
+				{error && <p className="mb-4 text-center text-sm text-red-500">{error}</p>}
 				<form onSubmit={handleSubmit}>
 					<div className="mb-4">
 						<label className="mb-1 ml-1 block">Username</label>
 						<input
 							type="text"
-							className="w-full rounded-md bg-slate-700 p-2 text-slate-50 border border-transparent hover:border-lime-500"
+							className="w-full rounded-md border border-transparent bg-slate-700 p-2 text-slate-50 hover:border-lime-500"
 							placeholder="Enter username (length > 3)"
 							value={username}
 							onChange={(e) => setUsername(e.target.value)}
@@ -116,7 +116,7 @@ export default function Register() {
 						<label className="mb-1 ml-1 block">Email (optional*)</label>
 						<input
 							type="email"
-							className="w-full rounded-md bg-slate-700 p-2 text-slate-50 border border-transparent hover:border-lime-500"
+							className="w-full rounded-md border border-transparent bg-slate-700 p-2 text-slate-50 hover:border-lime-500"
 							placeholder="Enter email (optional)"
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
@@ -128,7 +128,7 @@ export default function Register() {
 						<div className="relative">
 							<input
 								type={showPassword ? "text" : "password"}
-								className="w-full rounded-md bg-slate-700 p-2 text-slate-50 border border-transparent hover:border-lime-500"
+								className="w-full rounded-md border border-transparent bg-slate-700 p-2 text-slate-50 hover:border-lime-500"
 								placeholder="Length > 7, uppercase, number"
 								value={password}
 								onChange={(e) => setPassword(e.target.value)}
@@ -147,7 +147,7 @@ export default function Register() {
 						<div className="relative">
 							<input
 								type={showConfirmPassword ? "text" : "password"}
-								className="w-full rounded-md bg-slate-700 p-2 text-slate-50 border border-transparent hover:border-lime-500"
+								className="w-full rounded-md border border-transparent bg-slate-700 p-2 text-slate-50 hover:border-lime-500"
 								placeholder="Confirm password"
 								value={confirmPassword}
 								onChange={(e) => setConfirmPassword(e.target.value)}

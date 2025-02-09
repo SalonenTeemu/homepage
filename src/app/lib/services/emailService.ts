@@ -36,6 +36,12 @@ const emailHtmls = {
     <p>Please confirm your email address by clicking this link <a href="${emailConfirmationLink}">here</a>.</p>
     <p>Note that this link will expire in 1 hour.</p>
     ${emailRegards}`,
+	resetPassword: (resetPasswordLink: string) =>
+		`<p>Hello!</p>
+	<p>You have requested to reset your password.</p>
+	<p>You can reset your password by clicking this link <a href="${resetPasswordLink}">here</a>.</p>
+	<p>Note that this link will expire in 10 minutes.</p>
+	${emailRegards}`,
 };
 
 /**
@@ -51,5 +57,21 @@ export async function sendConfirmationEmail(email: string, token: string) {
 
 	await transporter.sendMail(options).finally(() => {
 		console.log("Confirmation email sent to", email);
+	});
+}
+
+/**
+ * Sends an email to the user with a link to reset their password.
+ *
+ * @param email The email address to send the email to
+ * @param token The password reset token
+ */
+export async function sendResetPasswordEmail(email: string, token: string) {
+	const resetPasswordLink = `${process.env.BASE_URL}/reset-password?token=${token}`;
+
+	const options = mailOptions(email, "Password reset", emailHtmls.resetPassword(resetPasswordLink));
+
+	await transporter.sendMail(options).finally(() => {
+		console.log("Password reset email sent to", email);
 	});
 }

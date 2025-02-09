@@ -12,7 +12,7 @@ const isProduction = process.env.ENV == "development" ? false : true;
  * Create JWT tokens for a given user.
  *
  * @param user The user object
- * @returns The access and refresh tokens, null otherwise
+ * @returns The access and refresh tokens, null if error
  */
 export async function createTokens(user: any) {
 	try {
@@ -42,20 +42,21 @@ export async function createTokens(user: any) {
 }
 
 /**
- * Create JWT token for email confirmation.
+ * Create JWT token.
  *
  * @param username The id of the user
- * @returns The email confirmation token, null otherwise
+ * @param expirationTime The expiration time of the token
+ * @returns The token, null if error
  */
-export async function createEmailConfirmationToken(id: string) {
+export async function createToken(id: string, expirationTime: string = expiration) {
 	try {
 		const token = await new SignJWT({ id })
-			.setExpirationTime("1h")
+			.setExpirationTime(expirationTime)
 			.setProtectedHeader({ alg: "HS256" })
 			.sign(new TextEncoder().encode(secret));
 		return token;
 	} catch (error) {
-		console.error("Error creating email confirmation token:", error);
+		console.error("Error creating token:", error);
 		return null;
 	}
 }
@@ -105,18 +106,21 @@ export async function verifyRefreshToken(refreshToken: string) {
 }
 
 /**
- * Verify an email confirmation token.
+ * Verify a token.
  *
- * @param token The email confirmation token
+ * @param token The token
  * @returns The id of the user if valid, null otherwise
  */
-export async function verifyConfirmEmailToken(token: string) {
+export async function verifyToken(token: string) {
 	try {
 		// Verify the access token with jose
 		const { payload } = await jwtVerify(token, new TextEncoder().encode(secret));
+		if (!payload) {
+			return null;
+		}
 		return payload as unknown as { id: string };
 	} catch (err) {
-		console.log("Email confirmation token verification failed:", err);
+		console.log("Token verification failed:", err);
 		return null;
 	}
 }

@@ -65,7 +65,7 @@ export default function Login() {
 		<div className="flex min-h-screen items-center justify-center bg-slate-950 text-slate-50">
 			<div className="w-full max-w-md rounded-lg bg-slate-800 p-6 text-slate-50 shadow-lg">
 				<h2 className="mb-4 text-center text-2xl font-bold">Login</h2>
-				<p className="text-center text-sm text-red-500">{error}</p>
+				<p className="mb-4 text-center text-sm text-red-500">{error}</p>
 				<form onSubmit={handleSubmit}>
 					<div className="mb-4">
 						<label className="mb-1 ml-1 block">Username</label>

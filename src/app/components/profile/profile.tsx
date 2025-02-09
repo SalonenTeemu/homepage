@@ -331,7 +331,6 @@ export default function Profile() {
 							<button
 								type="button"
 								className="ml-2 rounded-md bg-red-500 px-4 py-2 text-slate-950 hover:bg-red-600"
-
 								onClick={() => setIsDeleteModalOpen(true)}
 							>
 								Delete Account
