@@ -25,6 +25,7 @@ export default function ConfirmEmail() {
 
 		setTimeout(() => {
 			clearInterval(countdown);
+			console.log(user);
 			if (user) {
 				router.push("/profile");
 			} else {
@@ -66,7 +67,7 @@ export default function ConfirmEmail() {
 			setStatus("Error confirming email. No token found in the URL.");
 			redirectAfterTimeout(user, router);
 		}
-	}, [token, authContext, router, user]);
+	}, [token]);
 
 	const getStatusClass = () => {
 		if (status.includes("successfully")) {

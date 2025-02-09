@@ -1,7 +1,7 @@
 import CustomCursor from "@/app/components/common/customCursor";
 import Navbar from "@/app/components/common/navbar";
 import ScrollTopButton from "@/app/components/common/scrollTopButton";
-import GoBackButton from "@/app/components/projects/goBackButton";
+import GoBackButton from "@/app/components/common/goBackButton";
 import F1RaceScheduleApp from "@/app/components/projects/f1-race-schedule-app/f1RaceScheduleApp";
 import Footer from "@/app/components/common/footer";
 import { inter } from "@/app/components/common/fonts";

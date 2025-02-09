@@ -3,15 +3,24 @@
 import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "../../context/authContext";
 import { isUsernameValid, isPasswordValid } from "@/app/utils/utils";
 
+/**
+ * The Login component.
+ *
+ * @returns {JSX.Element} The Login component
+ */
 export default function Login() {
 	const router = useRouter();
 	const authContext = useAuth();
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [showPassword, setShowPassword] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+
+	const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -62,22 +71,37 @@ export default function Login() {
 						<label className="mb-1 ml-1 block">Username</label>
 						<input
 							type="text"
-							className="w-full rounded-md bg-slate-700 p-2 text-slate-50"
+							className="w-full rounded-md border border-transparent bg-slate-700 p-2 text-slate-50 hover:border-lime-500"
+							placeholder="Enter username"
 							value={username}
 							onChange={(e) => setUsername(e.target.value)}
 							required
 						/>
 					</div>
-					<div className="mb-4">
+					<div className="mb-2">
 						<label className="mb-1 ml-1 block">Password</label>
-						<input
-							type="password"
-							className="w-full rounded-md bg-slate-700 p-2 text-slate-50"
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-							required
-						/>
+						<div className="relative">
+							<input
+								type={showPassword ? "text" : "password"}
+								className="w-full rounded-md border border-transparent bg-slate-700 p-2 text-slate-50 hover:border-lime-500"
+								placeholder="Enter password"
+								value={password}
+								onChange={(e) => setPassword(e.target.value)}
+								required
+							/>
+							<span
+								onClick={togglePasswordVisibility}
+								className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400 hover:text-gray-200"
+							>
+								{showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+							</span>
+						</div>
 					</div>
+					<p className="mb-2 text-right text-sm text-gray-400">
+						<Link href="/forgot-password" className="text-lime-500 hover:underline">
+							Forgot your password?
+						</Link>
+					</p>
 					<button
 						type="submit"
 						className="w-full rounded-md bg-lime-500 py-2 text-slate-950 hover:bg-lime-600"

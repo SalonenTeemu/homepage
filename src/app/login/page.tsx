@@ -2,6 +2,7 @@ import CustomCursor from "@/app/components/common/customCursor";
 import Navbar from "@/app/components/common/navbar";
 import ScrollTopButton from "@/app/components/common/scrollTopButton";
 import Login from "@/app/components/login/login";
+import GoBackButton from "@/app/components/common/goBackButton";
 import Footer from "../components/common/footer";
 import { inter } from "@/app/components/common/fonts";
 
@@ -18,6 +19,7 @@ export default function LoginPage() {
 			<div className={`flex h-full w-full flex-col items-center justify-between ${inter.variable} font-inter`}>
 				<Login />
 				<ScrollTopButton />
+				<GoBackButton />
 				<Footer />
 			</div>
 		</main>

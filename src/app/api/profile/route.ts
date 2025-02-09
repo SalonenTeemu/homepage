@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import bcrypt from "bcrypt";
-import { getUserById, getUserByUsernameOrEmail, updateUser } from "@/app/lib/services/userService";
+import { getUserById, getUserByUsernameOrEmail, updateUserById, deleteUserById } from "@/app/lib/services/userService";
 import { isEmailValid, isPasswordValid, passwordMinLength } from "@/app/utils/utils";
 import { validateAccessToken } from "@/app/utils/apiUtils";
 import { sendConfirmationEmail } from "@/app/lib/services/emailService";
@@ -121,14 +121,14 @@ export async function PUT(req: Request) {
 
 		let updatedUser;
 		if (email && email != user.email) {
-			updatedUser = await updateUser((await userToken).id, {
+			updatedUser = await updateUserById((await userToken).id, {
 				email,
 				hashedPassword,
 				emailConfirmed: false,
 				username,
 			});
 		} else {
-			updatedUser = await updateUser((await userToken).id, {
+			updatedUser = await updateUserById((await userToken).id, {
 				hashedPassword,
 				username,
 			});
@@ -163,6 +163,32 @@ export async function PUT(req: Request) {
 		);
 	} catch (error) {
 		return new Response(JSON.stringify({ response: "Updating user failed" }), {
+			status: 500,
+		});
+	}
+}
+
+/**
+ * Responds to a DELETE request to delete user.
+ *
+ * @returns {Response} The response object
+ */
+export async function DELETE() {
+	const cookieStore = await cookies();
+
+	const { status, userToken, error } = await validateAccessToken(cookieStore);
+
+	if (status !== 200) {
+		return new Response(JSON.stringify({ response: error }), { status });
+	}
+
+	try {
+		await deleteUserById(userToken.id);
+		return new Response(JSON.stringify({ response: "User deleted" }), {
+			status: 200,
+		});
+	} catch (error) {
+		return new Response(JSON.stringify({ response: "Deleting user failed" }), {
 			status: 500,
 		});
 	}

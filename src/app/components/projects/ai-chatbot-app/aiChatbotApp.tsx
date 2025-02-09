@@ -158,7 +158,7 @@ export default function AIChatbotApp() {
 					/>
 					<button
 						type="submit"
-						className="mt-4 w-full rounded-lg bg-lime-500 p-3 font-semibold text-slate-950 transition-colors duration-200 hover:bg-lime-400"
+						className="mt-4 w-full rounded-lg bg-lime-500 p-3 font-semibold text-slate-950 transition-colors duration-200 hover:bg-lime-600"
 						disabled={loading}
 					>
 						{loading ? "Generating..." : "Send"}

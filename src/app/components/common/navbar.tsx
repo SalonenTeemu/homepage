@@ -72,9 +72,9 @@ export default function Navbar() {
 						</li>
 					</ul>
 
-					<div className="relative" ref={menuRef}>
+					<div className="fixed right-4 top-4 z-50 flex items-center" ref={menuRef}>
 						<button
-							className="fixed right-4 top-4 z-50 text-slate-50 transition-none duration-150 ease-in-out hover:text-lime-500 motion-reduce:transition-none md:transition md:hover:-translate-y-1"
+							className="text-slate-50 transition-none duration-150 ease-in-out hover:text-lime-500 motion-reduce:transition-none md:transition md:hover:-translate-y-1"
 							onClick={toggleSidebar}
 							aria-label="Toggle Sidebar"
 						>

@@ -27,10 +27,12 @@ export const playSound = function (sound: string) {
 };
 
 /**
- * Minimum lengths for username and password.
+ * Minimum and maximum lengths for username and password.
  */
 export const usernameMinLength = 4;
 export const passwordMinLength = 8;
+export const usernameMaxLength = 20;
+export const passwordMaxLength = 50;
 
 /**
  * Validate username length.
@@ -38,7 +40,7 @@ export const passwordMinLength = 8;
  * @param username The username to validate
  * @returns The result of the validation
  */
-export const isUsernameValid = (username: string) => username.length >= 4;
+export const isUsernameValid = (username: string) => username.length >= usernameMinLength && username.length <= usernameMaxLength;
 
 /**
  * Validate password strength.
@@ -47,7 +49,7 @@ export const isUsernameValid = (username: string) => username.length >= 4;
  * @returns The result of the validation
  */
 export const isPasswordValid = (password: string) =>
-	password.length >= 8 && /[A-Z]/.test(password) && /\d/.test(password);
+	password.length >= passwordMinLength && password.length <= passwordMaxLength && /[A-Z]/.test(password) && /\d/.test(password);
 
 /**
  * Validate email address.

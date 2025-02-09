@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { useAuth } from "@/app/context/authContext";
 
 interface PopupMenuProps {
@@ -9,7 +10,12 @@ interface PopupMenuProps {
 
 export default function Sidebar({ isOpen }: PopupMenuProps) {
 	const authContext = useAuth();
-	const user = authContext?.user;
+	const [user, setUser] = useState(authContext?.user);
+
+	useEffect(() => {
+		setUser(authContext?.user);
+	}, [authContext?.user]);
+
 	const logout = authContext?.logout;
 
 	return (
@@ -35,6 +41,9 @@ export default function Sidebar({ isOpen }: PopupMenuProps) {
 						</>
 					) : (
 						<>
+							<li>
+								<p className="text-sm text-gray-400">Logged in as: {user.username}</p>
+							</li>
 							<li>
 								<Link href="/profile" className="hover:text-lime-500">
 									Profile

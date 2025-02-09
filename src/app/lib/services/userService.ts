@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { PutCommand, GetCommand, QueryCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
+import { PutCommand, GetCommand, QueryCommand, UpdateCommand, DeleteCommand } from "@aws-sdk/lib-dynamodb";
 import { ReturnValue } from "@aws-sdk/client-dynamodb";
 import { ddbDocClient } from "../dynamoDbClient";
 
@@ -147,7 +147,7 @@ export async function getUserByEmail(email: string) {
  * @param updates The updates to apply to the user as an object with email and/or hashedPassword
  * @returns The updated user object
  */
-export async function updateUser(
+export async function updateUserById(
 	id: string,
 	updates: { username?: string; email?: string; hashedPassword?: string; emailConfirmed?: boolean }
 ) {
@@ -201,5 +201,24 @@ export async function updateUser(
 	} catch (error) {
 		console.error("Error updating user:", error);
 		throw new Error("Error updating user.");
+	}
+}
+
+/**
+ * Deletes a user by id.
+ *
+ * @param id The user's id
+ */
+export async function deleteUserById(id: string) {
+	const params = {
+		TableName: tableName,
+		Key: { id },
+	};
+	try {
+		await ddbDocClient.send(new DeleteCommand(params));
+		console.log("User deleted from database.");
+	} catch (error) {
+		console.error("Error deleting user:", error);
+		throw new Error("Error deleting user.");
 	}
 }

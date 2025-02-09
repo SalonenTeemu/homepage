@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
+import { Eye, EyeOff } from "lucide-react";
 import {
 	isUsernameValid,
 	isPasswordValid,
@@ -12,6 +13,11 @@ import {
 	passwordMinLength,
 } from "@/app/utils/utils";
 
+/**
+ * The Register component.
+ *
+ * @returns {JSX.Element} The Register component
+ */
 export default function Register() {
 	const router = useRouter();
 	const [username, setUsername] = useState("");
@@ -20,6 +26,11 @@ export default function Register() {
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [captchaValue, setCaptchaValue] = useState<string | null>(null);
 	const [error, setError] = useState<string | null>(null);
+	const [showPassword, setShowPassword] = useState(false);
+	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+	const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+	const toggleConfirmPasswordVisibility = () => setShowConfirmPassword((prev) => !prev);
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -94,43 +105,61 @@ export default function Register() {
 						<label className="mb-1 ml-1 block">Username</label>
 						<input
 							type="text"
-							className="w-full rounded-md bg-slate-700 p-2 text-slate-50"
+							className="w-full rounded-md bg-slate-700 p-2 text-slate-50 border border-transparent hover:border-lime-500"
+							placeholder="Enter username (length > 3)"
 							value={username}
 							onChange={(e) => setUsername(e.target.value)}
 							required
 						/>
 					</div>
 					<div className="mb-4">
-						<label className="mb-1 ml-1 block">Email (optional)</label>
+						<label className="mb-1 ml-1 block">Email (optional*)</label>
 						<input
 							type="email"
-							className="w-full rounded-md bg-slate-700 p-2 text-slate-50"
+							className="w-full rounded-md bg-slate-700 p-2 text-slate-50 border border-transparent hover:border-lime-500"
+							placeholder="Enter email (optional)"
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 						/>
-						<p className="ml-1 mt-2 text-sm text-gray-400">
-							Email is optional and can be used for account recovery (e.g., password reset).
-						</p>
+						<p className="ml-1 mt-2 text-sm text-gray-400">*Email is required for password recovery.</p>
 					</div>
 					<div className="mb-4">
 						<label className="mb-1 ml-1 block">Password</label>
-						<input
-							type="password"
-							className="w-full rounded-md bg-slate-700 p-2 text-slate-50"
-							value={password}
-							onChange={(e) => setPassword(e.target.value)}
-							required
-						/>
+						<div className="relative">
+							<input
+								type={showPassword ? "text" : "password"}
+								className="w-full rounded-md bg-slate-700 p-2 text-slate-50 border border-transparent hover:border-lime-500"
+								placeholder="Length > 7, uppercase, number"
+								value={password}
+								onChange={(e) => setPassword(e.target.value)}
+								required
+							/>
+							<span
+								onClick={togglePasswordVisibility}
+								className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400 hover:text-gray-200"
+							>
+								{showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+							</span>
+						</div>
 					</div>
 					<div className="mb-4">
 						<label className="mb-1 ml-1 block">Confirm Password</label>
-						<input
-							type="password"
-							className="w-full rounded-md bg-slate-700 p-2 text-slate-50"
-							value={confirmPassword}
-							onChange={(e) => setConfirmPassword(e.target.value)}
-							required
-						/>
+						<div className="relative">
+							<input
+								type={showConfirmPassword ? "text" : "password"}
+								className="w-full rounded-md bg-slate-700 p-2 text-slate-50 border border-transparent hover:border-lime-500"
+								placeholder="Confirm password"
+								value={confirmPassword}
+								onChange={(e) => setConfirmPassword(e.target.value)}
+								required
+							/>
+							<span
+								onClick={toggleConfirmPasswordVisibility}
+								className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400 hover:text-gray-200"
+							>
+								{showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+							</span>
+						</div>
 					</div>
 					<div className="mb-4 flex justify-center">
 						<ReCAPTCHA sitekey="6LfLB8AqAAAAAHspOOhsK4xnydZ5aFcSTfegjZRe" onChange={onCaptchaChange} />

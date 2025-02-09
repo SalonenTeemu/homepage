@@ -1,6 +1,6 @@
 import Navbar from "@/app/components/common/navbar";
 import ScrollTopButton from "@/app/components/common/scrollTopButton";
-import GoBackButton from "@/app/components/projects/goBackButton";
+import GoBackButton from "@/app/components/common/goBackButton";
 import AIChessApp from "@/app/components/projects/ai-chess-app/aiChessApp";
 import Footer from "@/app/components/common/footer";
 import { inter } from "@/app/components/common/fonts";

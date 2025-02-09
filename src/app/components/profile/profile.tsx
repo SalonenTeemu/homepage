@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { Eye, EyeOff } from "lucide-react";
 import {
 	passwordMinLength,
 	isPasswordValid,
@@ -28,9 +29,15 @@ export default function Profile() {
 	const [error, setError] = useState<string | null>(null);
 	const [emailConfirmationStatus, setEmailConfirmationStatus] = useState<string | null>(null);
 	const [isPasswordUpdate, setIsPasswordUpdate] = useState(false);
+	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+	const [showPassword, setShowPassword] = useState(false);
+	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
 	const user = authContext?.user;
 	const fetchProfile = authContext?.fetchProfile;
+
+	const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+	const toggleConfirmPasswordVisibility = () => setShowConfirmPassword((prev) => !prev);
 
 	useEffect(() => {
 		if (emailConfirmationStatus) {
@@ -119,7 +126,7 @@ export default function Profile() {
 				const data = await res.json();
 
 				if (!res.ok) {
-					setError(`Profile update failed. ${data.response}`);
+					setError(`Profile update failed. ${data.response}.`);
 					return;
 				}
 				setEmail(data.email);
@@ -135,6 +142,28 @@ export default function Profile() {
 			}
 		} catch (err) {
 			setError("Error updating profile. Please try again.");
+		}
+	};
+
+	const handleDeleteAccount = async () => {
+		try {
+			const res = await fetchWithAuth("/api/profile", {
+				method: "DELETE",
+			});
+
+			if (res) {
+				if (res.ok) {
+					authContext?.logout();
+					router.push("/login");
+				} else {
+					const data = await res.json();
+					setError(`Error deleting profile. ${data.response}.`);
+				}
+			} else {
+				router.push("/login");
+			}
+		} catch (err) {
+			setError("Error deleting profile. Please try again.");
 		}
 	};
 
@@ -217,8 +246,9 @@ export default function Profile() {
 							<label className="mb-1 ml-1 block">New Username</label>
 							<input
 								type="text"
-								className="w-full rounded-md bg-slate-700 p-2 text-slate-50"
+								className="w-full rounded-md border border-transparent bg-slate-700 p-2 text-slate-50 hover:border-lime-500"
 								value={username}
+								placeholder="Enter new username"
 								onChange={(e) => setUsername(e.target.value)}
 							/>
 						</div>
@@ -227,13 +257,12 @@ export default function Profile() {
 							<label className="mb-1 ml-1 block">New Email</label>
 							<input
 								type="email"
-								className="w-full rounded-md bg-slate-700 p-2 text-slate-50"
+								className="w-full rounded-md border border-transparent bg-slate-700 p-2 text-slate-50 hover:border-lime-500"
 								value={email}
+								placeholder="Enter new email"
 								onChange={(e) => setEmail(e.target.value)}
 							/>
-							<p className="ml-1 mt-2 text-sm text-gray-400">
-								Email is optional and can be used for account recovery (e.g., password reset).
-							</p>
+							<p className="ml-1 mt-2 text-sm text-gray-400">*Email is required for password recovery.</p>
 						</div>
 
 						<div className="mb-4 flex items-center">
@@ -253,21 +282,42 @@ export default function Profile() {
 							<>
 								<div className="mb-4">
 									<label className="mb-1 ml-1 block">New Password</label>
-									<input
-										type="password"
-										className="w-full rounded-md bg-slate-700 p-2 text-slate-50"
-										value={password}
-										onChange={(e) => setPassword(e.target.value)}
-									/>
+									<div className="relative">
+										<input
+											type={showPassword ? "text" : "password"}
+											className="w-full rounded-md border border-transparent bg-slate-700 p-2 text-slate-50 hover:border-lime-500"
+											placeholder="Length > 7, uppercase, number"
+											value={password}
+											onChange={(e) => setPassword(e.target.value)}
+											required
+										/>
+										<span
+											onClick={togglePasswordVisibility}
+											className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400 hover:text-gray-200"
+										>
+											{showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+										</span>
+									</div>
 								</div>
+
 								<div className="mb-4">
-									<label className="mb-1 ml-1 block">Confirm New Password</label>
-									<input
-										type="password"
-										className="w-full rounded-md bg-slate-700 p-2 text-slate-50"
-										value={confirmPassword}
-										onChange={(e) => setConfirmPassword(e.target.value)}
-									/>
+									<label className="mb-1 ml-1 block">Confirm Password</label>
+									<div className="relative">
+										<input
+											type={showConfirmPassword ? "text" : "password"}
+											className="w-full rounded-md border border-transparent bg-slate-700 p-2 text-slate-50 hover:border-lime-500"
+											placeholder="Confirm password"
+											value={confirmPassword}
+											onChange={(e) => setConfirmPassword(e.target.value)}
+											required
+										/>
+										<span
+											onClick={toggleConfirmPasswordVisibility}
+											className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-400 hover:text-gray-200"
+										>
+											{showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+										</span>
+									</div>
 								</div>
 							</>
 						)}
@@ -280,13 +330,46 @@ export default function Profile() {
 							</button>
 							<button
 								type="button"
-								className="rounded-md bg-slate-700 px-4 py-2 text-slate-50 hover:bg-slate-600"
+								className="ml-2 rounded-md bg-red-500 px-4 py-2 text-slate-950 hover:bg-red-600"
+
+								onClick={() => setIsDeleteModalOpen(true)}
+							>
+								Delete Account
+							</button>
+							<button
+								type="button"
+								className="ml-2 rounded-md bg-slate-700 px-4 py-2 text-slate-50 hover:bg-slate-600"
 								onClick={handleCancel}
 							>
 								Cancel
 							</button>
 						</div>
 					</form>
+				)}
+				{isDeleteModalOpen && (
+					<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+						<div className="w-full max-w-md rounded-lg bg-slate-800 p-6 text-slate-50 shadow-lg">
+							<h3 className="text-center text-xl font-semibold text-red-500">Delete Account</h3>
+							<p className="mt-4 text-center text-slate-300">
+								Are you sure you want to delete your account? This action cannot be undone. All your
+								data will be lost.
+							</p>
+							<div className="mt-6 flex justify-between">
+								<button
+									className="mr-2 w-full rounded-md bg-slate-700 py-2 text-slate-50 hover:bg-slate-600"
+									onClick={() => setIsDeleteModalOpen(false)}
+								>
+									Cancel
+								</button>
+								<button
+									className="ml-2 w-full rounded-md bg-red-500 py-2 text-slate-950 hover:bg-red-600"
+									onClick={handleDeleteAccount}
+								>
+									Confirm
+								</button>
+							</div>
+						</div>
+					</div>
 				)}
 			</div>
 		</div>
