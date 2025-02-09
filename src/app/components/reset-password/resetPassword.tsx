@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/app/context/authContext";
+import { useNotification } from "@/app/context/notificationContext";
 import { isPasswordValid, passwordMinLength } from "@/app/utils/utils";
 
 /**
@@ -16,11 +17,10 @@ export default function ResetPassword() {
 	const searchParams = useSearchParams();
 	const token = searchParams.get("token");
 	const authContext = useAuth();
+	const notificationContext = useNotification();
 	const user = authContext?.user;
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
-	const [successMessage, setSuccessMessage] = useState("");
-	const [error, setError] = useState("");
 	const [timer, setTimer] = useState<number>(10);
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -28,7 +28,7 @@ export default function ResetPassword() {
 
 	useEffect(() => {
 		if (!token) {
-			setError("Cannot reset password. No token found in the URL.");
+			notificationContext?.addNotification("error", "Cannot reset password. No token found in the URL.");
 			setTimerVisible(true);
 			redirectAfterTimeout(user, router);
 		}
@@ -55,13 +55,14 @@ export default function ResetPassword() {
 	const handleSubmit = async () => {
 		if (token) {
 			if (!isPasswordValid(password)) {
-				setError(
+				notificationContext?.addNotification(
+					"error",
 					`Password must be at least ${passwordMinLength} characters, include at least one uppercase letter, and at least one number.`
 				);
 				return;
 			}
 			if (password !== confirmPassword) {
-				setError("Passwords do not match.");
+				notificationContext?.addNotification("error", "Passwords do not match.");
 				return;
 			}
 
@@ -75,26 +76,24 @@ export default function ResetPassword() {
 				const data = await res.json();
 
 				if (res.ok) {
-					setSuccessMessage("Your password has been reset successfully!");
+					notificationContext?.addNotification("success", "Your password has been reset successfully.");
 					if (user) {
 						authContext.fetchProfile();
 					}
-					setError("");
 					setTimerVisible(true);
 					redirectAfterTimeout(user, router);
 				} else {
-					setSuccessMessage("");
-					setError(`Error resetting password. ${data.response}.`);
+					notificationContext?.addNotification("error", `Error resetting password. ${data.response}.`);
 					redirectAfterTimeout(user, router);
 					setTimerVisible(false);
 					return;
 				}
 			} catch (err) {
-				setError("Something went wrong. Please try again.");
+				notificationContext?.addNotification("error", "Something went wrong. Please try again.");
 				setTimerVisible(false);
 			}
 		} else {
-			setError("Error confirming email. No token found in the URL.");
+			notificationContext?.addNotification("error", "Error confirming email. No token found in the URL.");
 			setTimerVisible(true);
 			redirectAfterTimeout(user, router);
 		}
@@ -104,8 +103,6 @@ export default function ResetPassword() {
 		<div className="flex min-h-screen items-center justify-center bg-slate-950 text-slate-50">
 			<div className="w-full max-w-md rounded-lg bg-slate-800 p-6 text-slate-50 shadow-lg">
 				<h2 className="mb-4 text-center text-2xl font-bold">Reset Password</h2>
-				<p className="mb-4 text-center text-sm text-red-500">{error}</p>
-				<p className="mb-4 text-center text-sm text-green-500">{successMessage}</p>
 				<div className="mb-4">
 					<label className="mb-1 ml-1 block">New Password</label>
 					<div className="relative">

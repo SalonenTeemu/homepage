@@ -243,21 +243,3 @@ const minimax = (depth: number, game: Chess, alpha: number, beta: number, maximi
 		return minEval;
 	}
 };
-
-/**
- * Get the style for the notification based on the type.
- *
- * @returns The style for the notification based on the type.
- */
-export const getNotificationStyle = function (notification: any) {
-	switch (notification.type) {
-		case "positive":
-			return "bg-green-500 text-slate-50";
-		case "neutral":
-			return "bg-yellow-500 text-slate-50";
-		case "negative":
-			return "bg-red-500 text-slate-50";
-		default:
-			return "";
-	}
-};

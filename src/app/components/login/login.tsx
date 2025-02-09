@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "../../context/authContext";
+import { useNotification } from "@/app/context/notificationContext";
 import { isUsernameValid, isPasswordValid } from "@/app/utils/utils";
 
 /**
@@ -15,10 +16,10 @@ import { isUsernameValid, isPasswordValid } from "@/app/utils/utils";
 export default function Login() {
 	const router = useRouter();
 	const authContext = useAuth();
+	const notificationContext = useNotification();
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
-	const [error, setError] = useState<string | null>(null);
 
 	const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
@@ -26,12 +27,12 @@ export default function Login() {
 		e.preventDefault();
 
 		if (!username || !isUsernameValid(username)) {
-			setError("Login failed. Invalid username.");
+			notificationContext?.addNotification("error", "Login failed. Invalid username.");
 			return;
 		}
 
 		if (!password || !isPasswordValid(password)) {
-			setError("Login failed.");
+			notificationContext?.addNotification("error", "Login failed. Invalid password.");
 			return;
 		}
 
@@ -51,13 +52,14 @@ export default function Login() {
 			const data = await res.json();
 
 			if (!res.ok) {
-				setError(`Login failed. ${data.response}.`);
+				notificationContext?.addNotification("error", `Login failed. ${data.response}.`);
 				return;
 			}
 			await authContext?.fetchProfile();
+			notificationContext?.addNotification("success", "Welcome back!");
 			router.push("/profile");
 		} catch (e) {
-			setError("Login failed. Please try again later.");
+			notificationContext?.addNotification("error", "Login failed. Please try again.");
 		}
 	};
 
@@ -65,7 +67,6 @@ export default function Login() {
 		<div className="flex min-h-screen items-center justify-center bg-slate-950 text-slate-50">
 			<div className="w-full max-w-md rounded-lg bg-slate-800 p-6 text-slate-50 shadow-lg">
 				<h2 className="mb-4 text-center text-2xl font-bold">Login</h2>
-				<p className="mb-4 text-center text-sm text-red-500">{error}</p>
 				<form onSubmit={handleSubmit}>
 					<div className="mb-4">
 						<label className="mb-1 ml-1 block">Username</label>

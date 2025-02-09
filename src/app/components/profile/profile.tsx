@@ -11,6 +11,7 @@ import {
 	usernameMinLength,
 } from "@/app/utils/utils";
 import { useAuth } from "../../context/authContext";
+import { useNotification } from "@/app/context/notificationContext";
 import { fetchWithAuth } from "@/app/utils/apiUtils";
 
 /**
@@ -21,13 +22,12 @@ import { fetchWithAuth } from "@/app/utils/apiUtils";
 export default function Profile() {
 	const router = useRouter();
 	const authContext = useAuth();
+	const notificationContext = useNotification();
 	const [isEditing, setIsEditing] = useState(false);
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
-	const [error, setError] = useState<string | null>(null);
-	const [emailConfirmationStatus, setEmailConfirmationStatus] = useState<string | null>(null);
 	const [isPasswordUpdate, setIsPasswordUpdate] = useState(false);
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
@@ -40,28 +40,10 @@ export default function Profile() {
 	const toggleConfirmPasswordVisibility = () => setShowConfirmPassword((prev) => !prev);
 
 	useEffect(() => {
-		if (emailConfirmationStatus) {
-			const timeout = setTimeout(() => {
-				setEmailConfirmationStatus(null);
-			}, 5000);
-
-			return () => clearTimeout(timeout);
-		}
-		if (error) {
-			const timeout = setTimeout(() => {
-				setError(null);
-			}, 5000);
-
-			return () => clearTimeout(timeout);
-		}
-	}, [emailConfirmationStatus, error]);
-
-	useEffect(() => {
 		if (user) {
 			setUsername(user.username || "");
 			setEmail(user.email || "");
 			setIsEditing(false);
-			setError(null);
 			setIsPasswordUpdate(false);
 			setPassword("");
 			setConfirmPassword("");
@@ -74,7 +56,6 @@ export default function Profile() {
 			setEmail(user?.email || "");
 			setPassword("");
 			setConfirmPassword("");
-			setError(null);
 			setIsPasswordUpdate(false);
 		}
 	}, [isEditing, user]);
@@ -89,22 +70,23 @@ export default function Profile() {
 
 	const handleSave = async () => {
 		if (username && !isUsernameValid(username)) {
-			setError(`Username must be at least ${usernameMinLength} characters.`);
+			notificationContext?.addNotification("error", `Username must be at least ${usernameMinLength} characters.`);
 			return;
 		}
 		if (email && !isEmailValid(email)) {
-			setError("Invalid email address.");
+			notificationContext?.addNotification("error", "Invalid email address.");
 			return;
 		}
 		if (isPasswordUpdate) {
 			if (password && !isPasswordValid(password)) {
-				setError(
+				notificationContext?.addNotification(
+					"error",
 					`Password must be at least ${passwordMinLength} characters, include at least one uppercase letter, and at least one number.`
 				);
 				return;
 			}
 			if (password && password !== confirmPassword) {
-				setError("Passwords do not match.");
+				notificationContext?.addNotification("error", "Passwords do not match.");
 				return;
 			}
 		}
@@ -126,22 +108,22 @@ export default function Profile() {
 				const data = await res.json();
 
 				if (!res.ok) {
-					setError(`Profile update failed. ${data.response}.`);
+					notificationContext?.addNotification("error", `Profile update failed. ${data.response}.`);
 					return;
 				}
 				setEmail(data.email);
 				setUsername(data.username);
 				setPassword("");
 				setConfirmPassword("");
-				setError(null);
 				setIsEditing(false);
 
 				await fetchProfile?.();
+				notificationContext?.addNotification("success", "Profile updated successfully.");
 			} else {
 				router.push("/login");
 			}
 		} catch (err) {
-			setError("Error updating profile. Please try again.");
+			notificationContext?.addNotification("error", "Error updating profile. Please try again.");
 		}
 	};
 
@@ -154,16 +136,18 @@ export default function Profile() {
 			if (res) {
 				if (res.ok) {
 					authContext?.logout();
+					notificationContext?.addNotification("success", "Account deleted successfully.");
 					router.push("/login");
 				} else {
 					const data = await res.json();
-					setError(`Error deleting profile. ${data.response}.`);
+					notificationContext?.addNotification("error", `Error deleting profile. ${data.response}.`);
 				}
 			} else {
+				notificationContext?.addNotification("error", "Error deleting profile. Please log in again.");
 				router.push("/login");
 			}
 		} catch (err) {
-			setError("Error deleting profile. Please try again.");
+			notificationContext?.addNotification("error", "Error deleting profile. Please try again.");
 		}
 	};
 
@@ -173,7 +157,6 @@ export default function Profile() {
 		setUsername(user?.username || "");
 		setPassword("");
 		setConfirmPassword("");
-		setError(null);
 		setIsPasswordUpdate(false);
 	};
 
@@ -185,16 +168,17 @@ export default function Profile() {
 
 			if (res) {
 				if (res.ok) {
-					setEmailConfirmationStatus("A new confirmation email has been sent.");
+					notificationContext?.addNotification("success", "A new confirmation email has been sent.");
 				} else {
 					const data = await res.json();
-					setError(`Error. ${data.response}`);
+					notificationContext?.addNotification("error", `Error sending confirmation email. ${data.response}`);
 				}
 			} else {
+				notificationContext?.addNotification("error", "Error sending confirmation email. Please log in again.");
 				router.push("/login");
 			}
 		} catch (err) {
-			setError("Error resending confirmation email. Please try again.");
+			notificationContext?.addNotification("error", "Error sending confirmation email. Please try again.");
 		}
 	};
 
@@ -202,10 +186,6 @@ export default function Profile() {
 		<div className="flex min-h-screen items-center justify-center bg-slate-950 text-slate-50">
 			<div className="w-full max-w-sm rounded-lg bg-slate-800 p-6 text-slate-50 shadow-lg">
 				<h2 className="mb-4 text-center text-2xl font-bold">{!isEditing ? "" : "Edit "}Profile</h2>
-				{error && <p className="mb-4 text-center text-sm text-red-500">{error}</p>}
-				{emailConfirmationStatus && (
-					<p className="mb-4 text-center text-sm text-green-500">{emailConfirmationStatus}</p>
-				)}
 				{!isEditing ? (
 					<div>
 						<p className="mb-4">

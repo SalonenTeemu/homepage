@@ -3,8 +3,9 @@
 import { useState, useCallback, useEffect } from "react";
 import { Chess, WHITE, BLACK } from "chess.js";
 import { Chessboard } from "react-chessboard";
+import { useNotification } from "@/app/context/notificationContext";
 import { playSound } from "@/app/utils/utils";
-import { minimaxRoot, getNotificationStyle } from "@/app/utils/aiChessAppUtils";
+import { minimaxRoot } from "@/app/utils/aiChessAppUtils";
 
 /**
  * The ChessGame component.
@@ -12,16 +13,13 @@ import { minimaxRoot, getNotificationStyle } from "@/app/utils/aiChessAppUtils";
  * @returns The ChessGame component.
  */
 export default function ChessGame() {
+	const notificationContext = useNotification();
 	const [game, setGame] = useState(new Chess()); // The game state
 	const [status, setStatus] = useState("Game in progress."); // The game status to show
 	const [history, setHistory] = useState([game.fen()]); // History of moves
 	const [difficulty, setDifficulty] = useState(2); // 1: Easy, 2: Medium, 3: Hard
 	const [playerColor, setPlayerColor] = useState<"white" | "black">("white"); // Default to white
 	const [gameStarted, setGameStarted] = useState(false); // Track if the game has started
-	const [notification, setNotification] = useState<{
-		message: string;
-		type: string;
-	}>({ message: "", type: "" }); // Notification with type
 
 	/**
 	 * Updates the width of the chessboard based on the window size.
@@ -73,8 +71,7 @@ export default function ChessGame() {
 				return result;
 			} catch (error) {
 				playSound("illegal");
-				setNotification({ message: "Invalid move.", type: "negative" });
-				setTimeout(() => setNotification({ message: "", type: "" }), 3000);
+				notificationContext?.addNotification("error", "Invalid move.");
 				return false;
 			}
 		},
@@ -133,28 +130,16 @@ export default function ChessGame() {
 	const handleDraw = (gameState: Chess) => {
 		if (gameState.isDrawByFiftyMoves()) {
 			setStatus("Draw by 50-move rule.");
-			setNotification({
-				message: "Game is drawn by 50-move rule.",
-				type: "neutral",
-			});
+			notificationContext?.addNotification("info", "Game is drawn by 50-move rule.");
 		} else if (gameState.isInsufficientMaterial()) {
 			setStatus("Draw by insufficient material.");
-			setNotification({
-				message: "Game is drawn by insufficient material.",
-				type: "neutral",
-			});
+			notificationContext?.addNotification("info", "Game is drawn by insufficient material.");
 		} else if (gameState.isThreefoldRepetition()) {
 			setStatus("Draw by repetition.");
-			setNotification({
-				message: "Game is drawn by repetition.",
-				type: "neutral",
-			});
+			notificationContext?.addNotification("info", "Game is drawn by repetition.");
 		} else if (gameState.isStalemate()) {
 			setStatus("Stalemate.");
-			setNotification({
-				message: "Game is a stalemate.",
-				type: "neutral",
-			});
+			notificationContext?.addNotification("info", "Game is a stalemate.");
 		} else {
 			setStatus("Game over.");
 		}
@@ -191,7 +176,6 @@ export default function ChessGame() {
 			} else {
 				handleInProgress(gameState);
 			}
-			setTimeout(() => setNotification({ message: "", type: "" }), 3000);
 		};
 
 		/**
@@ -204,10 +188,10 @@ export default function ChessGame() {
 			const turnLowerCase = turn.toLowerCase();
 			if (gameState.isCheckmate()) {
 				setStatus("Checkmate. " + turn + " wins.");
-				setNotification({
-					message: playerColor === turnLowerCase ? "Checkmate. You win!" : "Checkmate. " + turn + " wins.",
-					type: playerColor === turnLowerCase ? "positive" : "negative",
-				});
+				notificationContext?.addNotification(
+					playerColor === turnLowerCase ? "success" : "error",
+					playerColor === turnLowerCase ? "Checkmate. You win!" : "Checkmate. " + turn + " wins."
+				);
 			}
 			playSound("game-end");
 		};
@@ -263,23 +247,13 @@ export default function ChessGame() {
 			setGame(newGame);
 			setHistory([...history]);
 		} else {
-			setNotification({ message: "Cannot undo further.", type: "negative" });
-			setTimeout(() => setNotification({ message: "", type: "" }), 3000);
+			notificationContext?.addNotification("error", "Cannot undo further.");
 		}
 	}, [history]);
 
 	return (
 		<div className="flex min-h-screen flex-col items-center justify-center bg-slate-950 text-slate-50 selection:bg-lime-500">
 			<h1 className="mb-3 text-4xl font-bold">Play vs Computer</h1>
-			{notification.message && (
-				<div
-					className={`absolute left-0 right-0 top-0 p-6 text-center font-semibold ${getNotificationStyle(
-						notification
-					)}`}
-				>
-					{notification.message}
-				</div>
-			)}
 			{!gameStarted ? (
 				<div className="flex flex-col items-center">
 					<p className="mb-4 text-lg">Choose your color:</p>
