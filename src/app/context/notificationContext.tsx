@@ -10,6 +10,11 @@ interface NotificationContextProps {
 // Create a context with default value of undefined
 const NotificationContext = createContext<NotificationContextProps | undefined>(undefined);
 
+/**
+ * The NotificationProvider component provides the notification functions to its children.
+ *
+ * @returns The NotificationProvider component
+ */
 export function NotificationProvider({ children }: { children: React.ReactNode }) {
 	const [notifications, setNotifications] = useState<
 		{ id: number; type: "success" | "error" | "info"; message: string }[]

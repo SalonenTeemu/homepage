@@ -6,6 +6,11 @@ import { useState, useEffect, useRef } from "react";
 import PopupMenu from "@/app/components/common/popupMenu";
 import MenuIcon from "@/app/assets/icons/menuIcon";
 
+/**
+ * The Navbar component.
+ *
+ * @returns {JSX.Element} The Navbar component
+ */
 export default function Navbar() {
 	const pathname = usePathname();
 	const [sidebarOpen, setSidebarOpen] = useState(false);

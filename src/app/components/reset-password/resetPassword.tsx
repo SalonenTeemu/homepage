@@ -38,6 +38,12 @@ export default function ResetPassword() {
 	const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 	const toggleConfirmPasswordVisibility = () => setShowConfirmPassword((prev) => !prev);
 
+	/**
+	 * Redirects the user after a timeout.
+	 *
+	 * @param user The user object
+	 * @param router The router object
+	 */
 	const redirectAfterTimeout = (user: any, router: any) => {
 		const countdown = setInterval(() => {
 			setTimer((prev) => prev - 1);
@@ -53,6 +59,9 @@ export default function ResetPassword() {
 		}, 10000);
 	};
 
+	/**
+	 * Handles the form submission to reset the password.
+	 */
 	const handleSubmit = async () => {
 		if (token) {
 			if (!isPasswordValid(password)) {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { fetchWithAuth } from "../utils/apiUtils";
 import { User } from "@/app/types/authTypes";
@@ -27,7 +27,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const [user, setUser] = useState<User | null>(null);
 	const [loading, setLoading] = useState(true);
 
-	// Function to fetch user data
+	/**
+	 * Fetches the user data from the server and sets the user state.
+	 *
+	 * @returns The user data
+	 */
 	const fetchProfile = async () => {
 		try {
 			const res = await fetchWithAuth("/api/profile");
@@ -47,17 +51,48 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		}
 	};
 
-	useEffect(() => {
-		fetchProfile();
-	}, []);
-
-	const logout = async () => {
+	/**
+	 * Logs out the user by sending a POST request to the server and clearing the user state.
+	 */
+	const logout = useCallback(async () => {
 		await fetch("/api/logout", { method: "POST", credentials: "include" });
 		if (pathname === "/profile") {
 			router.push("/");
 		}
 		setUser(null);
-	};
+	}, [pathname, router]);
+
+	// Fetch the user profile on mount
+	useEffect(() => {
+		fetchProfile();
+	}, []);
+
+	// Refresh the access token every 14 minutes
+	useEffect(() => {
+		/**
+		 * Refreshes the access token by sending a POST request to the server.
+		 */
+		const refreshToken = async () => {
+			if (!user) return;
+
+			try {
+				const res = await fetch("/api/refresh", {
+					method: "POST",
+					credentials: "include",
+				});
+
+				if (!res.ok) {
+					console.log("Token refresh failed, logging out...");
+					logout();
+				}
+			} catch (err) {
+				console.error("Error refreshing token:", err);
+				logout();
+			}
+		};
+		const interval = setInterval(refreshToken, 0.1 * 60 * 1000); // 14 minutes
+		return () => clearInterval(interval);
+	}, [user, logout]);
 
 	return (
 		<AuthContext.Provider value={{ user, loading, logout, fetchProfile, setUser }}>{children}</AuthContext.Provider>

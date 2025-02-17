@@ -8,7 +8,13 @@ interface PopupMenuProps {
 	isOpen: boolean;
 }
 
-export default function Sidebar({ isOpen }: PopupMenuProps) {
+/**
+ * The popup menu component.
+ *
+ * @param param0 The props
+ * @returns {JSX.Element} The popup menu component
+ */
+export default function PopupMenu({ isOpen }: PopupMenuProps) {
 	const authContext = useAuth();
 	const [user, setUser] = useState(authContext?.user);
 

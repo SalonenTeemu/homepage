@@ -78,6 +78,9 @@ export default function AIChatbotApp() {
 	const [loading, setLoading] = useState(false);
 	const messageContainerRef = useRef<HTMLDivElement>(null);
 
+	/**
+	 * Handles the form submission to send a message to the AI.
+	 */
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!prompt || loading) return;

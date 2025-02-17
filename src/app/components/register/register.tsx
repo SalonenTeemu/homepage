@@ -34,6 +34,9 @@ export default function Register() {
 	const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 	const toggleConfirmPasswordVisibility = () => setShowConfirmPassword((prev) => !prev);
 
+	/**
+	 * Handles the form submission to register a new user.
+	 */
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 

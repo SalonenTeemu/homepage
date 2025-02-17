@@ -68,6 +68,9 @@ export default function Profile() {
 		return <p>Loading...</p>;
 	}
 
+	/**
+	 * Handles the form submission to update the profile.
+	 */
 	const handleSave = async () => {
 		if (username && !isUsernameValid(username)) {
 			notificationContext?.addNotification(
@@ -134,6 +137,9 @@ export default function Profile() {
 		}
 	};
 
+	/**
+	 * Handles the form submission to delete the account.
+	 */
 	const handleDeleteAccount = async () => {
 		try {
 			const res = await fetchWithAuth("/api/profile", {
@@ -158,6 +164,9 @@ export default function Profile() {
 		}
 	};
 
+	/**
+	 * Cancels the profile editing.
+	 */
 	const handleCancel = () => {
 		setIsEditing(false);
 		setEmail(user?.email || "");
@@ -167,6 +176,9 @@ export default function Profile() {
 		setIsPasswordUpdate(false);
 	};
 
+	/**
+	 * Handles the request to resend the confirmation email.
+	 */
 	const resendConfirmationEmail = async () => {
 		try {
 			const res = await fetchWithAuth("/api/resend-confirmation-email", {

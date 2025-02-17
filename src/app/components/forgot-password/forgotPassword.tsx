@@ -13,6 +13,9 @@ export default function ForgotPassword() {
 	const notificationContext = useNotification();
 	const [email, setEmail] = useState("");
 
+	/**
+	 * Handles the form submission to request a password reset.
+	 */
 	const handleSubmit = async () => {
 		if (!email || !isEmailValid(email)) {
 			notificationContext?.addNotification("error", "Invalid email.");

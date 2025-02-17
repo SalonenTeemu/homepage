@@ -23,6 +23,9 @@ export default function Login() {
 
 	const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
+	/**
+	 * Handles the form submission to login.
+	 */
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 
