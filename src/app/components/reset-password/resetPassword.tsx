@@ -18,13 +18,14 @@ export default function ResetPassword() {
 	const token = searchParams.get("token");
 	const authContext = useAuth();
 	const notificationContext = useNotification();
-	const user = authContext?.user;
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [timer, setTimer] = useState<number>(10);
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 	const [timerVisible, setTimerVisible] = useState(false);
+
+	const user = authContext?.user;
 
 	useEffect(() => {
 		if (!token) {

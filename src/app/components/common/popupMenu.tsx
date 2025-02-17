@@ -42,7 +42,7 @@ export default function Sidebar({ isOpen }: PopupMenuProps) {
 					) : (
 						<>
 							<li>
-								<p className="text-sm text-gray-400">Logged in as: {user.username}</p>
+								<p className="text-sm text-gray-400">Logged in as: {user.displayName}</p>
 							</li>
 							<li>
 								<Link href="/profile" className="hover:text-lime-500">

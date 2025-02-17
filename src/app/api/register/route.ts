@@ -8,6 +8,7 @@ import {
 	isEmailValid,
 	usernameMinLength,
 	passwordMinLength,
+	usernameMaxLength,
 } from "@/app/utils/utils";
 
 if (!process.env.GOOGLE_RECAPTCHA_SECRET_KEY) {
@@ -45,7 +46,7 @@ export async function POST(req: Request) {
 	if (!isUsernameValid(username)) {
 		return new Response(
 			JSON.stringify({
-				response: `Username must be at least ${usernameMinLength} characters, include at least one uppercase letter, and at least one number.`,
+				response: `Username must be at least ${usernameMinLength} characters and at most ${usernameMaxLength} characters.`,
 			}),
 			{ status: 400 }
 		);
@@ -78,10 +79,12 @@ export async function POST(req: Request) {
 
 		const hashedPassword = bcrypt.hashSync(password, 10);
 
-		const existingUser = await getUserByUsernameOrEmail(username, email);
+		const lowercaseUsername = username.toLowerCase();
+
+		const existingUser = await getUserByUsernameOrEmail(lowercaseUsername, email);
 
 		if (existingUser) {
-			if (existingUser.username === username) {
+			if (existingUser.username === lowercaseUsername) {
 				return new Response(
 					JSON.stringify({
 						response: "Username taken",
@@ -101,10 +104,10 @@ export async function POST(req: Request) {
 				);
 			}
 		} else {
-			saveUserToDB({ username, email, password: hashedPassword });
+			saveUserToDB({ username: lowercaseUsername, displayName: username, email, password: hashedPassword });
 
 			if (email) {
-				const user = await getUserByUsername(username);
+				const user = await getUserByUsername(lowercaseUsername);
 				if (user) {
 					const confirmationToken = await createToken(user.id, "1h");
 					if (confirmationToken) await sendConfirmationEmail(email, confirmationToken);

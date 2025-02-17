@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { Eye, EyeOff } from "lucide-react";
 import { useAuth } from "../../context/authContext";
 import { useNotification } from "@/app/context/notificationContext";
-import { isUsernameValid, isPasswordValid } from "@/app/utils/utils";
+import { isUsernameValid, isPasswordValid, isEmailValid } from "@/app/utils/utils";
 
 /**
  * The Login component.
@@ -17,7 +17,7 @@ export default function Login() {
 	const router = useRouter();
 	const authContext = useAuth();
 	const notificationContext = useNotification();
-	const [username, setUsername] = useState("");
+	const [usernameOrEmail, setUsernameOrEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [showPassword, setShowPassword] = useState(false);
 
@@ -26,8 +26,8 @@ export default function Login() {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 
-		if (!username || !isUsernameValid(username)) {
-			notificationContext?.addNotification("error", "Login failed. Invalid username.");
+		if (!usernameOrEmail || (!isUsernameValid(usernameOrEmail) && !isEmailValid(usernameOrEmail))) {
+			notificationContext?.addNotification("error", "Login failed. Invalid username or email.");
 			return;
 		}
 
@@ -43,7 +43,7 @@ export default function Login() {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					username,
+					usernameOrEmail,
 					password,
 				}),
 				credentials: "include",
@@ -69,13 +69,13 @@ export default function Login() {
 				<h2 className="mb-4 text-center text-2xl font-bold">Login</h2>
 				<form onSubmit={handleSubmit}>
 					<div className="mb-4">
-						<label className="mb-1 ml-1 block">Username</label>
+						<label className="mb-1 ml-1 block">Username or Email</label>
 						<input
 							type="text"
 							className="w-full rounded-md border border-transparent bg-slate-700 p-2 text-slate-50 hover:border-lime-500"
-							placeholder="Enter username"
-							value={username}
-							onChange={(e) => setUsername(e.target.value)}
+							placeholder="Enter username or email"
+							value={usernameOrEmail}
+							onChange={(e) => setUsernameOrEmail(e.target.value)}
 							required
 						/>
 					</div>

@@ -32,7 +32,7 @@ export async function createTokens(user: any) {
 			.setProtectedHeader({ alg: "HS256" })
 			.sign(new TextEncoder().encode(refreshSecret));
 
-		await storeRefreshToken(user.username, refreshToken);
+		await storeRefreshToken(user.id, refreshToken);
 
 		return { accessToken, refreshToken };
 	} catch (error) {

@@ -1,6 +1,13 @@
 import { cookies } from "next/headers";
 import bcrypt from "bcrypt";
-import { getUserById, getUserByUsernameOrEmail, updateUserById, deleteUserById } from "@/app/lib/services/userService";
+import {
+	getUserById,
+	getUserByUsernameOrEmail,
+	updateUserById,
+	deleteUserById,
+	getUserByEmail,
+	getUserByUsername,
+} from "@/app/lib/services/userService";
 import { isEmailValid, isPasswordValid, passwordMinLength } from "@/app/utils/utils";
 import { validateAccessToken } from "@/app/utils/apiUtils";
 import { sendConfirmationEmail } from "@/app/lib/services/emailService";
@@ -31,6 +38,7 @@ export async function GET() {
 		return new Response(
 			JSON.stringify({
 				username: user.username,
+				displayName: user.displayName,
 				email: user.email,
 				role: user.role || "user",
 				emailConfirmed: user.emailConfirmed || false,
@@ -64,6 +72,8 @@ export async function PUT(req: Request) {
 	const body = await req.json();
 	const { email, password, username } = body;
 
+	const lowercaseUsername = username.toLowerCase();
+
 	if (password && !isPasswordValid(password)) {
 		return new Response(
 			JSON.stringify({
@@ -80,14 +90,14 @@ export async function PUT(req: Request) {
 				status: 404,
 			});
 		}
-		if (email) {
+		if (email && email != undefined) {
 			if (!isEmailValid(email)) {
 				return new Response(JSON.stringify({ response: "Invalid email address" }), {
 					status: 400,
 				});
 			}
 
-			const userWithEmail = await getUserByUsernameOrEmail(email);
+			const userWithEmail = await getUserByEmail(email);
 			if (userWithEmail && userWithEmail.id !== user.id) {
 				return new Response(
 					JSON.stringify({
@@ -100,8 +110,8 @@ export async function PUT(req: Request) {
 			}
 		}
 
-		if (username !== user.username) {
-			const userWithUsername = await getUserByUsernameOrEmail(username);
+		if (lowercaseUsername !== user.username) {
+			const userWithUsername = await getUserByUsername(lowercaseUsername);
 			if (userWithUsername) {
 				return new Response(
 					JSON.stringify({
@@ -120,17 +130,19 @@ export async function PUT(req: Request) {
 		}
 
 		let updatedUser;
-		if (email && email != user.email) {
+		if (email && email != undefined && email != user.email) {
 			updatedUser = await updateUserById((await userToken).id, {
 				email,
 				hashedPassword,
 				emailConfirmed: false,
-				username,
+				username: lowercaseUsername,
+				displayName: username,
 			});
 		} else {
 			updatedUser = await updateUserById((await userToken).id, {
 				hashedPassword,
-				username,
+				username: lowercaseUsername,
+				displayName: username,
 			});
 		}
 
@@ -140,7 +152,7 @@ export async function PUT(req: Request) {
 			});
 		}
 
-		if (email != user.email) {
+		if (email && email != undefined && email != user.email) {
 			const confirmationToken = await createToken(updatedUser.id, "1h");
 			if (!confirmationToken) {
 				return new Response(JSON.stringify({ response: "Email confirmation failed" }), {
@@ -154,6 +166,7 @@ export async function PUT(req: Request) {
 		return new Response(
 			JSON.stringify({
 				username: updatedUser.username,
+				displayName: updatedUser.displayName,
 				email: updatedUser.email,
 				role: updatedUser.role || "user",
 			}),
@@ -162,6 +175,7 @@ export async function PUT(req: Request) {
 			}
 		);
 	} catch (error) {
+		console.error(error);
 		return new Response(JSON.stringify({ response: "Updating user failed" }), {
 			status: 500,
 		});

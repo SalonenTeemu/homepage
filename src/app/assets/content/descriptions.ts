@@ -70,6 +70,7 @@ export const resumeDescriptions = () => {
 			"Terraform",
 			"Kubernetes",
 			"Docker",
+			"Jenkins",
 			"Vercel",
 			"AWS",
 			"Firebase",

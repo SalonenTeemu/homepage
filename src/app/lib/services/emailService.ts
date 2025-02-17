@@ -33,13 +33,13 @@ const emailRegards = "<p>If you did not request this email, please ignore it.</p
 const emailHtmls = {
 	confirmEmail: (emailConfirmationLink: string) =>
 		`<p>Thank you for signing up to the website!</p>
-    <p>Please confirm your email address by clicking this link <a href="${emailConfirmationLink}">here</a>.</p>
+    <p>Please verify your email address with this link <a href="${emailConfirmationLink}">here</a>.</p>
     <p>Note that this link will expire in 1 hour.</p>
     ${emailRegards}`,
 	resetPassword: (resetPasswordLink: string) =>
 		`<p>Hello!</p>
 	<p>You have requested to reset your password.</p>
-	<p>You can reset your password by clicking this link <a href="${resetPasswordLink}">here</a>.</p>
+	<p>You can reset your password by with this link <a href="${resetPasswordLink}">here</a>.</p>
 	<p>Note that this link will expire in 10 minutes.</p>
 	${emailRegards}`,
 };

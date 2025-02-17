@@ -12,7 +12,7 @@ import { isEmailValid } from "@/app/utils/utils";
 export async function POST(req: Request) {
 	const { email } = await req.json();
 
-	if (!email || !isEmailValid(email)) {
+	if (!email || email == undefined || !isEmailValid(email)) {
 		return new Response(JSON.stringify({ response: "Invalid email address" }), {
 			status: 400,
 		});

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Competition, Team } from "@/app/types/projectTypes";
 
 /**
@@ -69,12 +68,12 @@ function StandingsTable({ competition, standings }: { competition: Competition; 
 		<div className="mb-8">
 			<div className="mb-1 flex items-center justify-between">
 				<div className="flex items-center">
-					<Image src={competition?.flag} alt={`${competition?.name} flag`} className="mr-4 h-12 w-12" />
+					<img src={competition?.flag} alt={`${competition?.name} flag`} className="mr-4 h-12 w-12" />
 					<h1 className="text-3xl font-bold">
 						{competition?.name} Season {competition?.season}/{parseInt(competition?.season) + 1} Standings
 					</h1>
 				</div>
-				<Image src={competition?.emblem} alt={`${competition?.name} emblem`} className="h-24 w-24" />
+				<img src={competition?.emblem} alt={`${competition?.name} emblem`} className="h-24 w-24" />
 			</div>
 
 			<table className="w-full table-auto border-collapse text-center">
@@ -97,7 +96,7 @@ function StandingsTable({ competition, standings }: { competition: Competition; 
 						<tr key={index} className="border border-slate-700 hover:bg-slate-800">
 							<td className="border border-slate-700 px-4 py-2">{team.position}</td>
 							<td className="flex items-center px-4 py-2">
-								<Image src={team.crest} alt={`${team.name} crest`} className="mr-2 h-6 w-6" />
+								<img src={team.crest} alt={`${team.name} crest`} className="mr-2 h-6 w-6" />
 								{team.name}
 							</td>
 							<td className="border border-slate-700 px-4 py-2">{team.playedGames}</td>

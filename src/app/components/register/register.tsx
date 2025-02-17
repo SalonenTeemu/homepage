@@ -12,6 +12,7 @@ import {
 	isEmailValid,
 	usernameMinLength,
 	passwordMinLength,
+	usernameMaxLength,
 } from "@/app/utils/utils";
 
 /**
@@ -42,7 +43,10 @@ export default function Register() {
 		}
 
 		if (!isUsernameValid(username)) {
-			notificationContext?.addNotification("error", `Username must be at least ${usernameMinLength} characters.`);
+			notificationContext?.addNotification(
+				"error",
+				`Username must be at least ${usernameMinLength} and at most ${usernameMaxLength} characters.`
+			);
 			return;
 		}
 
@@ -72,7 +76,7 @@ export default function Register() {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
-					username,
+					username: username,
 					email,
 					password,
 					recaptcha: captchaValue,
@@ -113,7 +117,9 @@ export default function Register() {
 						/>
 					</div>
 					<div className="mb-4">
-						<label className="mb-1 ml-1 block">Email (optional*)</label>
+						<label className="mb-1 ml-1 block">
+							Email (optional<span className="text-lime-500">*</span>)
+						</label>
 						<input
 							type="email"
 							className="w-full rounded-md border border-transparent bg-slate-700 p-2 text-slate-50 hover:border-lime-500"
@@ -121,7 +127,9 @@ export default function Register() {
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
 						/>
-						<p className="ml-1 mt-2 text-sm text-gray-400">*Email is required for password recovery.</p>
+						<p className="ml-1 mt-2 text-sm text-gray-400">
+							<span className="text-lime-500">*</span>Email is required for password recovery.
+						</p>
 					</div>
 					<div className="mb-4">
 						<label className="mb-1 ml-1 block">Password</label>

@@ -10,14 +10,16 @@ const tableName = process.env.AWS_USER_TABLE;
  *
  * @param user The user object with username, optional email, and hashed password.
  */
-export async function saveUserToDB(user: { username: string; email?: string; password: string }) {
+export async function saveUserToDB(user: { username: string; displayName: string; email?: string; password: string }) {
 	const sanitizedEmail = user.email && user.email.trim() !== "" ? user.email : undefined;
+	const sanitizedUsername = user.username.toLowerCase();
 
 	const params = {
 		TableName: tableName,
 		Item: {
 			id: uuidv4(),
-			username: user.username,
+			username: sanitizedUsername,
+			displayName: user.displayName,
 			email: sanitizedEmail,
 			emailConfirmed: false,
 			role: "user",
@@ -149,16 +151,25 @@ export async function getUserByEmail(email: string) {
  */
 export async function updateUserById(
 	id: string,
-	updates: { username?: string; email?: string; hashedPassword?: string; emailConfirmed?: boolean }
+	updates: {
+		username?: string;
+		displayName?: string;
+		email?: string;
+		hashedPassword?: string;
+		emailConfirmed?: boolean;
+	}
 ) {
 	let updateExpression = "SET ";
 	const expressionAttributeValues: Record<string, any> = {};
 	const expressionAttributeNames: Record<string, any> = {};
 
-	if (updates.username) {
-		updateExpression += "#username = :username, ";
-		expressionAttributeValues[":username"] = updates.username;
+	if (updates.username && updates.displayName) {
+		const sanitizedUsername = updates.username.toLowerCase();
+		updateExpression += "#username = :username, #displayName = :displayName, ";
+		expressionAttributeValues[":username"] = sanitizedUsername;
+		expressionAttributeValues[":displayName"] = updates.displayName;
 		expressionAttributeNames["#username"] = "username";
+		expressionAttributeNames["#displayName"] = "displayName";
 	}
 
 	if (updates.email) {

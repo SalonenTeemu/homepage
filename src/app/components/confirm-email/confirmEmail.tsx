@@ -14,10 +14,17 @@ export default function ConfirmEmail() {
 	const searchParams = useSearchParams();
 	const token = searchParams.get("token");
 	const authContext = useAuth();
-	const user = authContext?.user;
 	const [status, setStatus] = useState<string>("Validating...");
 	const [timer, setTimer] = useState<number>(10);
 
+	const user = authContext?.user;
+
+	/**
+	 * Redirects the user after a timeout.
+	 *
+	 * @param user The user object
+	 * @param router The router object
+	 */
 	const redirectAfterTimeout = (user: any, router: any) => {
 		const countdown = setInterval(() => {
 			setTimer((prev) => prev - 1);
@@ -30,7 +37,7 @@ export default function ConfirmEmail() {
 			} else {
 				router.push("/login");
 			}
-		}, 10000);
+		}, 10000); // Redirect after 10 seconds
 	};
 
 	useEffect(() => {
@@ -68,6 +75,11 @@ export default function ConfirmEmail() {
 		}
 	}, [token]);
 
+	/**
+	 * Gets the status class.
+	 *
+	 * @returns The status class
+	 */
 	const getStatusClass = () => {
 		if (status.includes("successfully")) {
 			return "text-green-500";

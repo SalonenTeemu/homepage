@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import { Competition, Match } from "@/app/types/projectTypes";
 import { formatMatchDate } from "@/app/utils/premierLeagueAppUtils";
 
@@ -47,12 +46,12 @@ export default function MatchesView({ competition, matches }: { competition: Com
 		<div className="mb-8">
 			<div className="mb-1 flex items-center justify-between">
 				<div className="flex items-center">
-					<Image src={competition?.flag} alt={`${competition?.name} flag`} className="mr-4 h-12 w-12" />
+					<img src={competition?.flag} alt={`${competition?.name} flag`} className="mr-4 h-12 w-12" />
 					<h1 className="text-3xl font-bold">
 						{competition?.name} Season {competition?.season}/{parseInt(competition?.season) + 1} Fixtures
 					</h1>
 				</div>
-				<Image src={competition?.emblem} alt={`${competition?.name} emblem`} className="h-24 w-24" />
+				<img src={competition?.emblem} alt={`${competition?.name} emblem`} className="h-24 w-24" />
 			</div>
 			<div className="mb-4 flex justify-center">
 				<button
@@ -99,7 +98,7 @@ export default function MatchesView({ competition, matches }: { competition: Com
 									<td className="px-2 py-1">
 										<div className="flex items-center justify-end">
 											<span>{match.homeTeam.name}</span>
-											<Image
+											<img
 												src={match.homeTeam.crest}
 												alt={`${match.homeTeam.name} crest`}
 												className="ml-2 h-6 w-6"
@@ -111,7 +110,7 @@ export default function MatchesView({ competition, matches }: { competition: Com
 									</td>
 									<td className="px-2 py-1">
 										<div className="flex items-center justify-start">
-											<Image
+											<img
 												src={match.awayTeam.crest}
 												alt={`${match.awayTeam.name} crest`}
 												className="mr-2 h-6 w-6"

@@ -9,6 +9,7 @@ import {
 	isEmailValid,
 	isUsernameValid,
 	usernameMinLength,
+	usernameMaxLength,
 } from "@/app/utils/utils";
 import { useAuth } from "../../context/authContext";
 import { useNotification } from "@/app/context/notificationContext";
@@ -34,14 +35,13 @@ export default function Profile() {
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
 	const user = authContext?.user;
-	const fetchProfile = authContext?.fetchProfile;
 
 	const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 	const toggleConfirmPasswordVisibility = () => setShowConfirmPassword((prev) => !prev);
 
 	useEffect(() => {
 		if (user) {
-			setUsername(user.username || "");
+			setUsername(user.displayName || "");
 			setEmail(user.email || "");
 			setIsEditing(false);
 			setIsPasswordUpdate(false);
@@ -52,7 +52,7 @@ export default function Profile() {
 
 	useEffect(() => {
 		if (!isEditing) {
-			setUsername(user?.username || "");
+			setUsername(user?.displayName || "");
 			setEmail(user?.email || "");
 			setPassword("");
 			setConfirmPassword("");
@@ -70,7 +70,10 @@ export default function Profile() {
 
 	const handleSave = async () => {
 		if (username && !isUsernameValid(username)) {
-			notificationContext?.addNotification("error", `Username must be at least ${usernameMinLength} characters.`);
+			notificationContext?.addNotification(
+				"error",
+				`Username must be at least ${usernameMinLength} and at most ${usernameMaxLength} characters.`
+			);
 			return;
 		}
 		if (email && !isEmailValid(email)) {
@@ -93,7 +96,11 @@ export default function Profile() {
 
 		try {
 			let emailToAdd = email;
-			if (user?.email && !email) emailToAdd = user.email;
+			if (user?.email && !email) {
+				emailToAdd = user.email;
+			} else {
+				emailToAdd = email;
+			}
 			const res = await fetchWithAuth("/api/profile", {
 				method: "PUT",
 				headers: { "Content-Type": "application/json" },
@@ -111,13 +118,13 @@ export default function Profile() {
 					notificationContext?.addNotification("error", `Profile update failed. ${data.response}.`);
 					return;
 				}
+				authContext?.setUser(data);
 				setEmail(data.email);
-				setUsername(data.username);
+				setUsername(data.displayName);
 				setPassword("");
 				setConfirmPassword("");
 				setIsEditing(false);
 
-				await fetchProfile?.();
 				notificationContext?.addNotification("success", "Profile updated successfully.");
 			} else {
 				router.push("/login");
@@ -154,7 +161,7 @@ export default function Profile() {
 	const handleCancel = () => {
 		setIsEditing(false);
 		setEmail(user?.email || "");
-		setUsername(user?.username || "");
+		setUsername(user?.displayName || "");
 		setPassword("");
 		setConfirmPassword("");
 		setIsPasswordUpdate(false);
@@ -189,7 +196,7 @@ export default function Profile() {
 				{!isEditing ? (
 					<div>
 						<p className="mb-4">
-							<span className="font-bold">Username:</span> {user.username}
+							<span className="font-bold">Username:</span> {user.displayName}
 						</p>
 						<p className="mb-4">
 							<span className="font-bold">Email:</span> {user.email || "Not provided"}
@@ -197,8 +204,8 @@ export default function Profile() {
 						{user.email && !user.emailConfirmed && (
 							<>
 								<p className="mb-4 text-sm text-red-500">
-									Your email is not confirmed. Confirm it with the button below to ensure account
-									recovery features.
+									Your email is not confirmed. Confirm it with the button below to enable password
+									recovery.
 								</p>
 								<button
 									className="mb-4 w-full rounded-md bg-lime-500 py-2 text-slate-950 hover:bg-lime-600"
@@ -234,7 +241,9 @@ export default function Profile() {
 						</div>
 
 						<div className="mb-4">
-							<label className="mb-1 ml-1 block">New Email</label>
+							<label className="mb-1 ml-1 block">
+								New Email<span className="text-lime-500">*</span>
+							</label>
 							<input
 								type="email"
 								className="w-full rounded-md border border-transparent bg-slate-700 p-2 text-slate-50 hover:border-lime-500"
@@ -242,7 +251,9 @@ export default function Profile() {
 								placeholder="Enter new email"
 								onChange={(e) => setEmail(e.target.value)}
 							/>
-							<p className="ml-1 mt-2 text-sm text-gray-400">*Email is required for password recovery.</p>
+							<p className="ml-1 mt-2 text-sm text-gray-400">
+								<span className="text-lime-500">*</span>Email is required for password recovery.
+							</p>
 						</div>
 
 						<div className="mb-4 flex items-center">

@@ -10,6 +10,7 @@ interface AuthContextProps {
 	loading: boolean;
 	logout: () => void;
 	fetchProfile: () => any;
+	setUser: (user: User | null) => void;
 }
 
 // Create a context with default value of undefined
@@ -58,7 +59,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 		setUser(null);
 	};
 
-	return <AuthContext.Provider value={{ user, loading, logout, fetchProfile }}>{children}</AuthContext.Provider>;
+	return (
+		<AuthContext.Provider value={{ user, loading, logout, fetchProfile, setUser }}>{children}</AuthContext.Provider>
+	);
 }
 
 /**

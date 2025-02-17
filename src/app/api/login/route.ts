@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import { createHeaderCookies, createTokens } from "../../lib/services/authService";
-import { getUserByUsername } from "../../lib/services/userService";
-import { isUsernameValid, isPasswordValid } from "@/app/utils/utils";
+import { getUserByUsername, getUserByEmail } from "../../lib/services/userService";
+import { isUsernameValid, isPasswordValid, isEmailValid } from "@/app/utils/utils";
 
 /**
  * Responds to a POST request to login a user.
@@ -11,13 +11,15 @@ import { isUsernameValid, isPasswordValid } from "@/app/utils/utils";
  */
 export async function POST(req: Request) {
 	const body = await req.json();
-	const { username, password } = body;
 
-	if (!username || !isUsernameValid(username)) {
-		return new Response(JSON.stringify({ response: "Invalid username" }), {
+	const { usernameOrEmail, password } = body;
+
+	if (!usernameOrEmail || (!isUsernameValid(usernameOrEmail) && !isEmailValid(usernameOrEmail))) {
+		return new Response(JSON.stringify({ response: "Invalid username or email" }), {
 			status: 400,
 		});
 	}
+
 	if (!password || !isPasswordValid(password)) {
 		return new Response(JSON.stringify({ response: "Invalid password" }), {
 			status: 400,
@@ -25,12 +27,20 @@ export async function POST(req: Request) {
 	}
 
 	try {
-		const user = await getUserByUsername(username);
+		let user;
+		if (isEmailValid(usernameOrEmail)) {
+			user = await getUserByEmail(usernameOrEmail);
+		} else {
+			const lowercaseUsername = usernameOrEmail.toLowerCase();
+			user = await getUserByUsername(lowercaseUsername);
+		}
+
 		if (!user) {
-			return new Response(JSON.stringify({ response: "Invalid username or password" }), {
+			return new Response(JSON.stringify({ response: "Invalid username or email" }), {
 				status: 400,
 			});
 		}
+
 		const isPasswordValid = await bcrypt.compare(password, user.password);
 		if (!isPasswordValid) {
 			return new Response(JSON.stringify({ response: "Invalid password" }), {
