@@ -1,14 +1,29 @@
 import { verifyAccessToken } from "@/app/lib/services/authService";
 
 /**
- * Helper function to fetch again if access token is expired.
+ * Helper function to fetch again if access token is expired and to handle rate limit exceedance.
  *
  * @param url The URL to fetch
  * @param options The fetch options
+ * @param logout The logout function
+ * @param addNotification The notification function
+ * @param router The router object
  * @returns The fetch response
  */
-export async function fetchWithAuth(url: string, options = {}) {
+export async function fetchWithAuth(
+	url: string,
+	options = {},
+	logout: () => void,
+	addNotification: (type: "success" | "error" | "info", message: string) => void,
+	router: any
+) {
 	let res = await fetch(url, { ...options, credentials: "include" });
+
+	// Handle rate limit exceedance
+	if (res.status === 429) {
+		if (addNotification) addNotification("info", "Too many requests, please try again later.");
+		return null;
+	}
 
 	// If request fails due to an expired access token (401)
 	if (res.status === 401 || res.status === 403) {
@@ -21,14 +36,16 @@ export async function fetchWithAuth(url: string, options = {}) {
 		});
 
 		if (!refreshRes.ok) {
-			console.log("Refresh token expired or invalid.");
-			return null; // Refresh token is also invalid → user must log in again
+			if (addNotification) addNotification("error", "Session expired. Please log in again.");
+			logout();
+			router.push("/login");
+			return null;
 		}
 
 		console.log("Access token refreshed! Retrying original request...");
 
 		// Retry the original request with the new token
-		res = await fetch(url, { ...options, credentials: "include" });
+		return await fetch(url, { ...options, credentials: "include" });
 	}
 
 	return res;

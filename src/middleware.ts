@@ -1,12 +1,45 @@
 import { NextRequest, NextResponse } from "next/server";
+import { LRUCache } from "lru-cache";
 import { jwtVerify } from "jose";
 
 const jwtSecret = process.env.JWT_SECRET;
+
+// Define rate limiting settings
+const rateLimitOptions = {
+	max: 200, // Max requests per IP
+	ttl: 60 * 10 * 1000, // 10 minutes
+};
+
+const rateLimiter = new LRUCache<string, number>(rateLimitOptions);
+
+/**
+ * Check if the request is within the rate limit for the given IP address.
+ *
+ * @param ip The IP address of the client
+ * @returns The rate limit status, true if the request is allowed, false if the request is blocked
+ */
+export function checkRateLimit(ip: string): boolean {
+	const count = rateLimiter.get(ip) || 0;
+
+	if (count >= rateLimitOptions.max) {
+		return false; // Block request
+	}
+
+	rateLimiter.set(ip, count + 1, { ttl: rateLimitOptions.ttl });
+	return true; // Allow request
+}
 
 /**
  * Middleware for route protection and role-based access control.
  */
 export async function middleware(req: NextRequest) {
+	const ip = req.headers.get("x-forwarded-for") || "unknown";
+
+	if (req.nextUrl.pathname.startsWith("/api") && req.nextUrl.pathname !== "/api/logout") {
+		if (!checkRateLimit(ip)) {
+			return NextResponse.json({ response: "Too many requests, please try again later" }, { status: 429 });
+		}
+	}
 	if (
 		req.nextUrl.pathname.startsWith("/login") ||
 		req.nextUrl.pathname.startsWith("/register") ||

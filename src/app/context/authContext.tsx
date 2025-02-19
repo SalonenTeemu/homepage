@@ -2,10 +2,11 @@
 
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { useNotification } from "@/app/context/notificationContext";
 import { fetchWithAuth } from "../utils/apiUtils";
 import { User } from "@/app/types/authTypes";
 
-interface AuthContextProps {
+export interface AuthContextProps {
 	user: User | null;
 	loading: boolean;
 	logout: () => void;
@@ -22,6 +23,8 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
  * @returns The AuthProvider component
  */
 export function AuthProvider({ children }: { children: React.ReactNode }) {
+	const notificationContext = useNotification();
+	const addNotification = notificationContext ? notificationContext.addNotification : () => {};
 	const router = useRouter();
 	const pathname = usePathname();
 	const [user, setUser] = useState<User | null>(null);
@@ -34,7 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	 */
 	const fetchProfile = async () => {
 		try {
-			const res = await fetchWithAuth("/api/profile");
+			const res = await fetchWithAuth("/api/profile", {}, logout, addNotification, router);
 
 			if (!res) {
 				setUser(null);
@@ -90,7 +93,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 				logout();
 			}
 		};
-		const interval = setInterval(refreshToken, 0.1 * 60 * 1000); // 14 minutes
+		const interval = setInterval(refreshToken, 14 * 60 * 1000); // 14 minutes
 		return () => clearInterval(interval);
 	}, [user, logout]);
 

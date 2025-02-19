@@ -60,11 +60,7 @@ export default function Profile() {
 		}
 	}, [isEditing, user]);
 
-	if (!authContext) {
-		return <p>Loading...</p>;
-	}
-
-	if (!user) {
+	if (!authContext || !user) {
 		return <p>Loading...</p>;
 	}
 
@@ -104,15 +100,21 @@ export default function Profile() {
 			} else {
 				emailToAdd = email;
 			}
-			const res = await fetchWithAuth("/api/profile", {
-				method: "PUT",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					email: emailToAdd,
-					password: isPasswordUpdate ? password : undefined,
-					username,
-				}),
-			});
+			const res = await fetchWithAuth(
+				"/api/profile",
+				{
+					method: "PUT",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({
+						email: emailToAdd,
+						password: isPasswordUpdate ? password : undefined,
+						username,
+					}),
+				},
+				authContext?.logout,
+				notificationContext?.addNotification!,
+				router
+			);
 
 			if (res) {
 				const data = await res.json();
@@ -129,8 +131,6 @@ export default function Profile() {
 				setIsEditing(false);
 
 				notificationContext?.addNotification("success", "Profile updated successfully.");
-			} else {
-				router.push("/login");
 			}
 		} catch (err) {
 			notificationContext?.addNotification("error", "Error updating profile. Please try again.");
@@ -142,22 +142,24 @@ export default function Profile() {
 	 */
 	const handleDeleteAccount = async () => {
 		try {
-			const res = await fetchWithAuth("/api/profile", {
-				method: "DELETE",
-			});
+			const res = await fetchWithAuth(
+				"/api/profile",
+				{
+					method: "DELETE",
+				},
+				authContext?.logout,
+				notificationContext?.addNotification!,
+				router
+			);
 
 			if (res) {
 				if (res.ok) {
 					authContext?.logout();
 					notificationContext?.addNotification("success", "Account deleted successfully.");
-					router.push("/login");
 				} else {
 					const data = await res.json();
 					notificationContext?.addNotification("error", `Error deleting profile. ${data.response}.`);
 				}
-			} else {
-				notificationContext?.addNotification("error", "Error deleting profile. Please log in again.");
-				router.push("/login");
 			}
 		} catch (err) {
 			notificationContext?.addNotification("error", "Error deleting profile. Please try again.");
@@ -181,9 +183,15 @@ export default function Profile() {
 	 */
 	const resendConfirmationEmail = async () => {
 		try {
-			const res = await fetchWithAuth("/api/resend-confirmation-email", {
-				method: "POST",
-			});
+			const res = await fetchWithAuth(
+				"/api/resend-confirmation-email",
+				{
+					method: "POST",
+				},
+				authContext?.logout,
+				notificationContext?.addNotification!,
+				router
+			);
 
 			if (res) {
 				if (res.ok) {
@@ -192,9 +200,6 @@ export default function Profile() {
 					const data = await res.json();
 					notificationContext?.addNotification("error", `Error sending confirmation email. ${data.response}`);
 				}
-			} else {
-				notificationContext?.addNotification("error", "Error sending confirmation email. Please log in again.");
-				router.push("/login");
 			}
 		} catch (err) {
 			notificationContext?.addNotification("error", "Error sending confirmation email. Please try again.");
