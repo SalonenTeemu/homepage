@@ -60,7 +60,6 @@ export default function ConfirmEmail() {
 						redirectAfterTimeout(user, router);
 					}
 				} catch (err) {
-					console.log("Error:", err);
 					setStatus(
 						"An error occurred while confirming your email. You can request a new confirmation email from the profile page."
 					);

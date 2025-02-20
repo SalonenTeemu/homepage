@@ -61,7 +61,7 @@ export default function Login() {
 			await authContext?.fetchProfile();
 			notificationContext?.addNotification("success", "Welcome back!");
 			router.push("/profile");
-		} catch (e) {
+		} catch (err) {
 			notificationContext?.addNotification("error", "Login failed. Please try again.");
 		}
 	};

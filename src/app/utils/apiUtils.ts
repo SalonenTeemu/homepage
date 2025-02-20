@@ -27,8 +27,6 @@ export async function fetchWithAuth(
 
 	// If request fails due to an expired access token (401)
 	if (res.status === 401 || res.status === 403) {
-		console.log("Access token expired, attempting to refresh...");
-
 		// Try to refresh the token
 		const refreshRes = await fetch("/api/refresh", {
 			method: "POST",
@@ -41,8 +39,6 @@ export async function fetchWithAuth(
 			router.push("/login");
 			return null;
 		}
-
-		console.log("Access token refreshed! Retrying original request...");
 
 		// Retry the original request with the new token
 		return await fetch(url, { ...options, credentials: "include" });

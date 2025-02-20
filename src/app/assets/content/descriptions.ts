@@ -76,7 +76,7 @@ export const resumeDescriptions = () => {
 			"Firebase",
 			"Databricks",
 		],
-		hobbies: ["Sports", "Videogames", "Running"],
+		hobbies: ["Sports", "Games", "Running"],
 	};
 };
 

@@ -41,14 +41,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 			if (!res) {
 				setUser(null);
-				setLoading(false);
 				return;
 			}
 			const data = await res.json();
 
 			setUser(data);
 		} catch (err) {
-			console.error("Error fetching profile:", err);
+			setUser(null);
 		} finally {
 			setLoading(false);
 		}
@@ -85,11 +84,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 				});
 
 				if (!res.ok) {
-					console.log("Token refresh failed, logging out...");
 					logout();
 				}
 			} catch (err) {
-				console.error("Error refreshing token:", err);
 				logout();
 			}
 		};
@@ -109,8 +106,5 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
  */
 export function useAuth() {
 	const context = useContext(AuthContext);
-	if (!context) {
-		console.log("useAuth must be used within an AuthProvider");
-	}
 	return context;
 }

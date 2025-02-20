@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import logger from "../logger";
 
 /**
  * Nodemailer transporter object for sending emails.
@@ -52,12 +53,15 @@ const emailHtmls = {
  */
 export async function sendConfirmationEmail(email: string, token: string) {
 	const emailConfirmationLink = `${process.env.BASE_URL}/confirm-email?token=${token}`;
-
 	const options = mailOptions(email, "Email confirmation", emailHtmls.confirmEmail(emailConfirmationLink));
-
-	await transporter.sendMail(options).finally(() => {
-		console.log("Confirmation email sent to", email);
-	});
+	await transporter
+		.sendMail(options)
+		.then(() => {
+			logger.info(`Email service: Confirmation email sent to ${email}`);
+		})
+		.catch((err) => {
+			logger.error(`Email service: Error sending confirmation email to ${email}: ${err}`);
+		});
 }
 
 /**
@@ -71,7 +75,12 @@ export async function sendResetPasswordEmail(email: string, token: string) {
 
 	const options = mailOptions(email, "Password reset", emailHtmls.resetPassword(resetPasswordLink));
 
-	await transporter.sendMail(options).finally(() => {
-		console.log("Password reset email sent to", email);
-	});
+	await transporter
+		.sendMail(options)
+		.then(() => {
+			logger.info(`Email service: Reset password email sent to ${email}`);
+		})
+		.catch((err) => {
+			logger.error(`Email service: Error sending reset password email to ${email}: ${err}`);
+		});
 }

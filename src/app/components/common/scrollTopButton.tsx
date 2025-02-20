@@ -11,6 +11,9 @@ import UpArrow from "@/app/assets/icons/upArrow";
 export default function ScrollTopButton() {
 	const [visible, setVisible] = useState(false);
 
+	/**
+	 * Toggles the visibility of the scroll top button based on the scroll position.
+	 */
 	const toggleVisible = () => {
 		const amountScrolled = document.documentElement.scrollTop;
 		if (amountScrolled > 500) {
@@ -20,6 +23,9 @@ export default function ScrollTopButton() {
 		}
 	};
 
+	/**
+	 * Scrolls to the top of the page when the button is clicked.
+	 */
 	const scrollTop = () => {
 		if (typeof window !== "undefined") {
 			window.scrollTo({

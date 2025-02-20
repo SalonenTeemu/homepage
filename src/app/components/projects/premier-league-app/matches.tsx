@@ -1,5 +1,6 @@
 import MatchesView from "@/app/components/projects/premier-league-app/matchesView";
 import { Competition, Match } from "@/app/types/projectTypes";
+import logger from "@/app/lib/logger";
 
 /**
  * Fetches the match data from external football-data.org API.
@@ -13,6 +14,7 @@ async function getMatchData(): Promise<{
 }> {
 	const apiKey = process.env.FOOTBALL_DATA_API_KEY;
 	if (!apiKey) {
+		logger.error("FOOTBALL_DATA_API_KEY is not defined.");
 		throw new Error("API key is not defined.");
 	}
 
@@ -23,7 +25,8 @@ async function getMatchData(): Promise<{
 		},
 	});
 	if (!res.ok) {
-		throw new Error("Failed to fetch match data");
+		logger.error("Failed to fetch match data from football-data.org API");
+		throw new Error("Failed to retrieve match data");
 	}
 
 	const data = await res.json();
@@ -52,10 +55,10 @@ async function getMatchData(): Promise<{
 			currentMatchday: data.matches[0].season.currentMatchday,
 		};
 
-		console.log("Fetched match data successfully");
 		return { competition, matches };
 	} else {
-		throw new Error("Invalid data format");
+		logger.error("Failed to parse match data from football-data.org API");
+		throw new Error("Failed to retrieve match data");
 	}
 }
 
@@ -73,8 +76,7 @@ export default async function Matches() {
 		matches = compAndMatchesData.matches;
 		competition = compAndMatchesData.competition;
 	} catch (err: any) {
-		console.error("Error fetching data:", err);
-		error = err.message || "Failed to fetch match data";
+		error = err.message || "Failed to retrieve match data";
 	}
 
 	if (error) {

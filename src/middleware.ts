@@ -1,8 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { LRUCache } from "lru-cache";
-import { jwtVerify } from "jose";
+import { verifyAccessToken } from "./app/lib/services/authService";
 
-const jwtSecret = process.env.JWT_SECRET;
+// Request object with user property
+export interface ExtendedRequest extends NextRequest {
+	user?: any;
+}
 
 // Define rate limiting settings
 const rateLimitOptions = {
@@ -32,7 +35,7 @@ export function checkRateLimit(ip: string): boolean {
 /**
  * Middleware for route protection and role-based access control.
  */
-export async function middleware(req: NextRequest) {
+export async function middleware(req: ExtendedRequest) {
 	const ip = req.headers.get("x-forwarded-for") || "unknown";
 
 	if (req.nextUrl.pathname.startsWith("/api") && req.nextUrl.pathname !== "/api/logout") {
@@ -47,17 +50,26 @@ export async function middleware(req: NextRequest) {
 		req.nextUrl.pathname.startsWith("/admin")
 	) {
 		const token = req.cookies.get("access_token")?.value;
-		if (!token && (req.nextUrl.pathname.startsWith("/login") || req.nextUrl.pathname.startsWith("/register"))) {
-			return NextResponse.next();
-		}
-		// If no token, redirect to login page for protected routes
-		if (!token && (req.nextUrl.pathname.startsWith("/admin") || req.nextUrl.pathname.startsWith("/profile"))) {
-			return NextResponse.rewrite(new URL("/login", req.url));
-		}
-		// If token exists, verify and check user role
-		if (token) {
+		if (!token) {
+			req.user = { id: null, role: "guest" };
+			if (req.nextUrl.pathname.startsWith("/login") || req.nextUrl.pathname.startsWith("/register")) {
+				return NextResponse.next();
+			}
+			// If no token, redirect to login page for protected routes
+			if (req.nextUrl.pathname.startsWith("/admin") || req.nextUrl.pathname.startsWith("/profile")) {
+				return NextResponse.rewrite(new URL("/login", req.url));
+			}
+		} else {
+			// If token exists, verify and check user role
 			try {
-				const { payload } = await jwtVerify(token, new TextEncoder().encode(jwtSecret));
+				const payload = await verifyAccessToken(token);
+
+				if (!payload) {
+					req.user = { id: null, role: "guest" };
+					return NextResponse.rewrite(new URL("/", req.url));
+				}
+
+				req.user = { id: payload.id, role: payload.role };
 
 				// If accessing admin page and user is not admin, redirect
 				if (req.nextUrl.pathname.startsWith("/admin") && payload.role !== "admin") {
@@ -72,8 +84,8 @@ export async function middleware(req: NextRequest) {
 				}
 
 				return NextResponse.next(); // Allow access if role matches
-			} catch (error) {
-				console.error(error);
+			} catch (err) {
+				req.user = { id: null, role: "guest" };
 				return NextResponse.rewrite(new URL("/", req.url));
 			}
 		}

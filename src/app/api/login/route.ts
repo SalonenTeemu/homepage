@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import { createHeaderCookies, createTokens } from "../../lib/services/authService";
 import { getUserByUsername, getUserByEmail } from "../../lib/services/userService";
 import { isUsernameValid, isPasswordValid, isEmailValid } from "@/app/utils/utils";
+import logger from "@/app/lib/logger";
 
 /**
  * Responds to a POST request to login a user.
@@ -15,12 +16,14 @@ export async function POST(req: Request) {
 	const { usernameOrEmail, password } = body;
 
 	if (!usernameOrEmail || (!isUsernameValid(usernameOrEmail) && !isEmailValid(usernameOrEmail))) {
+		logger.warn(`Login: Invalid username or email: ${usernameOrEmail}`);
 		return new Response(JSON.stringify({ response: "Invalid username or email" }), {
 			status: 400,
 		});
 	}
 
 	if (!password || !isPasswordValid(password)) {
+		logger.warn(`Login: Invalid password for user with username or email: ${usernameOrEmail}`);
 		return new Response(JSON.stringify({ response: "Invalid password" }), {
 			status: 400,
 		});
@@ -36,6 +39,7 @@ export async function POST(req: Request) {
 		}
 
 		if (!user) {
+			logger.warn(`Login: No user found with username or email: ${usernameOrEmail}`);
 			return new Response(JSON.stringify({ response: "Invalid username or email" }), {
 				status: 400,
 			});
@@ -43,6 +47,7 @@ export async function POST(req: Request) {
 
 		const isPasswordValid = await bcrypt.compare(password, user.password);
 		if (!isPasswordValid) {
+			logger.warn(`Login: Invalid password for user with username or email: ${usernameOrEmail}`);
 			return new Response(JSON.stringify({ response: "Invalid password" }), {
 				status: 400,
 			});
@@ -50,6 +55,7 @@ export async function POST(req: Request) {
 
 		const tokens = await createTokens(user);
 		if (!tokens) {
+			logger.error("Login: Failed creating tokens");
 			return new Response(JSON.stringify({ response: "Token creation failed" }), {
 				status: 500,
 			});
@@ -57,11 +63,13 @@ export async function POST(req: Request) {
 		const { accessToken, refreshToken } = tokens;
 		const headers = createHeaderCookies(accessToken, refreshToken);
 
+		logger.info(`Login: User with username or email ${usernameOrEmail} logged in successfully`);
 		return new Response(JSON.stringify({ response: "Login successful" }), {
 			status: 200,
 			headers: headers,
 		});
 	} catch (error) {
+		logger.error("Login: Error logging in user:", error);
 		return new Response(JSON.stringify({ response: "Login failed" }), {
 			status: 500,
 		});

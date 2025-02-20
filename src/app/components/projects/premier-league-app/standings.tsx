@@ -1,4 +1,5 @@
 import { Competition, Team } from "@/app/types/projectTypes";
+import logger from "@/app/lib/logger";
 
 /**
  * Fetches the competition and standings data from external football-data.org API.
@@ -12,6 +13,7 @@ async function getCompetitionAndStandingsData(): Promise<{
 }> {
 	const apiKey = process.env.FOOTBALL_DATA_API_KEY;
 	if (!apiKey) {
+		logger.error("FOOTBALL_DATA_API_KEY is not defined.");
 		throw new Error("API key is not defined.");
 	}
 
@@ -22,7 +24,8 @@ async function getCompetitionAndStandingsData(): Promise<{
 		},
 	});
 	if (!res.ok) {
-		throw new Error("Failed to fetch standings data");
+		logger.error("Failed to fetch standings data from football-data.org API");
+		throw new Error("Failed to retrieve standings data");
 	}
 
 	const data = await res.json();
@@ -50,10 +53,10 @@ async function getCompetitionAndStandingsData(): Promise<{
 			currentMatchday: data.season.currentMatchday,
 		};
 
-		console.log("Fetched standings data successfully");
 		return { competition, standings };
 	} else {
-		throw new Error("Invalid data format");
+		logger.error("Failed to parse standings data from football-data.org API");
+		throw new Error("Failed to retrieve standings data");
 	}
 }
 
@@ -129,8 +132,7 @@ export default async function Standings() {
 		competition = compAndStandingsData.competition;
 		standings = compAndStandingsData.standings;
 	} catch (err: any) {
-		console.error("Error fetching data:", err);
-		error = err.message || "Failed to fetch standings data";
+		error = err.message || "Failed to retrieve standings data";
 	}
 
 	if (error) {

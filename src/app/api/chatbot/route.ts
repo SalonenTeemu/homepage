@@ -1,6 +1,8 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import logger from "@/app/lib/logger";
 
 if (!process.env.GENERATIVE_AI_API_KEY) {
+	logger.error("GENERATIVE_AI_API_KEY is not defined");
 	throw new Error("GENERATIVE_AI_API_KEY is not defined");
 }
 const genAI = new GoogleGenerativeAI(process.env.GENERATIVE_AI_API_KEY);
@@ -17,16 +19,18 @@ export async function POST(req: Request) {
 	const prompt = body?.prompt;
 
 	if (!prompt) {
+		logger.warn("Chatbot: Prompt is required for generating AI content");
 		return new Response("Prompt is required", { status: 400 });
 	}
 
 	try {
 		const result = await model.generateContent(prompt);
+		logger.info("Chatbot: Generated AI response successfully");
 		return new Response(JSON.stringify({ response: result.response.text() }), {
 			status: 200,
 		});
 	} catch (error) {
-		console.error("Error generating AI response:", error);
+		logger.error("Chatbot: Error generating AI response:", error);
 		return new Response("Error generating content", { status: 500 });
 	}
 }

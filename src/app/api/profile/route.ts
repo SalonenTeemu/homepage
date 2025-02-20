@@ -11,6 +11,7 @@ import { isEmailValid, isPasswordValid, passwordMinLength } from "@/app/utils/ut
 import { validateAccessToken } from "@/app/utils/apiUtils";
 import { sendConfirmationEmail } from "@/app/lib/services/emailService";
 import { createToken } from "@/app/lib/services/authService";
+import logger from "@/app/lib/logger";
 
 /**
  * Responds to a GET request to retrieve user's data.
@@ -23,17 +24,20 @@ export async function GET() {
 	const { status, userToken, error } = await validateAccessToken(cookieStore);
 
 	if (status !== 200) {
+		logger.warn(`Profile fetch: ${error}`);
 		return new Response(JSON.stringify({ response: error }), { status });
 	}
 
 	try {
-		const user = await getUserById((await userToken).id);
+		const user = await getUserById(userToken.id);
 
 		if (!user) {
+			logger.warn(`Profile fetch: User with ID ${userToken.id} not found`);
 			return new Response(JSON.stringify({ response: "User not found" }), {
 				status: 404,
 			});
 		}
+		logger.info(`Profile fetch: User data retrieved for user with ID ${user.id}`);
 		return new Response(
 			JSON.stringify({
 				username: user.username,
@@ -47,6 +51,7 @@ export async function GET() {
 			}
 		);
 	} catch (error) {
+		logger.error(`Profile fetch: ${error}`);
 		return new Response(JSON.stringify({ response: "User data retrieval failed" }), {
 			status: 500,
 		});
@@ -65,6 +70,7 @@ export async function PUT(req: Request) {
 	const { status, userToken, error } = await validateAccessToken(cookieStore);
 
 	if (status !== 200) {
+		logger.warn(`Profile update: ${error}`);
 		return new Response(JSON.stringify({ response: error }), { status });
 	}
 
@@ -74,6 +80,7 @@ export async function PUT(req: Request) {
 	const lowercaseUsername = username.toLowerCase();
 
 	if (password && !isPasswordValid(password)) {
+		logger.warn(`Profile update: Invalid password for user with ID ${userToken.id}`);
 		return new Response(
 			JSON.stringify({
 				response: `Password must be at least ${passwordMinLength} characters, include at least one uppercase letter, and at least one number.`,
@@ -83,14 +90,16 @@ export async function PUT(req: Request) {
 	}
 
 	try {
-		const user = await getUserById((await userToken).id);
+		const user = await getUserById(userToken.id);
 		if (!user) {
+			logger.warn(`Profile update: User with ID ${userToken.id} not found`);
 			return new Response(JSON.stringify({ response: "User not found" }), {
 				status: 404,
 			});
 		}
 		if (email && email != undefined) {
 			if (!isEmailValid(email)) {
+				logger.warn(`Profile update: Invalid email address for user with ID ${user.id}`);
 				return new Response(JSON.stringify({ response: "Invalid email address" }), {
 					status: 400,
 				});
@@ -98,6 +107,7 @@ export async function PUT(req: Request) {
 
 			const userWithEmail = await getUserByEmail(email);
 			if (userWithEmail && userWithEmail.id !== user.id) {
+				logger.warn(`Profile update: Email address already taken for user with ID ${user.id}`);
 				return new Response(
 					JSON.stringify({
 						response: "Email taken",
@@ -112,6 +122,7 @@ export async function PUT(req: Request) {
 		if (lowercaseUsername !== user.username) {
 			const userWithUsername = await getUserByUsername(lowercaseUsername);
 			if (userWithUsername) {
+				logger.warn(`Profile update: Username already taken for user with ID ${user.id}`);
 				return new Response(
 					JSON.stringify({
 						response: "Username taken",
@@ -146,6 +157,7 @@ export async function PUT(req: Request) {
 		}
 
 		if (!updatedUser) {
+			logger.error(`Profile update: Updating user failed for user with ID ${user.id}`);
 			return new Response(JSON.stringify({ response: "Updating user failed" }), {
 				status: 500,
 			});
@@ -154,6 +166,9 @@ export async function PUT(req: Request) {
 		if (email && email != undefined && email != user.email) {
 			const confirmationToken = await createToken(updatedUser.id, "1h");
 			if (!confirmationToken) {
+				logger.error(
+					`Profile update: Email confirmation failed for user with ID ${user.id} and email ${email}`
+				);
 				return new Response(JSON.stringify({ response: "Email confirmation failed" }), {
 					status: 500,
 				});
@@ -162,6 +177,7 @@ export async function PUT(req: Request) {
 			}
 		}
 
+		logger.info(`Profile update: User data updated for user with ID ${user.id}`);
 		return new Response(
 			JSON.stringify({
 				username: updatedUser.username,
@@ -174,7 +190,7 @@ export async function PUT(req: Request) {
 			}
 		);
 	} catch (error) {
-		console.error(error);
+		logger.error(`Profile update: ${error}`);
 		return new Response(JSON.stringify({ response: "Updating user failed" }), {
 			status: 500,
 		});
@@ -192,21 +208,25 @@ export async function DELETE() {
 	const { status, userToken, error } = await validateAccessToken(cookieStore);
 
 	if (status !== 200) {
+		logger.warn(`Profile delete: ${error}`);
 		return new Response(JSON.stringify({ response: error }), { status });
 	}
 
 	try {
-		const user = await getUserById((await userToken).id);
+		const user = await getUserById(userToken.id);
 		if (!user) {
+			logger.warn(`Profile delete: User with ID ${userToken.id} not found`);
 			return new Response(JSON.stringify({ response: "User not found" }), {
 				status: 404,
 			});
 		}
 		await deleteUserById(userToken.id);
+		logger.info(`Profile delete: User deleted with ID ${user.id}`);
 		return new Response(JSON.stringify({ response: "User deleted" }), {
 			status: 200,
 		});
 	} catch (error) {
+		logger.error(`Profile delete: ${error}`);
 		return new Response(JSON.stringify({ response: "Deleting user failed" }), {
 			status: 500,
 		});

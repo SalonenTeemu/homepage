@@ -94,11 +94,16 @@ export default function Register() {
 			}
 			notificationContext?.addNotification("success", "Registration successful. Please login.");
 			router.push("/login");
-		} catch (e) {
+		} catch (err) {
 			notificationContext?.addNotification("error", "Registration failed. Please try again.");
 		}
 	};
 
+	/**
+	 * Sets the value of the CAPTCHA.
+	 *
+	 * @param value The value of the CAPTCHA.
+	 */
 	const onCaptchaChange = (value: string | null) => {
 		setCaptchaValue(value);
 	};

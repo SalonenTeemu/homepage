@@ -16,6 +16,7 @@ export default function Navbar() {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const menuRef = useRef<HTMLDivElement>(null);
 
+	// Toggle the sidebar
 	const toggleSidebar = () => {
 		setSidebarOpen(!sidebarOpen);
 	};

@@ -2,6 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import { PutCommand, GetCommand, QueryCommand, UpdateCommand, DeleteCommand } from "@aws-sdk/lib-dynamodb";
 import { ReturnValue } from "@aws-sdk/client-dynamodb";
 import { ddbDocClient } from "../dynamoDbClient";
+import logger from "../logger";
 
 const tableName = process.env.AWS_USER_TABLE;
 
@@ -30,9 +31,8 @@ export async function saveUserToDB(user: { username: string; displayName: string
 
 	try {
 		await ddbDocClient.send(new PutCommand(params));
-		console.log("User saved to database.");
-	} catch (error) {
-		console.error("Error saving user:", error);
+	} catch (err) {
+		logger.error(`User service: Error saving user to database: ${err}`);
 		throw new Error("Could not save user to database.");
 	}
 }
@@ -56,9 +56,9 @@ export async function getUserById(id: string) {
 		}
 
 		return null;
-	} catch (error) {
-		console.error("Error checking existing user:", error);
-		throw new Error("Error querying user from database.");
+	} catch (err) {
+		logger.error(`User service: Error retrieving user from database: ${err}`);
+		throw new Error("Could not retrieve user from database.");
 	}
 }
 
@@ -78,9 +78,9 @@ export async function getUserByUsernameOrEmail(username: string, email?: string)
 			return await getUserByEmail(email);
 		}
 		return null;
-	} catch (error) {
-		console.error("Error checking existing user:", error);
-		throw new Error("Error querying user from database.");
+	} catch (err) {
+		logger.error(`User service: Error retrieving user from database: ${err}`);
+		throw new Error("Could not retrieve user from database.");
 	}
 }
 
@@ -107,9 +107,9 @@ export async function getUserByUsername(username: string) {
 		}
 
 		return null;
-	} catch (error) {
-		console.error("Error checking existing user:", error);
-		throw new Error("Error querying user from database.");
+	} catch (err) {
+		logger.error(`User service: Error retrieving user from database: ${err}`);
+		throw new Error("Could not retrieve user from database.");
 	}
 }
 
@@ -136,9 +136,9 @@ export async function getUserByEmail(email: string) {
 		}
 
 		return null;
-	} catch (error) {
-		console.error("Error checking existing user:", error);
-		throw new Error("Error querying user from database.");
+	} catch (err) {
+		logger.error(`User service: Error retrieving user from database: ${err}`);
+		throw new Error("Could not retrieve user from database.");
 	}
 }
 
@@ -209,9 +209,9 @@ export async function updateUserById(
 
 		const result = await ddbDocClient.send(new UpdateCommand(params));
 		return result.Attributes;
-	} catch (error) {
-		console.error("Error updating user:", error);
-		throw new Error("Error updating user.");
+	} catch (err) {
+		logger.error(`User service: Error updating user in database: ${err}`);
+		throw new Error("Could not update user in database.");
 	}
 }
 
@@ -227,9 +227,8 @@ export async function deleteUserById(id: string) {
 	};
 	try {
 		await ddbDocClient.send(new DeleteCommand(params));
-		console.log("User deleted from database.");
-	} catch (error) {
-		console.error("Error deleting user:", error);
-		throw new Error("Error deleting user.");
+	} catch (err) {
+		logger.error(`User service: Error deleting user from database: ${err}`);
+		throw new Error("Could not delete user from database.");
 	}
 }
