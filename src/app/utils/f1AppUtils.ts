@@ -6,9 +6,9 @@ import { Race } from "../types/projectTypes";
  * @returns {boolean} True if the race is finished, otherwise false.
  */
 export function isRaceFinished(raceDate: string): boolean {
-  const currentDate = new Date();
-  const raceDateTime = new Date(raceDate);
-  return currentDate > raceDateTime;
+	const currentDate = new Date();
+	const raceDateTime = new Date(raceDate);
+	return currentDate > raceDateTime;
 }
 
 /**
@@ -17,14 +17,14 @@ export function isRaceFinished(raceDate: string): boolean {
  * @returns {number} The index of the next race, or -1 if there are no future races.
  */
 export function getNextRaceIndex(races: Race[]): number {
-  const currentDate = new Date();
-  for (let i = 0; i < races.length; i++) {
-    const raceDateTime = new Date(races[i].date);
-    if (currentDate.getTime() <= raceDateTime.getTime()) {
-      return i;
-    }
-  }
-  return -1;
+	const currentDate = new Date();
+	for (let i = 0; i < races.length; i++) {
+		const raceDateTime = new Date(races[i].date);
+		if (currentDate.getTime() <= raceDateTime.getTime()) {
+			return i;
+		}
+	}
+	return -1;
 }
 
 /**
@@ -33,28 +33,20 @@ export function getNextRaceIndex(races: Race[]): number {
  * @returns The formatted date string.
  */
 export function formatDate(utcDate: string): string {
-  const localDate = new Date(utcDate);
+	const localDate = new Date(utcDate);
 
-  const day = localDate.getDate();
-  const month = localDate.getMonth() + 1;
-  const year = localDate.getFullYear();
+	const day = localDate.getDate();
+	const month = localDate.getMonth() + 1;
+	const year = localDate.getFullYear();
 
-  const weekdays = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
+	const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-  const weekdayName = weekdays[localDate.getDay()];
+	const weekdayName = weekdays[localDate.getDay()];
 
-  const formattedDay = day.toString().padStart(2, "0");
-  const formattedMonth = month.toString().padStart(2, "0");
+	const formattedDay = day.toString().padStart(2, "0");
+	const formattedMonth = month.toString().padStart(2, "0");
 
-  return `${weekdayName} ${formattedDay}/${formattedMonth}/${year}`;
+	return `${weekdayName} ${formattedDay}/${formattedMonth}/${year}`;
 }
 
 /**
@@ -63,18 +55,18 @@ export function formatDate(utcDate: string): string {
  * @returns The formatted time string.
  */
 export function formatTime(time: string): any {
-  const fullTime = `2025-03-16T${time}`;
+	const fullTime = `2025-03-16T${time}`;
 
-  const date = new Date(fullTime);
+	const date = new Date(fullTime);
 
-  if (isNaN(date.getTime())) {
-    return null;
-  }
+	if (isNaN(date.getTime())) {
+		return null;
+	}
 
-  const options: Intl.DateTimeFormatOptions = {
-    hour: "2-digit",
-    minute: "2-digit",
-  };
+	const options: Intl.DateTimeFormatOptions = {
+		hour: "2-digit",
+		minute: "2-digit",
+	};
 
-  return date.toLocaleTimeString([], options);
+	return date.toLocaleTimeString([], options);
 }
