@@ -46,7 +46,7 @@ export async function POST(req: Request) {
 	}
 
 	if (!isUsernameValid(username)) {
-		logger.warn(`Registration: Invalid username ${username}`);
+		logger.warn(`Registration: Invalid username '${username}'`);
 		return new Response(
 			JSON.stringify({
 				response: `Username must be at least ${usernameMinLength} characters and at most ${usernameMaxLength} characters.`,
@@ -55,13 +55,13 @@ export async function POST(req: Request) {
 		);
 	}
 	if (email && !isEmailValid(email)) {
-		logger.warn(`Registration: Invalid email ${email}`);
+		logger.warn(`Registration: Invalid email '${email}'`);
 		return new Response(JSON.stringify({ response: "Invalid email address" }), {
 			status: 400,
 		});
 	}
 	if (!isPasswordValid(password)) {
-		logger.warn(`Registration: Invalid password ${password}`);
+		logger.warn(`Registration: Invalid password '${password}'`);
 		return new Response(
 			JSON.stringify({
 				response: `Password must be at least ${passwordMinLength} characters, include at least one uppercase letter, and at least one number.`,
@@ -91,7 +91,7 @@ export async function POST(req: Request) {
 
 		if (existingUser) {
 			if (existingUser.username === lowercaseUsername) {
-				logger.warn(`Registration: Username already taken ${username}`);
+				logger.warn(`Registration: Username '${username}' already taken`);
 				return new Response(
 					JSON.stringify({
 						response: "Username taken",
@@ -101,7 +101,7 @@ export async function POST(req: Request) {
 					}
 				);
 			} else if (existingUser.email === email) {
-				logger.warn(`Registration: Email already taken ${email}`);
+				logger.warn(`Registration: Email '${email}' already taken`);
 				return new Response(
 					JSON.stringify({
 						response: "Email taken",
@@ -120,20 +120,20 @@ export async function POST(req: Request) {
 					const confirmationToken = await createToken(user.id, "1h");
 					if (confirmationToken) await sendConfirmationEmail(email, confirmationToken);
 					else {
-						logger.error(`Registration: Failed to create confirmation token for user with ID ${user.id}`);
+						logger.error(`Registration: Failed to create confirmation token for user with ID '${user.id}'`);
 						return new Response(JSON.stringify({ response: "Email confirmation failed" }), {
 							status: 500,
 						});
 					}
 				} else {
-					logger.warn(`Registration: User with username ${lowercaseUsername} not found after registration`);
+					logger.warn(`Registration: User with username '${lowercaseUsername}' not found after registration`);
 					return new Response(JSON.stringify({ response: "User not found" }), {
 						status: 404,
 					});
 				}
 			}
 		}
-		logger.info(`Registration: New user with username ${lowercaseUsername} registered successfully`);
+		logger.info(`Registration: New user with username '${lowercaseUsername}' registered successfully`);
 		return new Response(JSON.stringify({ response: "User registered successfully" }), {
 			status: 200,
 		});

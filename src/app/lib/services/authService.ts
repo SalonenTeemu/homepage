@@ -3,7 +3,7 @@ import { serialize } from "cookie";
 import { getRefreshTokenFromDB, storeRefreshToken, revokeRefreshToken } from "./tokenService";
 
 const secret = process.env.JWT_SECRET;
-const refreshSecret = process.env.REFRESH_SECRET;
+const refreshSecret = process.env.JWT_REFRESH_SECRET;
 const expiration = process.env.ACCESS_TOKEN_EXPIRATION || "15m";
 const refreshExpiration = process.env.REFRESH_TOKEN_EXPIRATION || "7d";
 const isProduction = process.env.ENV == "development" ? false : true;
@@ -69,6 +69,9 @@ export async function verifyAccessToken(token: string) {
 	try {
 		// Verify the access token with jose
 		const { payload } = await jwtVerify(token, new TextEncoder().encode(secret));
+		if (!payload) {
+			return null;
+		}
 		return payload as unknown as { id: string; role: string };
 	} catch (err) {
 		return null;

@@ -16,14 +16,14 @@ export async function POST(req: Request) {
 	const { usernameOrEmail, password } = body;
 
 	if (!usernameOrEmail || (!isUsernameValid(usernameOrEmail) && !isEmailValid(usernameOrEmail))) {
-		logger.warn(`Login: Invalid username or email: ${usernameOrEmail}`);
+		logger.warn(`Login: Invalid username or email '${usernameOrEmail}'`);
 		return new Response(JSON.stringify({ response: "Invalid username or email" }), {
 			status: 400,
 		});
 	}
 
 	if (!password || !isPasswordValid(password)) {
-		logger.warn(`Login: Invalid password for user with username or email: ${usernameOrEmail}`);
+		logger.warn(`Login: Invalid password for user with username or email '${usernameOrEmail}'`);
 		return new Response(JSON.stringify({ response: "Invalid password" }), {
 			status: 400,
 		});
@@ -39,7 +39,7 @@ export async function POST(req: Request) {
 		}
 
 		if (!user) {
-			logger.warn(`Login: No user found with username or email: ${usernameOrEmail}`);
+			logger.warn(`Login: No user found with username or email '${usernameOrEmail}'`);
 			return new Response(JSON.stringify({ response: "Invalid username or email" }), {
 				status: 400,
 			});
@@ -47,7 +47,7 @@ export async function POST(req: Request) {
 
 		const isPasswordValid = await bcrypt.compare(password, user.password);
 		if (!isPasswordValid) {
-			logger.warn(`Login: Invalid password for user with username or email: ${usernameOrEmail}`);
+			logger.warn(`Login: Invalid password for user with username or email '${usernameOrEmail}'`);
 			return new Response(JSON.stringify({ response: "Invalid password" }), {
 				status: 400,
 			});
@@ -63,7 +63,7 @@ export async function POST(req: Request) {
 		const { accessToken, refreshToken } = tokens;
 		const headers = createHeaderCookies(accessToken, refreshToken);
 
-		logger.info(`Login: User with username or email ${usernameOrEmail} logged in successfully`);
+		logger.info(`Login: User with username or email '${usernameOrEmail}' logged in successfully`);
 		return new Response(JSON.stringify({ response: "Login successful" }), {
 			status: 200,
 			headers: headers,

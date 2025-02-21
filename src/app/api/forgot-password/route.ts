@@ -22,13 +22,13 @@ export async function POST(req: Request) {
 	try {
 		const user = await getUserByEmail(email);
 		if (!user) {
-			logger.warn(`Forgot password: No users associated with email ${email}`);
+			logger.warn(`Forgot password: No users associated with email '${email}'`);
 			return new Response(JSON.stringify({ response: "No users associated with this email" }), {
 				status: 404,
 			});
 		}
 		if (!user.emailConfirmed) {
-			logger.warn(`Forgot password: Email not confirmed for user with email ${email}`);
+			logger.warn(`Forgot password: Email not confirmed for user with email '${email}'`);
 			return new Response(JSON.stringify({ response: "Email not confirmed" }), {
 				status: 400,
 			});
@@ -41,7 +41,7 @@ export async function POST(req: Request) {
 			});
 		}
 		await sendResetPasswordEmail(email, token);
-		logger.info(`Forgot password: Password reset email sent to ${email}`);
+		logger.info(`Forgot password: Password reset email sent to '${email}'`);
 		return new Response(JSON.stringify({ response: "Password reset email sent" }), {
 			status: 200,
 		});

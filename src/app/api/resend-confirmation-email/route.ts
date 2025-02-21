@@ -26,13 +26,13 @@ export async function POST() {
 	try {
 		const user = await getUserById(userToken.id);
 		if (!user) {
-			logger.warn(`Resend confirmation email: User with ID ${userToken.id} not found`);
+			logger.warn(`Resend confirmation email: User with ID '${userToken.id}' not found`);
 			return new Response(JSON.stringify({ response: "User not found" }), {
 				status: 404,
 			});
 		} else {
 			if (user.emailConfirmed) {
-				logger.warn(`Resend confirmation email: Email already confirmed for user with ID ${user.id}`);
+				logger.warn(`Resend confirmation email: Email already confirmed for user with ID '${user.id}'`);
 				return new Response(JSON.stringify({ response: "Email already confirmed" }), {
 					status: 400,
 				});
@@ -40,7 +40,7 @@ export async function POST() {
 			const confirmationToken = await createToken(user.id, "1h");
 			if (!confirmationToken) {
 				logger.error(
-					`Resend confirmation email: Failed to create confirmation token for user with ID ${user.id}`
+					`Resend confirmation email: Failed to create confirmation token for user with ID '${user.id}'`
 				);
 				return new Response(JSON.stringify({ response: "Email confirmation failed" }), {
 					status: 500,
@@ -49,7 +49,7 @@ export async function POST() {
 				await sendConfirmationEmail(user.email, confirmationToken);
 			}
 			logger.info(
-				`Resend confirmation email: Email confirmation sent for user with ID ${user.id} and email ${user.email}`
+				`Resend confirmation email: Email confirmation sent for user with ID '${user.id}' and email '${user.email}'`
 			);
 			return new Response(JSON.stringify({ response: "Email confirmation sent" }), {
 				status: 200,

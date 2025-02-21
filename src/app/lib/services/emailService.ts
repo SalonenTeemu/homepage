@@ -57,10 +57,10 @@ export async function sendConfirmationEmail(email: string, token: string) {
 	await transporter
 		.sendMail(options)
 		.then(() => {
-			logger.info(`Email service: Confirmation email sent to ${email}`);
+			logger.info(`Email service: Confirmation email sent to '${email}'`);
 		})
 		.catch((err) => {
-			logger.error(`Email service: Error sending confirmation email to ${email}: ${err}`);
+			logger.error(`Email service: Error sending confirmation email to '${email}': ${err}`);
 		});
 }
 
@@ -78,9 +78,9 @@ export async function sendResetPasswordEmail(email: string, token: string) {
 	await transporter
 		.sendMail(options)
 		.then(() => {
-			logger.info(`Email service: Reset password email sent to ${email}`);
+			logger.info(`Email service: Reset password email sent to '${email}'`);
 		})
 		.catch((err) => {
-			logger.error(`Email service: Error sending reset password email to ${email}: ${err}`);
+			logger.error(`Email service: Error sending reset password email to '${email}': ${err}`);
 		});
 }

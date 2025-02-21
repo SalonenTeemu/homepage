@@ -21,7 +21,7 @@ export async function GET(req: Request) {
 	try {
 		const decoded = await verifyToken(token);
 		if (!decoded) {
-			logger.warn(`Email confirmation: Invalid or expired token: ${token}`);
+			logger.warn(`Email confirmation: Invalid or expired token: '${token}'`);
 			return new Response(JSON.stringify({ response: "Invalid or expired token" }), {
 				status: 403,
 			});
@@ -29,14 +29,14 @@ export async function GET(req: Request) {
 
 		const user = await getUserById(decoded.id);
 		if (!user) {
-			logger.warn(`Email confirmation: User with ID ${decoded.id} not found`);
+			logger.warn(`Email confirmation: User with ID '${decoded.id}' not found`);
 			return new Response(JSON.stringify({ response: "User not found" }), {
 				status: 404,
 			});
 		}
 		await updateUserById(user.id, { emailConfirmed: true });
 
-		logger.info(`Email confirmation: User with ID ${decoded.id} confirmed email`);
+		logger.info(`Email confirmation: User with ID '${decoded.id}' confirmed email`);
 		return new Response(JSON.stringify({ response: "User email confirmed" }), {
 			status: 200,
 		});

@@ -10,13 +10,15 @@ const tableName = process.env.AWS_REFRESH_TOKEN_TABLE;
  * @param refreshToken The refresh token
  */
 export async function storeRefreshToken(id: string, refreshToken: string) {
+	const expiration = Math.floor(Date.now() / 1000) + 7 * 24 * 60 * 60;
 	const params = {
 		TableName: tableName,
 		Item: {
 			refreshToken,
 			id,
 			is_revoked: false,
-			createdAt: new Date().toISOString(),
+			createdAt: Math.floor(Date.now() / 1000),
+			expiresAt: expiration,
 		},
 	};
 	try {

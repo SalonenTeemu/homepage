@@ -32,12 +32,12 @@ export async function GET() {
 		const user = await getUserById(userToken.id);
 
 		if (!user) {
-			logger.warn(`Profile fetch: User with ID ${userToken.id} not found`);
+			logger.warn(`Profile fetch: User with ID '${userToken.id}' not found`);
 			return new Response(JSON.stringify({ response: "User not found" }), {
 				status: 404,
 			});
 		}
-		logger.info(`Profile fetch: User data retrieved for user with ID ${user.id}`);
+		logger.info(`Profile fetch: User data retrieved for user with ID '${user.id}'`);
 		return new Response(
 			JSON.stringify({
 				username: user.username,

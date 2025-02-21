@@ -29,7 +29,7 @@ export async function POST(req: Request) {
 	try {
 		const decoded = await verifyToken(token);
 		if (!decoded) {
-			logger.warn(`Password reset: Invalid or expired token ${token}`);
+			logger.warn(`Password reset: Invalid or expired token '${token}'`);
 			return new Response(JSON.stringify({ response: "Invalid or expired token" }), {
 				status: 403,
 			});
@@ -38,7 +38,7 @@ export async function POST(req: Request) {
 		const hashedPassword = await bcrypt.hash(password, 10);
 
 		await updateUserById(decoded.id, { hashedPassword });
-		logger.info(`Password reset: Password updated for user with ID ${decoded.id}`);
+		logger.info(`Password reset: Password updated for user with ID '${decoded.id}'`);
 		return new Response(JSON.stringify({ response: "Password updated successfully" }), {
 			status: 200,
 		});
