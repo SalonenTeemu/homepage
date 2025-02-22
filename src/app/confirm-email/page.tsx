@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import CustomCursor from "@/app/components/common/customCursor";
 import Navbar from "@/app/components/common/navbar";
 import ConfirmEmail from "@/app/components/confirm-email/confirmEmail";
@@ -16,7 +17,9 @@ export default function ConfirmEmailPage() {
 			<CustomCursor />
 			<Navbar />
 			<div className={`flex h-full w-full flex-col items-center justify-between ${inter.variable} font-inter`}>
-				<ConfirmEmail />
+				<Suspense fallback={<p>Loading...</p>}>
+					<ConfirmEmail />
+				</Suspense>
 				<ScrollTopButton />
 				<Footer />
 			</div>

@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import CustomCursor from "@/app/components/common/customCursor";
 import Navbar from "@/app/components/common/navbar";
 import ScrollTopButton from "@/app/components/common/scrollTopButton";
@@ -18,7 +19,9 @@ export default function ResetPasswordPage() {
 			<Navbar />
 			<div className={`flex h-full w-full flex-col items-center justify-between ${inter.variable} font-inter`}>
 				<GoBackButton />
-				<ResetPassword />
+				<Suspense fallback={<p>Loading...</p>}>
+					<ResetPassword />
+				</Suspense>
 				<ScrollTopButton />
 				<Footer />
 			</div>
