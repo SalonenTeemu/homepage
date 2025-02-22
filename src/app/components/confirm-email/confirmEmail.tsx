@@ -49,9 +49,7 @@ export default function ConfirmEmail() {
 
 					if (res.ok) {
 						setStatus("Your email has been confirmed successfully!");
-						if (user) {
-							authContext.fetchProfile();
-						}
+						authContext?.fetchProfile();
 						redirectAfterTimeout(user, router);
 					} else {
 						setStatus(

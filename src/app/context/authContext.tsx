@@ -24,7 +24,6 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
  */
 export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const notificationContext = useNotification();
-	const addNotification = notificationContext ? notificationContext.addNotification : () => {};
 	const router = useRouter();
 	const pathname = usePathname();
 	const [user, setUser] = useState<User | null>(null);
@@ -37,7 +36,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	 */
 	const fetchProfile = async () => {
 		try {
-			const res = await fetchWithAuth("/api/profile", {}, logout, addNotification, router);
+			const res = await fetchWithAuth("/api/profile", {}, logout, notificationContext?.addNotification!);
 
 			if (!res) {
 				setUser(null);

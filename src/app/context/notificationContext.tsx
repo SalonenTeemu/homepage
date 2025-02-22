@@ -71,12 +71,15 @@ function Notification({ id, type, message }: { id: number; type: "success" | "er
 
 	return (
 		<div
-			className={`w-full max-w-3xl rounded-md shadow-lg ${bgColor} flex items-center justify-between p-2 ${textColor} pointer-events-auto`}
+			className={`w-full max-w-3xl rounded-md shadow-lg ${bgColor} flex items-center p-2 ${textColor} pointer-events-auto`}
 		>
-			<span className="text-md whitespace-normal break-words">{message}</span>
+			<div className="flex-grow text-center">
+				<span className="text-md whitespace-normal break-words">{message}</span>
+			</div>
+
 			<button
 				onClick={() => removeNotification(id)}
-				className={`ml-2 px-2 py-1 text-lg transition ${textColor} ${buttonHoverTextColor}`}
+				className={`ml-2 px-2 py-1 text-xl transition ${textColor} ${buttonHoverTextColor}`}
 			>
 				✖
 			</button>

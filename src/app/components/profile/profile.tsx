@@ -21,7 +21,6 @@ import { fetchWithAuth } from "@/app/utils/apiUtils";
  * @returns {JSX.Element} The Profile component
  */
 export default function Profile() {
-	const router = useRouter();
 	const authContext = useAuth();
 	const notificationContext = useNotification();
 	const [isEditing, setIsEditing] = useState(false);
@@ -112,8 +111,7 @@ export default function Profile() {
 					}),
 				},
 				authContext?.logout,
-				notificationContext?.addNotification!,
-				router
+				notificationContext?.addNotification!
 			);
 
 			if (res) {
@@ -131,6 +129,11 @@ export default function Profile() {
 				setIsEditing(false);
 
 				notificationContext?.addNotification("success", "Profile updated successfully.");
+			} else {
+				notificationContext?.addNotification(
+					"error",
+					"Error updating profile. Session expired or too many requests."
+				);
 			}
 		} catch (err) {
 			notificationContext?.addNotification("error", "Error updating profile. Please try again.");
@@ -148,8 +151,7 @@ export default function Profile() {
 					method: "DELETE",
 				},
 				authContext?.logout,
-				notificationContext?.addNotification!,
-				router
+				notificationContext?.addNotification!
 			);
 
 			if (res) {
@@ -160,6 +162,11 @@ export default function Profile() {
 					const data = await res.json();
 					notificationContext?.addNotification("error", `Error deleting profile. ${data.response}.`);
 				}
+			} else {
+				notificationContext?.addNotification(
+					"error",
+					"Error updating profile. Session expired or too many requests."
+				);
 			}
 		} catch (err) {
 			notificationContext?.addNotification("error", "Error deleting profile. Please try again.");
@@ -189,8 +196,7 @@ export default function Profile() {
 					method: "POST",
 				},
 				authContext?.logout,
-				notificationContext?.addNotification!,
-				router
+				notificationContext?.addNotification!
 			);
 
 			if (res) {
@@ -200,6 +206,11 @@ export default function Profile() {
 					const data = await res.json();
 					notificationContext?.addNotification("error", `Error sending confirmation email. ${data.response}`);
 				}
+			} else {
+				notificationContext?.addNotification(
+					"error",
+					"Error updating profile. Session expired or too many requests."
+				);
 			}
 		} catch (err) {
 			notificationContext?.addNotification("error", "Error sending confirmation email. Please try again.");

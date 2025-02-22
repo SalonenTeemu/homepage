@@ -183,6 +183,7 @@ export async function PUT(req: Request) {
 				username: updatedUser.username,
 				displayName: updatedUser.displayName,
 				email: updatedUser.email,
+				emailConfirmed: updatedUser.emailConfirmed || false,
 				role: updatedUser.role || "user",
 			}),
 			{

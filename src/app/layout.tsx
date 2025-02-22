@@ -69,9 +69,9 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				<AuthProvider>
-					<NotificationProvider>{children}</NotificationProvider>
-				</AuthProvider>
+				<NotificationProvider>
+					<AuthProvider>{children}</AuthProvider>
+				</NotificationProvider>
 				<Analytics />
 				<SpeedInsights />
 			</body>

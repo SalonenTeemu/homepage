@@ -1,4 +1,5 @@
 import { verifyAccessToken } from "@/app/lib/services/authService";
+import { add } from "winston";
 
 /**
  * Helper function to fetch again if access token is expired and to handle rate limit exceedance.
@@ -14,8 +15,7 @@ export async function fetchWithAuth(
 	url: string,
 	options = {},
 	logout: () => void,
-	addNotification: (type: "success" | "error" | "info", message: string) => void,
-	router: any
+	addNotification: (type: "success" | "error" | "info", message: string) => void
 ) {
 	let res = await fetch(url, { ...options, credentials: "include" });
 
@@ -34,9 +34,7 @@ export async function fetchWithAuth(
 		});
 
 		if (!refreshRes.ok) {
-			if (addNotification) addNotification("error", "Session expired. Please log in again.");
 			logout();
-			router.push("/login");
 			return null;
 		}
 
