@@ -40,8 +40,8 @@ export async function GET(req: Request) {
 		return new Response(JSON.stringify({ response: "User email confirmed" }), {
 			status: 200,
 		});
-	} catch (error) {
-		logger.error("Email confirmation: Error confirming email:", error);
+	} catch (err) {
+		logger.error("Email confirmation: Error confirming email:", err);
 		return new Response(JSON.stringify({ response: "Email confirmation failed" }), {
 			status: 500,
 		});

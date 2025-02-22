@@ -137,8 +137,8 @@ export async function POST(req: Request) {
 		return new Response(JSON.stringify({ response: "User registered successfully" }), {
 			status: 200,
 		});
-	} catch (error) {
-		logger.error(`Registration: ${error}`);
+	} catch (err) {
+		logger.error(`Registration: ${err}`);
 		return new Response(JSON.stringify({ response: "Registration failed" }), {
 			status: 500,
 		});

@@ -44,7 +44,7 @@ export default function ConfirmEmail() {
 		if (token) {
 			const confirmEmail = async () => {
 				try {
-					const res = await fetch(`/api/confirm-email?token=${token}`);
+					const res = await fetch(`/api/auth/confirm-email?token=${token}`);
 					const data = await res.json();
 
 					if (res.ok) {

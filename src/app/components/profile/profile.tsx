@@ -184,7 +184,7 @@ export default function Profile() {
 	const resendConfirmationEmail = async () => {
 		try {
 			const res = await fetchWithAuth(
-				"/api/resend-confirmation-email",
+				"/api/auth/resend-confirmation-email",
 				{
 					method: "POST",
 				},

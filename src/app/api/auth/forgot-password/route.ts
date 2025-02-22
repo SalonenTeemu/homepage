@@ -45,8 +45,8 @@ export async function POST(req: Request) {
 		return new Response(JSON.stringify({ response: "Password reset email sent" }), {
 			status: 200,
 		});
-	} catch (error) {
-		logger.error("Forgot password: Error sending password reset email:", error);
+	} catch (err) {
+		logger.error("Forgot password: Error sending password reset email:", err);
 		return new Response(JSON.stringify({ response: "Sending password reset email failed" }), {
 			status: 500,
 		});

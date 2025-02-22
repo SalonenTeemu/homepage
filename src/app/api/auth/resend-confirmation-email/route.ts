@@ -55,8 +55,8 @@ export async function POST() {
 				status: 200,
 			});
 		}
-	} catch (error) {
-		logger.error(`Resend confirmation email: ${error}`);
+	} catch (err) {
+		logger.error(`Resend confirmation email: ${err}`);
 		return new Response(JSON.stringify({ response: "Email confirmation failed" }), {
 			status: 500,
 		});

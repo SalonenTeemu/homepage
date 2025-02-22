@@ -29,8 +29,8 @@ export async function POST(req: Request) {
 		return new Response(JSON.stringify({ response: result.response.text() }), {
 			status: 200,
 		});
-	} catch (error) {
-		logger.error("Chatbot: Error generating AI response:", error);
+	} catch (err) {
+		logger.error("Chatbot: Error generating AI response:", err);
 		return new Response("Error generating content", { status: 500 });
 	}
 }

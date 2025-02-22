@@ -42,8 +42,8 @@ export async function POST(req: Request) {
 		return new Response(JSON.stringify({ response: "Password updated successfully" }), {
 			status: 200,
 		});
-	} catch (error) {
-		logger.error(`Password reset: ${error}`);
+	} catch (err) {
+		logger.error(`Password reset: ${err}`);
 		return new Response(JSON.stringify({ response: "Error updating password" }), { status: 500 });
 	}
 }

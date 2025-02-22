@@ -50,8 +50,8 @@ export async function GET() {
 				status: 200,
 			}
 		);
-	} catch (error) {
-		logger.error(`Profile fetch: ${error}`);
+	} catch (err) {
+		logger.error(`Profile fetch: ${err}`);
 		return new Response(JSON.stringify({ response: "User data retrieval failed" }), {
 			status: 500,
 		});
@@ -189,8 +189,8 @@ export async function PUT(req: Request) {
 				status: 200,
 			}
 		);
-	} catch (error) {
-		logger.error(`Profile update: ${error}`);
+	} catch (err) {
+		logger.error(`Profile update: ${err}`);
 		return new Response(JSON.stringify({ response: "Updating user failed" }), {
 			status: 500,
 		});
@@ -225,8 +225,8 @@ export async function DELETE() {
 		return new Response(JSON.stringify({ response: "User deleted" }), {
 			status: 200,
 		});
-	} catch (error) {
-		logger.error(`Profile delete: ${error}`);
+	} catch (err) {
+		logger.error(`Profile delete: ${err}`);
 		return new Response(JSON.stringify({ response: "Deleting user failed" }), {
 			status: 500,
 		});

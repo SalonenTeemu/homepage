@@ -28,7 +28,7 @@ export async function fetchWithAuth(
 	// If request fails due to an expired access token (401)
 	if (res.status === 401 || res.status === 403) {
 		// Try to refresh the token
-		const refreshRes = await fetch("/api/refresh", {
+		const refreshRes = await fetch("/api/auth/refresh", {
 			method: "POST",
 			credentials: "include",
 		});

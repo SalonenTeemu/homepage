@@ -57,7 +57,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	 * Logs out the user by sending a POST request to the server and clearing the user state.
 	 */
 	const logout = useCallback(async () => {
-		await fetch("/api/logout", { method: "POST", credentials: "include" });
+		await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
 		if (pathname === "/profile") {
 			router.push("/");
 		}
@@ -78,7 +78,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 			if (!user) return;
 
 			try {
-				const res = await fetch("/api/refresh", {
+				const res = await fetch("/api/auth/refresh", {
 					method: "POST",
 					credentials: "include",
 				});

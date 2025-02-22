@@ -46,8 +46,8 @@ export async function POST() {
 			status: 200,
 			headers: headers,
 		});
-	} catch (error) {
-		logger.error(`Token refresh: ${error}`);
+	} catch (err) {
+		logger.error(`Token refresh: ${err}`);
 		return new Response(JSON.stringify({ response: "Token refresh failed" }), {
 			status: 500,
 		});

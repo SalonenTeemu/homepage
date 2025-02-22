@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
-import { createHeaderCookies, createTokens } from "../../lib/services/authService";
-import { getUserByUsername, getUserByEmail } from "../../lib/services/userService";
+import { createHeaderCookies, createTokens } from "../../../lib/services/authService";
+import { getUserByUsername, getUserByEmail } from "../../../lib/services/userService";
 import { isUsernameValid, isPasswordValid, isEmailValid } from "@/app/utils/utils";
 import logger from "@/app/lib/logger";
 
@@ -68,8 +68,8 @@ export async function POST(req: Request) {
 			status: 200,
 			headers: headers,
 		});
-	} catch (error) {
-		logger.error("Login: Error logging in user:", error);
+	} catch (err) {
+		logger.error("Login: Error logging in user:", err);
 		return new Response(JSON.stringify({ response: "Login failed" }), {
 			status: 500,
 		});

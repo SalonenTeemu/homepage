@@ -22,7 +22,8 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
 
 	// Add a notification
 	const addNotification = (type: "success" | "error" | "info", message: string, duration: number = 5000) => {
-		const id = Date.now();
+		const id = Date.now() + Math.floor(Math.random() * 1000);
+
 		setNotifications((prev) => [...prev, { id, type, message }]);
 
 		// Remove notification after duration
@@ -47,31 +48,38 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
 // Custom hook to use the notification context
 export const useNotification = () => useContext(NotificationContext);
 
-// Notification Container Component
 function NotificationContainer({
 	notifications,
 }: {
 	notifications: { id: number; type: "success" | "error" | "info"; message: string }[];
 }) {
 	return (
-		<div className="pointer-events-none fixed left-1/2 top-0 z-50 mt-4 flex -translate-x-1/2 transform flex-col items-center space-y-2">
+		<div className="pointer-events-none fixed left-0 top-0 z-50 mt-4 flex w-full flex-col items-center space-y-2 px-4">
 			{notifications.map((notif) => (
-				<Notification key={notif.id} type={notif.type} message={notif.message} />
+				<Notification key={notif.id} id={notif.id} type={notif.type} message={notif.message} />
 			))}
 		</div>
 	);
 }
 
 // Notification Component
-function Notification({ type, message }: { type: "success" | "error" | "info"; message: string }) {
+function Notification({ id, type, message }: { id: number; type: "success" | "error" | "info"; message: string }) {
+	const { removeNotification } = useNotification()!;
 	const bgColor = type === "success" ? "bg-green-500" : type === "error" ? "bg-red-500" : "bg-yellow-500";
 	const textColor = type === "success" || type === "info" ? "text-slate-950" : "text-slate-50";
+	const buttonHoverTextColor = type === "success" || type === "info" ? "hover:text-slate-50" : "hover:text-slate-950";
 
 	return (
 		<div
-			className={`w-full max-w-md rounded-md shadow-lg ${bgColor} flex items-center justify-center p-4 ${textColor} pointer-events-auto`}
+			className={`w-full max-w-3xl rounded-md shadow-lg ${bgColor} flex items-center justify-between p-2 ${textColor} pointer-events-auto`}
 		>
-			<span className="text-md w-full text-center">{message}</span>
+			<span className="text-md whitespace-normal break-words">{message}</span>
+			<button
+				onClick={() => removeNotification(id)}
+				className={`ml-2 px-2 py-1 text-lg transition ${textColor} ${buttonHoverTextColor}`}
+			>
+				✖
+			</button>
 		</div>
 	);
 }

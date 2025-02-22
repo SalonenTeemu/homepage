@@ -33,7 +33,7 @@ export function checkRateLimit(ip: string): boolean {
 export async function middleware(req: NextRequest) {
 	const ip = req.headers.get("x-forwarded-for") || "unknown";
 
-	if (req.nextUrl.pathname.startsWith("/api") && req.nextUrl.pathname !== "/api/logout") {
+	if (req.nextUrl.pathname.startsWith("/api") && req.nextUrl.pathname !== "/api/auth/logout") {
 		if (!checkRateLimit(ip)) {
 			return NextResponse.json({ response: "Too many requests, please try again later" }, { status: 429 });
 		}
