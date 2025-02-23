@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import CustomCursor from "@/app/components/common/customCursor";
 import Navbar from "@/app/components/common/navbar";
 import ScrollTopButton from "@/app/components/common/scrollTopButton";
@@ -5,6 +6,10 @@ import Register from "@/app/components/register/register";
 import GoBackButton from "@/app/components/common/goBackButton";
 import Footer from "../components/common/footer";
 import { inter } from "@/app/components/common/fonts";
+
+export const metadata: Metadata = {
+	title: "Register | Teemu Salonen",
+};
 
 /**
  * The register page.

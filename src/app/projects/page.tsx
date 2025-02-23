@@ -1,9 +1,14 @@
+import type { Metadata } from "next";
 import CustomCursor from "@/app/components/common/customCursor";
 import Navbar from "@/app/components/common/navbar";
 import ScrollTopButton from "@/app/components/common/scrollTopButton";
 import Projects from "@/app/components/projects/projects";
 import Footer from "../components/common/footer";
 import { inter } from "@/app/components/common/fonts";
+
+export const metadata: Metadata = {
+	title: "Projects | Teemu Salonen",
+};
 
 /**
  * The projects page.

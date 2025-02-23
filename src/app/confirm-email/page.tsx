@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import CustomCursor from "@/app/components/common/customCursor";
 import Navbar from "@/app/components/common/navbar";
@@ -5,6 +6,10 @@ import ConfirmEmail from "@/app/components/confirm-email/confirmEmail";
 import ScrollTopButton from "@/app/components/common/scrollTopButton";
 import Footer from "../components/common/footer";
 import { inter } from "@/app/components/common/fonts";
+
+export const metadata: Metadata = {
+	title: "Confirm Email | Teemu Salonen",
+};
 
 /**
  * The confirm email page.

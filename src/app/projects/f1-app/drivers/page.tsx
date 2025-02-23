@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Navbar from "@/app/components/common/navbar";
 import CustomCursor from "@/app/components/common/customCursor";
 import GoBackButton from "@/app/components/common/goBackButton";
@@ -5,6 +6,10 @@ import Footer from "@/app/components/common/footer";
 import Drivers from "@/app/components/projects/f1-app/drivers";
 import F1AppNavbar from "@/app/components/projects/f1-app/navbar";
 import ScrollTopButton from "@/app/components/common/scrollTopButton";
+
+export const metadata: Metadata = {
+	title: "F1 App | Teemu Salonen",
+};
 
 /**
  * The DriversPage component.

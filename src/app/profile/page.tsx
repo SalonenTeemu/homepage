@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import CustomCursor from "@/app/components/common/customCursor";
 import Navbar from "@/app/components/common/navbar";
 import ScrollTopButton from "@/app/components/common/scrollTopButton";
@@ -6,12 +7,16 @@ import GoBackButton from "@/app/components/common/goBackButton";
 import Footer from "../components/common/footer";
 import { inter } from "@/app/components/common/fonts";
 
+export const metadata: Metadata = {
+	title: "Profile | Teemu Salonen",
+};
+
 /**
  * The profile page.
  *
  * @returns {JSX.Element} The profile page
  */
-export default function LoginPage() {
+export default function ProfilePage() {
 	return (
 		<main className="relative min-h-screen w-full scroll-smooth bg-slate-950 text-slate-50 selection:bg-lime-500">
 			<CustomCursor />

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import CustomCursor from "@/app/components/common/customCursor";
 import Navbar from "@/app/components/common/navbar";
 import ScrollTopButton from "@/app/components/common/scrollTopButton";
@@ -5,6 +6,10 @@ import GoBackButton from "@/app/components/common/goBackButton";
 import Footer from "@/app/components/common/footer";
 import Matches from "@/app/components/projects/premier-league-app/matches";
 import PremAppNavbar from "@/app/components/projects/premier-league-app/navbar";
+
+export const metadata: Metadata = {
+	title: "Premier League App | Teemu Salonen",
+};
 
 /**
  * MatchesPage component of Premier League App.

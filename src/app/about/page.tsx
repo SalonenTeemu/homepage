@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import CustomCursor from "@/app/components/common/customCursor";
 import Navbar from "@/app/components/common/navbar";
 import ScrollTopButton from "@/app/components/common/scrollTopButton";
@@ -6,6 +7,10 @@ import Resume from "@/app/components/resume/resume";
 import ResumePDFLink from "../components/resume/resumePDFLink";
 import Footer from "../components/common/footer";
 import { inter } from "@/app/components/common/fonts";
+
+export const metadata: Metadata = {
+	title: "About | Teemu Salonen",
+};
 
 /**
  * The about me page.

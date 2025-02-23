@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import CustomCursor from "@/app/components/common/customCursor";
 import Navbar from "@/app/components/common/navbar";
@@ -6,6 +7,10 @@ import GoBackButton from "../components/common/goBackButton";
 import ResetPassword from "@/app/components/reset-password/resetPassword";
 import Footer from "../components/common/footer";
 import { inter } from "@/app/components/common/fonts";
+
+export const metadata: Metadata = {
+	title: "Reset Password | Teemu Salonen",
+};
 
 /**
  * The reset password page.
