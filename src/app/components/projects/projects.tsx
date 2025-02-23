@@ -11,13 +11,12 @@ export default function Projects() {
 
 	return (
 		<div className="container mx-auto px-4 py-8">
-			<div className="mb-8 text-center">
+			<div className="text-center">
 				<p className="text-md 3xl:text-3xl pb-4 pt-4 lg:text-lg 2xl:text-xl">
-					This page contains some miscellaneous projects that I wanted to add to the website made for learning
-					purposes and for fun.
+					This page includes some personal projects created for learning purposes and fun.
 					<br />
-					Try out an application by clicking its title. View the GitHub page of the project by clicking the
-					GitHub icon.
+					To try out an application, simply click its title. You can also view the projects GitHub repository
+					by clicking the GitHub icon.
 				</p>
 			</div>
 			<Project params={{ content: descriptions.aiChessApp }} />

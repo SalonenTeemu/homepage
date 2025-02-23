@@ -42,7 +42,7 @@ export default function Navbar() {
 	return (
 		<nav className="relative w-full bg-slate-950 py-4 text-slate-50">
 			<div className="relative mx-auto flex max-w-7xl items-center justify-center px-4">
-				<ul className="flex space-x-6">
+				<ul className="flex space-x-7">
 					<li>
 						<Link
 							href="/"
@@ -55,12 +55,12 @@ export default function Navbar() {
 					</li>
 					<li>
 						<Link
-							href="/resume"
+							href="/about"
 							className={`text-md font-bold selection:text-slate-950 ${
-								pathname === "/resume" ? "text-lime-500 hover:text-slate-50" : "hover:text-lime-500"
+								pathname === "/about" ? "text-lime-500 hover:text-slate-50" : "hover:text-lime-500"
 							}`}
 						>
-							Resume
+							About Me
 						</Link>
 					</li>
 					<li>

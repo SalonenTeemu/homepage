@@ -87,15 +87,14 @@ export const resumeDescriptions = () => {
  */
 export const aboutMeDescriptions = () => {
 	return {
-		aboutMe: `My name is Teemu Salonen, a computer science student currently
- 		pursuing a master's degree majoring in software engineering at Tampere University. I
-    	am dedicated to continuous improvement in the field. While my strengths lie
-    	in full-stack web development, I look forward to learning new technologies and environments.
-    	I am especially interested in cloud technologies and want to expand my knowledge in this area. 
-    	My experience ranges from smaller, independent projects to larger
-    	applications used worldwide. I am passionate about learning and
-    	evolving as a developer and ready for new opportunities
-    	and challenges in the future.`,
+		aboutMe1: `My name is Teemu Salonen, a Computer Science student pursuing a master's degree focusing on Software Engineering at Tampere University.
+		My passion for technology began with a curiosity about how software is built, leading me to this field.`,
+
+		aboutMe2: `I am committed to continuous learning and have gained knowledge in various programming languages and tools. 
+		While my primary strength lies in full-stack web development, I am always eager to explore new technologies and environments.`,
+
+		aboutMe3: `My experience ranges from independent projects to large-scale applications used worldwide. 
+		I am driven by a passion for growth and innovation, and I am excited about new opportunities and challenges that will help me evolve as a developer.`,
 	};
 };
 
@@ -108,35 +107,33 @@ export const projectDescriptions = () => {
 	return {
 		premierLeagueApp: {
 			title: "Premier League standings and fixtures application",
-			description: `A simple English Premier League application showing the league table and matches.
-      		The application shows the standings table of the current season as well as all fixtures of the season and their respective results.
-      		The app uses football-data.org API to fetch the data for the standings and matches.`,
+			description: `A simple English Premier League application that displays the league table and match results.
+			The app shows the standings of the current season as well as all fixtures and their respective results. 
+			It fetches data from the football-data.org API for up-to-date information on standings and matches.`,
 			link: "/projects/premier-league-app",
 			gitHubLink: "https://github.com/SalonenTeemu/premier-league-app",
 		},
 		f1App: {
 			title: "Formula 1 application",
-			description: `A simple Formula 1 application.
-      		The app shows the race schedule, driver standings and the constructor standings of the current season. 
-      		It tells which races have already been finished, what race is coming next and the races upcoming later in the season.
-      		The application uses jolpica-f1 API to fetch the data.
-      		The driver and constructor standings might not work before the start of the season so those pages will likely give an error.`,
+			description: `A simple Formula 1 application that provides the race schedule, driver standings, and constructor standings for the current season.
+			The app displays completed races, the upcoming race, and the schedule for later in the season. Data is fetched from jolpica-f1 API.
+			Please note, the driver and constructor standings may not be available before the season starts, so these pages may display an error during that time.`,
 			link: "/projects/f1-app",
 			gitHubLink: "https://github.com/SalonenTeemu/f1-app",
 		},
 		aiChatbotApp: {
 			title: "AI chatbot application",
-			description: `A simple AI chatbot implemented with Google Gemini API using the 1.5 Flash model. 
-     		You can type messages and it will answer. It was interesting to test how AI can be used in web development.
-      		Remember to not give any personal information to the chatbot.`,
+			description: `A simple AI chatbot powered by the Google Gemini API, utilizing the 1.5 Flash model.
+			You can type messages, and the chatbot will respond accordingly.
+			Please remember not to share any personal information with the chatbot.`,
 			link: "/projects/ai-chatbot-app",
 			gitHubLink: "https://github.com/SalonenTeemu/ai-chatbot",
 		},
 		aiChessApp: {
 			title: "Chess against AI application",
-			description: `This is a chess application designed for users to play against an AI opponent. The AI is powered by the minimax algorithm with alpha-beta pruning.
-      		The application allows the player to play as white or black, select from three different AI difficulty level (easy, medium, hard), undo moves and reset the game. 
-      		The app also includes sound effects for moves, captures, checkmate etc.`,
+			description: `This chess application allows users to play against an AI opponent, powered by the minimax algorithm with alpha-beta pruning.
+			Players can choose to play as white or black and select from three difficulty levels: easy, medium, or hard. The app also features options to undo moves and reset the game.
+			Additionally, sound effects are included for moves, captures, checkmate, and more, enhancing the experience.`,
 			link: "/projects/ai-chess-app",
 			gitHubLink: "https://github.com/SalonenTeemu/ai-chess",
 		},

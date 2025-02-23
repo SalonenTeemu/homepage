@@ -1,5 +1,4 @@
 import { roboto } from "@/app/components/common/fonts";
-import AboutMeScroll from "@/app/components/introduction/aboutMeScroll";
 
 /**
  * The front page introduction component.
@@ -28,10 +27,6 @@ export default function Introduction() {
 						<span className={highlightedText}>interested</span> in learning new technologies.
 					</p>
 				</div>
-			</div>
-
-			<div className="absolute bottom-32 flex w-full items-center justify-center text-slate-50 md:bottom-24">
-				<AboutMeScroll />
 			</div>
 		</div>
 	);
