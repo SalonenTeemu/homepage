@@ -16,10 +16,13 @@ Open the application in a browser at: `http://localhost:3000/`
 
 ## Application Features
 
-- **User Authentication**: Users can create an account and log in. Authentication is handled via JWT for user sessions.
-- **Database Storage**: User details are stored in AWS DynamoDB.
+- **User Authentication**: Users can register an account and log in using their username or email. Authentication is handled via JWT for user sessions.
 - **Google reCAPTCHA**: Implemented on the registration form to prevent bot signups.
-- **Password Recovery**: Users who have confirmed their email can request a password reset via email.
+- **Database Storage**: User details are stored in AWS DynamoDB.
+- **User Profile**: Users can view and update their profile or delete their account.
+- **Password Recovery**: After confirming their email address, users can request a password reset via email.
+
+**Please note that the application currently lacks specific functionalities for logged-in users. However, I plan to add more features in the future, such as a forum where authenticated users can post and comment on other user's posts.**
 
 ### Projects Page
 

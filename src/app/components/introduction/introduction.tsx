@@ -92,7 +92,7 @@ export default function Introduction() {
 								</ul>
 								<p className="pl-0 pt-2">
 									<span className="text-lime-500 selection:text-slate-950">Please note </span>
-									that the application currently lacks specific use cases for logged-in users.
+									that the application currently lacks specific functionalities for logged-in users.
 									However, I plan to add more features in the future, such as a forum where
 									authenticated users can post and comment on other user&apos;s posts.
 								</p>
