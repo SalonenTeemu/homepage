@@ -14,16 +14,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			priority: 1,
 		},
 		{
-			url: "https://salonenteemu.fi/resume",
+			url: "https://salonenteemu.fi/about",
 			lastModified: new Date(),
 			changeFrequency: "monthly",
 			priority: 0.8,
 		},
 		{
-			url: "https://salonenteemu.fi/resume/resume.pdf",
+			url: "https://salonenteemu.fi/about/resume.pdf",
 			lastModified: new Date(),
-			changeFrequency: "monthly",
-			priority: 0.5,
+			changeFrequency: "yearly",
+			priority: 0.7,
 		},
 		{
 			url: "https://salonenteemu.fi/projects",
@@ -58,14 +58,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
 		{
 			url: "https://salonenteemu.fi/register",
 			lastModified: new Date(),
-			changeFrequency: "monthly",
-			priority: 0.8,
+			changeFrequency: "yearly",
+			priority: 0.5,
 		},
 		{
 			url: "https://salonenteemu.fi/login",
 			lastModified: new Date(),
-			changeFrequency: "monthly",
-			priority: 0.8,
+			changeFrequency: "yearly",
+			priority: 0.5,
 		},
 		{
 			url: "https://salonenteemu.fi/profile",
@@ -75,6 +75,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
 		},
 		{
 			url: "https://salonenteemu.fi/forgot-password",
+			lastModified: new Date(),
+			changeFrequency: "yearly",
+			priority: 0.5,
+		},
+		{
+			url: "https://salonenteemu.fi/reset-password",
+			lastModified: new Date(),
+			changeFrequency: "yearly",
+			priority: 0.5,
+		},
+		{
+			url: "https://salonenteemu.fi/confirm-email",
 			lastModified: new Date(),
 			changeFrequency: "yearly",
 			priority: 0.5,

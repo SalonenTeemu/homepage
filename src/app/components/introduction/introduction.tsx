@@ -10,7 +10,7 @@ export default function Introduction() {
 	return (
 		<>
 			<div
-				className={`${roboto.variable} mb-8 mt-16 font-rubik text-3xl text-lime-500 selection:text-slate-950 md:text-3xl lg:text-4xl 2xl:text-5xl`}
+				className={`${roboto.variable} mb-4 mt-16 font-rubik text-3xl text-lime-500 selection:text-slate-950 md:text-3xl lg:text-4xl 2xl:text-5xl`}
 			>
 				Welcome!
 			</div>
@@ -80,16 +80,16 @@ export default function Introduction() {
 								</p>
 								<p className="pl-0 pt-2">
 									The application includes user authentication and authorization:
-									<ul className="ml-8 list-disc">
-										<li>Users can register an account and log in using their username or email.</li>
-										<li>User details are stored in AWS DynamoDB.</li>
-										<li>Users can view and update their profile or delete their account.</li>
-										<li>
-											After confirming their email address, users can request a password reset via
-											email.
-										</li>
-									</ul>
 								</p>
+								<ul className="ml-8 list-disc">
+									<li>Users can register an account and log in using their username or email.</li>
+									<li>User details are stored in AWS DynamoDB.</li>
+									<li>Users can view and update their profile or delete their account.</li>
+									<li>
+										After confirming their email address, users can request a password reset via
+										email.
+									</li>
+								</ul>
 								<p className="pl-0 pt-2">
 									<span className="text-lime-500 selection:text-slate-950">Please note </span>
 									that the application currently lacks specific use cases for logged-in users.
