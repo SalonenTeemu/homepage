@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import CustomCursor from "@/app/components/common/customCursor";
 import Navbar from "./components/common/navbar";
 import Introduction from "@/app/components/introduction/introduction";
-import Test from "@/app/components/introduction/test";
 import ScrollTopButton from "@/app/components/common/scrollTopButton";
 import Footer from "./components/common/footer";
 import { inter } from "@/app/components/common/fonts";
@@ -22,7 +21,7 @@ export default function HomePage() {
 			<CustomCursor />
 			<Navbar />
 			<div className={`flex h-full w-full flex-col items-center justify-between ${inter.variable} font-inter`}>
-				<Test />
+				<Introduction />
 				<ScrollTopButton />
 				<Footer />
 			</div>

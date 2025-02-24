@@ -12,7 +12,7 @@ export default function Projects() {
 	return (
 		<div className="container mx-auto px-4 py-8">
 			<div className="text-center">
-				<p className="text-md 3xl:text-3xl pb-4 pt-4 lg:text-lg 2xl:text-xl">
+				<p className="3xl:text-2xl pb-4 pt-4 text-lg lg:text-xl 2xl:text-xl">
 					This page includes some personal projects created for learning purposes and fun.
 					<br />
 					To try out an application, simply click its title. You can also view the projects GitHub repository

@@ -30,7 +30,7 @@ export default function Project({
 						}}
 					/>
 				</div>
-				<p className="pb-2 pl-0">{params.content.description}</p>
+				<p className="text-md lg:text-md pb-2 pl-0 xl:text-lg">{params.content.description}</p>
 			</div>
 		</div>
 	);

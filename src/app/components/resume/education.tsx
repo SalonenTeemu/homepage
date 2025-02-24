@@ -27,7 +27,7 @@ export default function Education({
 						Thesis:{" "}
 						<Link
 							href="https://trepo.tuni.fi/handle/10024/157793"
-							className="text-lime-500 selection:text-slate-950 hover:text-slate-50"
+							className="font-semibold text-lime-500 selection:text-slate-950 hover:text-slate-50"
 						>
 							{params.content.thesis}
 						</Link>

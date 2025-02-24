@@ -31,19 +31,14 @@ export default function AboutMe() {
 						<div className="w-full pb-4 text-center">
 							<p className="3xl:text-5xl pb-4 text-xl lg:text-2xl 2xl:text-3xl">Background</p>
 						</div>
-						<p className="md:text-md 3xl:text-3xl pb-2 text-sm lg:text-lg 2xl:text-xl">
-							{descriptions.aboutMe1}
-						</p>
-						<p className="md:text-md 3xl:text-3xl pb-2 text-sm lg:text-lg 2xl:text-xl">
-							{descriptions.aboutMe2}
-						</p>
-						<p className="md:text-md 3xl:text-3xl pb-2 text-sm lg:text-lg 2xl:text-xl">
-							{descriptions.aboutMe3}
-						</p>
+						<p className="3xl:text-3xl text-md pb-2 lg:text-lg 2xl:text-xl">{descriptions.aboutMe1}</p>
+						<p className="3xl:text-3xl text-md pb-2 lg:text-lg 2xl:text-xl">{descriptions.aboutMe2}</p>
+						<p className="3xl:text-3xl text-md pb-2 lg:text-lg 2xl:text-xl">{descriptions.aboutMe3}</p>
 						<div className="flex flex-col justify-center lg:justify-start">
-							<p className="md:text-md 3xl:text-3xl pb-2 text-sm lg:text-lg 2xl:text-xl">
-								You can view my resume by scrolling down or by clicking the 'LEARN MORE' button below.
-								Feel free to connect with me on LinkedIn or explore some of my projects on GitHub. Reach me via email at{" "}
+							<p className="3xl:text-3xl text-md pb-2 lg:text-lg 2xl:text-xl">
+								You can view my resume by scrolling down or by clicking the &apos;LEARN MORE&apos;
+								button below. Feel free to connect with me on LinkedIn or explore some of my projects on
+								GitHub. Reach me via email at{" "}
 								<Link
 									href="mailto:teemutapani.salonen@gmail.com"
 									target="_blank"
