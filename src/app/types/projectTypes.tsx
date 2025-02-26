@@ -102,3 +102,13 @@ export interface Constructor {
 		nationality: string;
 	};
 }
+
+/**
+ * Represents a forum post.
+ */
+export interface ForumPost {
+	id: string;
+	replies?: ForumPost[];
+	content: string;
+	displayName: string;
+}

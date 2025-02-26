@@ -75,6 +75,16 @@ export default function Navbar() {
 							Projects
 						</Link>
 					</li>
+					<li>
+						<Link
+							href="/forum"
+							className={`text-md font-bold selection:text-slate-950 ${
+								pathname === "/forum" ? "text-lime-500 hover:text-slate-50" : "hover:text-lime-500"
+							}`}
+						>
+							Forum
+						</Link>
+					</li>
 				</ul>
 
 				<div className="fixed right-4 top-4 z-50 flex items-center" ref={menuRef}>
