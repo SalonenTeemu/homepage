@@ -111,4 +111,6 @@ export interface ForumPost {
 	replies?: ForumPost[];
 	content: string;
 	displayName: string;
+	createdAt: string;
+	replyCount?: number;
 }

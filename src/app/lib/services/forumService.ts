@@ -72,7 +72,24 @@ export async function getPosts(threadId?: string) {
 	}
 	try {
 		const result = await ddbDocClient.send(new ScanCommand(params));
-		return result.Items || [];
+		const posts = result.Items || [];
+
+		const postsWithReplyCount = await Promise.all(
+			posts.map(async (post) => {
+				const replyParams = {
+					TableName: tableName,
+					FilterExpression: "threadId = :threadId",
+					ExpressionAttributeValues: {
+						":threadId": post.id,
+					},
+				};
+				const replyResult = await ddbDocClient.send(new ScanCommand(replyParams));
+				const replyCount = replyResult.Count || 0;
+				return { ...post, replyCount };
+			})
+		);
+
+		return postsWithReplyCount;
 	} catch (err) {
 		logger.error(`Forum service: Error retrieving posts from database: ${err}`);
 		throw new Error("Could not retrieve posts from database.");
