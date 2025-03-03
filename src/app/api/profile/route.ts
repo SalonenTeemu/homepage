@@ -40,6 +40,7 @@ export async function GET() {
 		logger.info(`Profile fetch: User data retrieved for user with ID '${user.id}'`);
 		return new Response(
 			JSON.stringify({
+				id: user.id,
 				username: user.username,
 				displayName: user.displayName,
 				email: user.email,

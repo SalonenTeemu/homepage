@@ -79,17 +79,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			changeFrequency: "yearly",
 			priority: 0.5,
 		},
-		{
-			url: "https://salonenteemu.fi/reset-password",
-			lastModified: new Date(),
-			changeFrequency: "yearly",
-			priority: 0.5,
-		},
-		{
-			url: "https://salonenteemu.fi/confirm-email",
-			lastModified: new Date(),
-			changeFrequency: "yearly",
-			priority: 0.5,
-		},
 	];
 }

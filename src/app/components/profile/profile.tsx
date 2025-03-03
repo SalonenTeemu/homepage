@@ -203,7 +203,10 @@ export default function Profile() {
 					notificationContext?.addNotification("success", "A new confirmation email has been sent.");
 				} else {
 					const data = await res.json();
-					notificationContext?.addNotification("error", `Error sending confirmation email. ${data.response}`);
+					notificationContext?.addNotification(
+						"error",
+						`Error sending confirmation email. ${data.response}.`
+					);
 				}
 			} else {
 				notificationContext?.addNotification(

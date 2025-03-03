@@ -108,6 +108,7 @@ export interface Constructor {
  */
 export interface ForumPost {
 	id: string;
+	userId: string;
 	replies?: ForumPost[];
 	content: string;
 	displayName: string;

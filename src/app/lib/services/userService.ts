@@ -9,7 +9,7 @@ const tableName = process.env.AWS_USER_TABLE;
 /**
  * Saves a user to DynamoDB.
  *
- * @param user The user object with username, optional email, and hashed password.
+ * @param user The user object with username, display name, optional email, and hashed password.
  */
 export async function saveUserToDB(user: { username: string; displayName: string; email?: string; password: string }) {
 	const sanitizedEmail = user.email && user.email.trim() !== "" ? user.email : undefined;
