@@ -29,13 +29,16 @@ export default function Profile() {
 	const [confirmPassword, setConfirmPassword] = useState("");
 	const [isPasswordUpdate, setIsPasswordUpdate] = useState(false);
 	const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+	const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+	const [showConfirmPasswordModal, setShowConfirmPasswordModal] = useState(false);
 
 	const user = authContext?.user;
 
 	const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 	const toggleConfirmPasswordVisibility = () => setShowConfirmPassword((prev) => !prev);
+	const toggleConfirmPasswordModal = () => setShowConfirmPasswordModal((prev) => !prev);
 
 	useEffect(() => {
 		if (user) {
@@ -219,6 +222,14 @@ export default function Profile() {
 		}
 	};
 
+	/**
+	 * Handles the form submission to update the account.
+	 */
+	const handleUpdateAccount = async () => {
+		setIsUpdateModalOpen(false);
+		await handleSave();
+	};
+
 	return (
 		<div className="flex min-h-screen items-center justify-center bg-slate-950 text-slate-50">
 			<div className="w-full max-w-sm rounded-lg bg-slate-800 p-6 text-slate-50 shadow-lg">
@@ -256,7 +267,7 @@ export default function Profile() {
 					<form
 						onSubmit={(e) => {
 							e.preventDefault();
-							handleSave();
+							setIsUpdateModalOpen(true);
 						}}
 					>
 						<div className="mb-4">
@@ -384,6 +395,50 @@ export default function Profile() {
 								<button
 									className="ml-2 w-full rounded-md bg-red-500 py-2 text-slate-950 hover:bg-red-600"
 									onClick={handleDeleteAccount}
+								>
+									Confirm
+								</button>
+							</div>
+						</div>
+					</div>
+				)}
+				{isUpdateModalOpen && (
+					<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+						<div className="w-full max-w-md rounded-lg bg-slate-800 p-6 text-slate-50 shadow-lg">
+							<h3 className="text-center text-xl font-semibold text-lime-500">Update Account</h3>
+							<p className="mt-4 text-center text-slate-300">
+								Are you sure you want to update your account with the following changes?
+							</p>
+							<div className="mt-4 text-left">
+								<p>
+									<span className="font-semibold">Username:</span> {username}
+								</p>
+								<p>
+									<span className="font-semibold">Email:</span> {email}
+								</p>
+								{isPasswordUpdate && (
+									<p className="flex items-center">
+										<span className="font-semibold">Password:&nbsp;</span>
+										{showConfirmPasswordModal ? password : "******"}
+										<span
+											onClick={toggleConfirmPasswordModal}
+											className="ml-2 cursor-pointer text-gray-400 hover:text-gray-200"
+										>
+											{showConfirmPasswordModal ? <EyeOff size={20} /> : <Eye size={20} />}
+										</span>
+									</p>
+								)}
+							</div>
+							<div className="mt-6 flex justify-between">
+								<button
+									className="mr-2 w-full rounded-md bg-slate-700 py-2 text-slate-50 hover:bg-slate-600"
+									onClick={() => setIsUpdateModalOpen(false)}
+								>
+									Cancel
+								</button>
+								<button
+									className="ml-2 w-full rounded-md bg-lime-500 py-2 text-slate-950 hover:bg-lime-600"
+									onClick={handleUpdateAccount}
 								>
 									Confirm
 								</button>

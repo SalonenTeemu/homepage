@@ -62,3 +62,16 @@ export const isPasswordValid = (password: string) =>
  * @returns The result of the validation
  */
 export const isEmailValid = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+/**
+ * Maximum length for post.
+ */
+export const maxPostLength = 500;
+
+/**
+ * Validate post length.
+ *
+ * @param post The post to validate
+ * @returns The result of the validation
+ */
+export const isPostValid = (post: string) => post.length > 0 && post.length <= maxPostLength;

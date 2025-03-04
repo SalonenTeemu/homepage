@@ -8,7 +8,7 @@ import Footer from "../components/common/footer";
 import { inter } from "@/app/components/common/fonts";
 
 export const metadata: Metadata = {
-	title: "Forum | Teemu Salonen",
+	title: "Chat Forum | Teemu Salonen",
 };
 
 /**

@@ -148,7 +148,7 @@ export function createHeaderCookies(accessToken: string, refreshToken: string) {
 			path: "/",
 			secure: isProduction,
 			sameSite: "strict",
-			maxAge: 5 * 60,
+			maxAge: 15 * 60,
 		})
 	);
 	headers.append(

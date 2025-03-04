@@ -109,6 +109,7 @@ export interface Constructor {
 export interface ForumPost {
 	id: string;
 	userId: string;
+	edited: boolean;
 	replies?: ForumPost[];
 	content: string;
 	displayName: string;

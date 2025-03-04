@@ -16,9 +16,9 @@ export default function Introduction() {
 			</div>
 			<div className="flex h-full w-full flex-col justify-center text-center text-lg lg:flex-row">
 				<div className="flex w-full justify-center p-4 lg:w-1/2 lg:justify-end">
-					<div className="mr-0 flex w-full flex-col md:w-3/4 lg:ml-8 lg:mr-4 lg:w-4/5 xl:ml-16 xl:mr-16 xl:w-3/4 2xl:w-2/3">
+					<div className="mr-0 flex w-full flex-col md:w-4/5 lg:ml-8 lg:mr-4 lg:w-5/6 xl:ml-16 xl:mr-16 xl:w-4/5 2xl:w-3/4">
 						<p className="3xl:text-3xl pb-4 pt-4 text-xl lg:text-xl 2xl:text-xl">Purpose of the website</p>
-						<div className="mb-4 mt-4 flex w-full flex-col rounded border-2 border-slate-300 p-4 hover:border-lime-500">
+						<div className="mb-2 mt-4 flex w-full flex-col rounded border-2 border-slate-300 p-4 hover:border-lime-500">
 							<div className="flex flex-col text-left">
 								<p className="pl-0 pt-2">
 									Welcome to my personal website, created as a platform for learning full-stack web
@@ -61,9 +61,9 @@ export default function Introduction() {
 					</div>
 				</div>
 				<div className="flex w-full justify-center p-4 lg:w-1/2 lg:justify-start">
-					<div className="ml-0 flex w-full flex-col md:w-3/4 lg:ml-4 lg:mr-8 lg:w-4/5 xl:ml-16 xl:mr-16 xl:w-3/4 2xl:w-2/3">
+					<div className="ml-0 flex w-full flex-col md:w-4/5 lg:ml-4 lg:mr-8 lg:w-5/6 xl:ml-16 xl:mr-16 xl:w-4/5 2xl:w-3/4">
 						<p className="text-md 3xl:text-3xl pb-4 pt-4 text-xl lg:text-xl 2xl:text-xl">Features</p>
-						<div className="mb-4 mt-4 flex w-full flex-col rounded border-2 border-slate-300 p-4 hover:border-lime-500">
+						<div className="mb-2 mt-4 flex w-full flex-col rounded border-2 border-slate-300 p-4 hover:border-lime-500">
 							<div className="flex flex-col text-left">
 								<p className="pl-0 pt-2">
 									The

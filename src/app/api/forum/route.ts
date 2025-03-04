@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { getUserById } from "@/app/lib/services/userService";
 import { validateAccessToken } from "@/app/utils/apiUtils";
 import { savePostToDB, getPostById, getPosts, updatePost, deletePost } from "@/app/lib/services/forumService";
+import { maxPostLength, isPostValid } from "@/app/utils/utils";
 import logger from "@/app/lib/logger";
 
 /**
@@ -43,9 +44,14 @@ export async function POST(req: Request) {
 		const body = await req.json();
 		const { content, threadId } = body;
 
-		if (!content) {
-			logger.warn(`Forum post: Post content not provided`);
-			return new Response(JSON.stringify({ response: "Post content not provided" }), { status: 400 });
+		if (!isPostValid(content)) {
+			logger.warn(`Forum post: Invalid post sent by user with ID '${userToken.id}'`);
+			return new Response(
+				JSON.stringify({ response: `Post must be between 1 and ${maxPostLength} characters` }),
+				{
+					status: 400,
+				}
+			);
 		}
 
 		const user = await getUserById(userToken.id);
@@ -101,14 +107,20 @@ export async function PUT(req: Request) {
 		const { id, content } = body;
 
 		const post = await getPostById(id);
+
+		if (!isPostValid(content)) {
+			logger.warn(`Forum put: Invalid post sent by user with ID '${userToken.id}'`);
+			return new Response(
+				JSON.stringify({ response: `Post must be between 1 and ${maxPostLength} characters` }),
+				{
+					status: 400,
+				}
+			);
+		}
+
 		if (!post) {
 			logger.warn(`Forum put: Post with ID '${id}' not found`);
 			return new Response(JSON.stringify({ response: "Post not found" }), { status: 400 });
-		}
-
-		if (!content) {
-			logger.warn(`Forum put: Post content not provided`);
-			return new Response(JSON.stringify({ response: "Post content not provided" }), { status: 400 });
 		}
 
 		if (post.userId !== userToken.id && userToken.role !== "admin") {
