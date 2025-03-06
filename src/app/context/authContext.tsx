@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useNotification } from "@/app/context/notificationContext";
-import { fetchWithAuth } from "../utils/apiUtils";
+import { fetchWithAuth } from "../utils/projectsUtils/apiUtils";
 import { User } from "@/app/types/authTypes";
 
 export interface AuthContextProps {

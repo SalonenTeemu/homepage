@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { formatDistanceToNow } from "date-fns";
 import { ForumPost } from "@/app/types/projectTypes";
 import { useAuth } from "@/app/context/authContext";
 import { useNotification } from "@/app/context/notificationContext";
-import { fetchWithAuth } from "@/app/utils/apiUtils";
+import { fetchWithAuth } from "@/app/utils/projectsUtils/apiUtils";
 import { maxPostLength, isPostValid } from "@/app/utils/utils";
 
 /**
@@ -16,6 +16,7 @@ import { maxPostLength, isPostValid } from "@/app/utils/utils";
 export default function Forum() {
 	const notificationContext = useNotification();
 	const authContext = useAuth();
+	const [loading, setLoading] = useState(false);
 	const [posts, setPosts] = useState<ForumPost[]>([]);
 	const [newPost, setNewPost] = useState("");
 	const [replyContent, setReplyContent] = useState<{ [key: string]: string }>({});
@@ -29,6 +30,8 @@ export default function Forum() {
 	const [editContent, setEditContent] = useState("");
 	const [editPostId, setEditPostId] = useState<string | null>(null);
 	const [isReplyEdit, setIsReplyEdit] = useState(false);
+	const [lastEvaluatedKey, setLastEvaluatedKey] = useState<any>(null);
+	const [loadingMore, setLoadingMore] = useState(false);
 
 	const user = authContext?.user;
 	const menuRef = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -55,16 +58,19 @@ export default function Forum() {
 	/**
 	 * Fetches the posts from the server.
 	 */
-	const fetchPosts = async () => {
+	const fetchPosts = async (loadMore = false) => {
+		setLoading(true);
 		try {
-			const res = await fetch("/api/forum");
-			const data = await res.json();
-			const sortedPosts = data.sort(
-				(a: ForumPost, b: ForumPost) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+			const res = await fetch(
+				`/api/forum?limit=10${loadMore && lastEvaluatedKey ? `&lastEvaluatedKey=${JSON.stringify(lastEvaluatedKey)}` : ""}`
 			);
-			setPosts(sortedPosts);
+			const data = await res.json();
+			setPosts((prev) => (loadMore ? [...prev, ...data.posts] : data.posts));
+			setLastEvaluatedKey(data.lastEvaluatedKey);
 		} catch (err) {
 			notificationContext?.addNotification("error", "Failed to fetch posts");
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -77,10 +83,7 @@ export default function Forum() {
 		try {
 			const res = await fetch(`/api/forum?threadId=${postId}`);
 			const data = await res.json();
-			const sortedReplies = data.sort(
-				(a: ForumPost, b: ForumPost) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-			);
-			setPosts((prev) => prev.map((post) => (post.id === postId ? { ...post, replies: sortedReplies } : post)));
+			setPosts((prev) => prev.map((post) => (post.id === postId ? { ...post, replies: data.posts } : post)));
 		} catch (err) {
 			notificationContext?.addNotification("error", "Failed to fetch replies");
 		}
@@ -161,6 +164,11 @@ export default function Forum() {
 				if (res.ok) {
 					fetchReplies(postId);
 					setReplyContent((prev) => ({ ...prev, [postId]: "" }));
+					setPosts((prevPosts) =>
+						prevPosts.map((post) =>
+							post.id === postId ? { ...post, replyCount: (post.replyCount ?? 0) + 1 } : post
+						)
+					);
 					notificationContext?.addNotification("success", "Reply sent successfully");
 				} else {
 					notificationContext?.addNotification("error", `Failed to send reply. ${data.response}.`);
@@ -176,7 +184,7 @@ export default function Forum() {
 	 *
 	 * @param postId The post ID to toggle replies for
 	 */
-	const toggleReplies = (postId: string) => {
+	const toggleReplies = useCallback((postId: string) => {
 		setShowReplies((prev) => {
 			const shouldShow = !prev[postId];
 
@@ -191,14 +199,14 @@ export default function Forum() {
 
 			return { ...prev, [postId]: shouldShow };
 		});
-	};
+	}, []);
 
 	/**
 	 * Toggles the reply form for a post.
 	 *
 	 * @param postId The post ID to toggle the reply form for
 	 */
-	const toggleReplyForm = (postId: string) => {
+	const toggleReplyForm = useCallback((postId: string) => {
 		setReplyFormOpen((prev) => {
 			const isOpen = !prev[postId];
 			if (!isOpen) {
@@ -209,16 +217,16 @@ export default function Forum() {
 		if (!showReplies[postId]) {
 			toggleReplies(postId);
 		}
-	};
+	}, []);
 
 	/**
 	 * Toggle the menu for a post.
 	 *
 	 * @param postId The post ID to toggle the menu for
 	 */
-	const toggleMenu = (postId: string) => {
+	const toggleMenu = useCallback((postId: string) => {
 		setMenuOpen((prev) => ({ ...prev, [postId]: !prev[postId] }));
-	};
+	}, []);
 
 	/**
 	 * Edit a post.
@@ -262,7 +270,9 @@ export default function Forum() {
 				} else {
 					if (!isReplyEdit) {
 						setPosts((prevPosts) =>
-							prevPosts.map((post) => (post.id === editPostId ? { ...post, content: editContent } : post))
+							prevPosts.map((post) =>
+								post.id === editPostId ? { ...post, content: editContent, edited: true } : post
+							)
 						);
 					} else {
 						setPosts((prevPosts) =>
@@ -271,7 +281,9 @@ export default function Forum() {
 									? {
 											...post,
 											replies: post.replies?.map((reply) =>
-												reply.id === editPostId ? { ...reply, content: editContent } : reply
+												reply.id === editPostId
+													? { ...reply, content: editContent, edited: true }
+													: reply
 											),
 										}
 									: post
@@ -389,6 +401,8 @@ export default function Forum() {
 				<p className="mb-4 text-center text-slate-400">Log in to create a post.</p>
 			)}
 
+			{loading && <p className="text-center text-slate-400">Loading...</p>}
+
 			<div className="space-y-4">
 				{posts.map((post) => (
 					<div key={post.id} className="rounded-lg border-2 border-slate-700 p-4 hover:border-lime-500">
@@ -436,7 +450,7 @@ export default function Forum() {
 							)}
 						</div>
 
-						<p className="mt-2 text-slate-50">{post.content}</p>
+						<p className="mt-2 whitespace-pre-wrap break-words text-slate-50">{post.content}</p>
 
 						<div className="mt-2 flex justify-between">
 							<div className="flex gap-2">
@@ -511,7 +525,7 @@ export default function Forum() {
 												</div>
 											)}
 										</div>
-										<p className="text-slate-50">{reply.content}</p>
+										<p className="whitespace-pre-wrap break-words text-slate-50">{reply.content}</p>
 									</div>
 								))}
 
@@ -545,6 +559,19 @@ export default function Forum() {
 					</div>
 				))}
 			</div>
+			{posts.length > 0 && lastEvaluatedKey && (
+				<div className="mt-4 flex justify-center">
+					<button
+						className="rounded-md bg-lime-500 px-4 py-2 font-semibold text-slate-950 transition hover:bg-lime-600"
+						onClick={() => {
+							setLoadingMore(true);
+							fetchPosts(true).finally(() => setLoadingMore(false));
+						}}
+					>
+						{loadingMore ? "Loading..." : "Load More"}
+					</button>
+				</div>
+			)}
 			{isDeleteModalOpen && (
 				<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
 					<div className="w-full max-w-md rounded-lg bg-slate-800 p-6 text-slate-50 shadow-lg">

@@ -1,4 +1,4 @@
-import { Race } from "../types/projectTypes";
+import { Race } from "../../types/projectTypes";
 
 /**
  * Checks if a race is finished based on its date.

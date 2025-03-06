@@ -1,9 +1,30 @@
 import { cookies } from "next/headers";
 import { getUserById } from "@/app/lib/services/userService";
-import { validateAccessToken } from "@/app/utils/apiUtils";
-import { savePostToDB, getPostById, getPosts, updatePost, deletePost } from "@/app/lib/services/forumService";
+import { validateAccessToken } from "@/app/utils/projectsUtils/apiUtils";
+import { savePost, getPostById, getPosts, updatePost, deletePost } from "@/app/lib/services/forumService";
 import { maxPostLength, isPostValid } from "@/app/utils/utils";
 import logger from "@/app/lib/logger";
+import { checkPostRateLimit } from "@/app/utils/rateLimiting";
+
+/**
+ * Responds to a GET request to retrieve posts.
+ *
+ * @param req the request object
+ * @returns {Response} the response object
+ */
+/*export async function GET(req: Request) {
+	const { searchParams } = new URL(req.url);
+	const threadId = searchParams.get("threadId");
+
+	try {
+		const posts = await getPosts(threadId || undefined);
+		logger.info(`Forum get: Posts retrieved with thread ID '${threadId}'`);
+		return new Response(JSON.stringify(posts), { status: 200 });
+	} catch (err) {
+		logger.error(`Forum get: Error retrieving posts: ${err}`);
+		return new Response(JSON.stringify({ response: "Failed to fetch posts" }), { status: 500 });
+	}
+} */
 
 /**
  * Responds to a GET request to retrieve posts.
@@ -14,11 +35,19 @@ import logger from "@/app/lib/logger";
 export async function GET(req: Request) {
 	const { searchParams } = new URL(req.url);
 	const threadId = searchParams.get("threadId");
+	const limit = parseInt(searchParams.get("limit") || "10", 10);
+	const lastEvaluatedKey = searchParams.get("lastEvaluatedKey")
+		? JSON.parse(searchParams.get("lastEvaluatedKey") as string)
+		: undefined;
 
 	try {
-		const posts = await getPosts(threadId || undefined);
+		const { posts, lastEvaluatedKey: newLastEvaluatedKey } = await getPosts(
+			threadId || undefined,
+			limit,
+			lastEvaluatedKey
+		);
 		logger.info(`Forum get: Posts retrieved with thread ID '${threadId}'`);
-		return new Response(JSON.stringify(posts), { status: 200 });
+		return new Response(JSON.stringify({ posts, lastEvaluatedKey: newLastEvaluatedKey }), { status: 200 });
 	} catch (err) {
 		logger.error(`Forum get: Error retrieving posts: ${err}`);
 		return new Response(JSON.stringify({ response: "Failed to fetch posts" }), { status: 500 });
@@ -39,6 +68,16 @@ export async function POST(req: Request) {
 	if (status !== 200) {
 		logger.warn(`Forum post: ${error}`);
 		return new Response(JSON.stringify({ response: error }), { status });
+	}
+
+	if (!checkPostRateLimit(userToken.id)) {
+		logger.warn(`Forum post: Rate limit exceeded for user with ID '${userToken.id}'`);
+		return new Response(
+			JSON.stringify({ response: "Exceeded limit for posts per day. Please try again tomorrow" }),
+			{
+				status: 400,
+			}
+		);
 	}
 	try {
 		const body = await req.json();
@@ -70,7 +109,7 @@ export async function POST(req: Request) {
 			}
 		}
 
-		await savePostToDB({
+		await savePost({
 			userId: user.id,
 			displayName: user.displayName,
 			content,

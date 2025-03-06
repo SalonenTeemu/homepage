@@ -12,7 +12,7 @@ import {
 } from "@/app/utils/utils";
 import { useAuth } from "../../context/authContext";
 import { useNotification } from "@/app/context/notificationContext";
-import { fetchWithAuth } from "@/app/utils/apiUtils";
+import { fetchWithAuth } from "@/app/utils/projectsUtils/apiUtils";
 
 /**
  * The Profile component.

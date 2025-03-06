@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Competition, Match } from "@/app/types/projectTypes";
-import { formatMatchDate } from "@/app/utils/premierLeagueAppUtils";
+import { formatMatchDate } from "@/app/utils/projectsUtils/premierLeagueAppUtils";
 
 /**
  * Component that displays the matches for a specific matchday.

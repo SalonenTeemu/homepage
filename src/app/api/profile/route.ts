@@ -8,7 +8,7 @@ import {
 	getUserByUsername,
 } from "@/app/lib/services/userService";
 import { isEmailValid, isPasswordValid, passwordMinLength } from "@/app/utils/utils";
-import { validateAccessToken } from "@/app/utils/apiUtils";
+import { validateAccessToken } from "@/app/utils/projectsUtils/apiUtils";
 import { sendConfirmationEmail } from "@/app/lib/services/emailService";
 import { createToken } from "@/app/lib/services/authService";
 import logger from "@/app/lib/logger";

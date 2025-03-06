@@ -5,7 +5,7 @@ import { Chess, WHITE, BLACK } from "chess.js";
 import { Chessboard } from "react-chessboard";
 import { useNotification } from "@/app/context/notificationContext";
 import { playSound } from "@/app/utils/utils";
-import { minimaxRoot } from "@/app/utils/aiChessAppUtils";
+import { minimaxRoot } from "@/app/utils/projectsUtils/aiChessAppUtils";
 
 /**
  * The ChessGame component.

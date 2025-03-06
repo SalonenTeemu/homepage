@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { PutCommand, GetCommand, ScanCommand, DeleteCommand, UpdateCommand } from "@aws-sdk/lib-dynamodb";
+import { PutCommand, GetCommand, ScanCommand, DeleteCommand, UpdateCommand, QueryCommand } from "@aws-sdk/lib-dynamodb";
 import { ReturnValue } from "@aws-sdk/client-dynamodb";
 import { ddbDocClient } from "../dynamoDbClient";
 import logger from "../logger";
@@ -11,7 +11,7 @@ const tableName = process.env.AWS_FORUM_TABLE;
  *
  * @param post The post object with userId, displayName, content, and optional threadId.
  */
-export async function savePostToDB(post: { userId: string; displayName: string; content: string; threadId?: string }) {
+export async function savePost(post: { userId: string; displayName: string; content: string; threadId?: string }) {
 	const params = {
 		TableName: tableName,
 		Item: {
@@ -59,51 +59,47 @@ export async function getPostById(id: string) {
 }
 
 /**
- * Retrieves posts from the database. If a threadId is provided, retrieves posts for that thread.
+ * Retrieves posts from the database with pagination.
+ * If a threadId is provided, retrieves posts for that thread.
  *
- * @param threadId The thread id to retrieve posts for
- * @returns The posts for the thread
+ * @param threadId The thread id to retrieve posts for or null for all posts
+ * @param limit The maximum number of posts to retrieve
+ * @param lastEvaluatedKey The key to start the query from
+ * @returns The posts for the thread and the last evaluated key for pagination
  */
-export async function getPosts(threadId?: string) {
-	let params;
+export async function getPosts(threadId?: string, limit: number = 10, lastEvaluatedKey?: any) {
+	let params: any = {
+		TableName: tableName,
+		IndexName: "createdAt-index",
+		Limit: limit,
+		ExclusiveStartKey: lastEvaluatedKey,
+		ScanIndexForward: false,
+		KeyConditionExpression: threadId ? "threadId = :threadId" : "threadId = :nullVal",
+		ExpressionAttributeValues: threadId ? { ":threadId": threadId } : { ":nullVal": "null" },
+	};
 
-	if (threadId) {
-		params = {
-			TableName: tableName,
-			FilterExpression: "threadId = :threadId",
-			ExpressionAttributeValues: {
-				":threadId": threadId,
-			},
-		};
-	} else {
-		params = {
-			TableName: tableName,
-			FilterExpression: "threadId = :threadId",
-			ExpressionAttributeValues: {
-				":threadId": "null",
-			},
-		};
-	}
 	try {
-		const result = await ddbDocClient.send(new ScanCommand(params));
+		const result = await ddbDocClient.send(new QueryCommand(params));
 		const posts = result.Items || [];
+		const lastKey = result.LastEvaluatedKey || null;
 
 		const postsWithReplyCount = await Promise.all(
 			posts.map(async (post) => {
 				const replyParams = {
 					TableName: tableName,
-					FilterExpression: "threadId = :threadId",
+					IndexName: "createdAt-index",
+					KeyConditionExpression: "threadId = :threadId",
 					ExpressionAttributeValues: {
 						":threadId": post.id,
 					},
 				};
-				const replyResult = await ddbDocClient.send(new ScanCommand(replyParams));
+				const replyResult = await ddbDocClient.send(new QueryCommand(replyParams));
 				const replyCount = replyResult.Count || 0;
 				return { ...post, replyCount };
 			})
 		);
 
-		return postsWithReplyCount;
+		return { posts: postsWithReplyCount, lastEvaluatedKey: lastKey };
 	} catch (err) {
 		logger.error(`Forum service: Error retrieving posts from database: ${err}`);
 		throw new Error("Could not retrieve posts from database.");

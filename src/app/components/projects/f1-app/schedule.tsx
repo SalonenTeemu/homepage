@@ -1,5 +1,5 @@
 import { Race } from "@/app/types/projectTypes";
-import { isRaceFinished, getNextRaceIndex, formatTime, formatDate } from "@/app/utils/f1AppUtils";
+import { isRaceFinished, getNextRaceIndex, formatTime, formatDate } from "@/app/utils/projectsUtils/f1AppUtils";
 import ScrollToNextRaceButton from "@/app/components/projects/f1-app/scrollToNextRaceButton";
 
 /**
