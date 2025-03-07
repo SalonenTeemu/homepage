@@ -10,23 +10,27 @@ const tableName = process.env.AWS_FORUM_TABLE;
  * Saves a post to DynamoDB.
  *
  * @param post The post object with userId, displayName, content, and optional threadId.
+ * @returns The saved post object
  */
 export async function savePost(post: { userId: string; displayName: string; content: string; threadId?: string }) {
+	const newPost = {
+		id: uuidv4(),
+		userId: post.userId,
+		displayName: post.displayName,
+		content: post.content,
+		threadId: post.threadId || "null",
+		edited: false,
+		createdAt: new Date().toISOString(),
+	};
+
 	const params = {
 		TableName: tableName,
-		Item: {
-			id: uuidv4(),
-			userId: post.userId,
-			displayName: post.displayName,
-			content: post.content,
-			threadId: post.threadId || "null",
-			edited: false,
-			createdAt: new Date().toISOString(),
-		},
+		Item: newPost,
 	};
 
 	try {
 		await ddbDocClient.send(new PutCommand(params));
+		return newPost;
 	} catch (err) {
 		logger.error(`Forum service: Error saving post to database: ${err}`);
 		throw new Error("Could not save post to database.");
@@ -59,23 +63,21 @@ export async function getPostById(id: string) {
 }
 
 /**
- * Retrieves posts from the database with pagination.
- * If a threadId is provided, retrieves posts for that thread.
+ * Retrieves original posts from the database with pagination.
  *
- * @param threadId The thread id to retrieve posts for or null for all posts
  * @param limit The maximum number of posts to retrieve
  * @param lastEvaluatedKey The key to start the query from
- * @returns The posts for the thread and the last evaluated key for pagination
+ * @returns The posts and the last evaluated key for pagination
  */
-export async function getPosts(threadId?: string, limit: number = 10, lastEvaluatedKey?: any) {
+export async function getPosts(limit: number = 10, lastEvaluatedKey?: any) {
 	let params: any = {
 		TableName: tableName,
 		IndexName: "createdAt-index",
 		Limit: limit,
 		ExclusiveStartKey: lastEvaluatedKey,
 		ScanIndexForward: false,
-		KeyConditionExpression: threadId ? "threadId = :threadId" : "threadId = :nullVal",
-		ExpressionAttributeValues: threadId ? { ":threadId": threadId } : { ":nullVal": "null" },
+		KeyConditionExpression: "threadId = :nullVal",
+		ExpressionAttributeValues: { ":nullVal": "null" },
 	};
 
 	try {
@@ -103,6 +105,39 @@ export async function getPosts(threadId?: string, limit: number = 10, lastEvalua
 	} catch (err) {
 		logger.error(`Forum service: Error retrieving posts from database: ${err}`);
 		throw new Error("Could not retrieve posts from database.");
+	}
+}
+
+/**
+ * Retrieves replies to a post with pagination.
+ *
+ * @param postId The id of the post to retrieve replies for
+ * @param limit The maximum number of replies to retrieve
+ * @param lastEvaluatedKey The key to start the query from
+ * @returns The replies and the last evaluated key for pagination
+ */
+export async function getReplies(postId: string, limit: number = 10, lastEvaluatedKey?: any) {
+	const params: any = {
+		TableName: tableName,
+		IndexName: "createdAt-index",
+		Limit: limit,
+		ExclusiveStartKey: lastEvaluatedKey,
+		KeyConditionExpression: "threadId = :threadId",
+		ExpressionAttributeValues: {
+			":threadId": postId,
+		},
+		ScanIndexForward: false,
+	};
+
+	try {
+		const result = await ddbDocClient.send(new QueryCommand(params));
+		const replies = result.Items || [];
+		const lastKey = result.LastEvaluatedKey || null;
+
+		return { replies, lastEvaluatedKey: lastKey };
+	} catch (err) {
+		logger.error(`Forum service: Error retrieving replies from database: ${err}`);
+		throw new Error("Could not retrieve replies from database.");
 	}
 }
 

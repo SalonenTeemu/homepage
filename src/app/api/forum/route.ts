@@ -1,33 +1,13 @@
 import { cookies } from "next/headers";
 import { getUserById } from "@/app/lib/services/userService";
 import { validateAccessToken } from "@/app/utils/projectsUtils/apiUtils";
-import { savePost, getPostById, getPosts, updatePost, deletePost } from "@/app/lib/services/forumService";
+import { savePost, getPostById, getPosts, getReplies, updatePost, deletePost } from "@/app/lib/services/forumService";
 import { maxPostLength, isPostValid } from "@/app/utils/utils";
 import logger from "@/app/lib/logger";
 import { checkPostRateLimit } from "@/app/utils/rateLimiting";
 
 /**
- * Responds to a GET request to retrieve posts.
- *
- * @param req the request object
- * @returns {Response} the response object
- */
-/*export async function GET(req: Request) {
-	const { searchParams } = new URL(req.url);
-	const threadId = searchParams.get("threadId");
-
-	try {
-		const posts = await getPosts(threadId || undefined);
-		logger.info(`Forum get: Posts retrieved with thread ID '${threadId}'`);
-		return new Response(JSON.stringify(posts), { status: 200 });
-	} catch (err) {
-		logger.error(`Forum get: Error retrieving posts: ${err}`);
-		return new Response(JSON.stringify({ response: "Failed to fetch posts" }), { status: 500 });
-	}
-} */
-
-/**
- * Responds to a GET request to retrieve posts.
+ * Responds to a GET request to retrieve posts or replies.
  *
  * @param req the request object
  * @returns {Response} the response object
@@ -41,16 +21,24 @@ export async function GET(req: Request) {
 		: undefined;
 
 	try {
-		const { posts, lastEvaluatedKey: newLastEvaluatedKey } = await getPosts(
-			threadId || undefined,
-			limit,
-			lastEvaluatedKey
-		);
-		logger.info(`Forum get: Posts retrieved with thread ID '${threadId}'`);
-		return new Response(JSON.stringify({ posts, lastEvaluatedKey: newLastEvaluatedKey }), { status: 200 });
+		if (threadId) {
+			const { replies, lastEvaluatedKey: newLastEvaluatedKey } = await getReplies(
+				threadId,
+				limit,
+				lastEvaluatedKey
+			);
+			logger.info(`Forum get: Replies retrieved for thread ID '${threadId}'`);
+			return new Response(JSON.stringify({ replies: replies || [], lastEvaluatedKey: newLastEvaluatedKey }), {
+				status: 200,
+			});
+		} else {
+			const { posts, lastEvaluatedKey: newLastEvaluatedKey } = await getPosts(limit, lastEvaluatedKey);
+			logger.info(`Forum get: Posts retrieved`);
+			return new Response(JSON.stringify({ posts, lastEvaluatedKey: newLastEvaluatedKey }), { status: 200 });
+		}
 	} catch (err) {
-		logger.error(`Forum get: Error retrieving posts: ${err}`);
-		return new Response(JSON.stringify({ response: "Failed to fetch posts" }), { status: 500 });
+		logger.error(`Forum get: Error retrieving posts or replies: ${err}`);
+		return new Response(JSON.stringify({ response: "Failed to fetch posts or replies" }), { status: 500 });
 	}
 }
 
@@ -109,7 +97,7 @@ export async function POST(req: Request) {
 			}
 		}
 
-		await savePost({
+		const newPost = await savePost({
 			userId: user.id,
 			displayName: user.displayName,
 			content,
@@ -118,7 +106,7 @@ export async function POST(req: Request) {
 
 		logger.info(`Forum post: Post sent by user with ID '${user.id}'`);
 
-		return new Response(JSON.stringify({ response: "Post saved" }), { status: 201 });
+		return new Response(JSON.stringify({ response: newPost }), { status: 200 });
 	} catch (err) {
 		logger.error(`Forum post: Error sending post: ${err}`);
 		return new Response(JSON.stringify({ response: "Sending post failed" }), { status: 500 });

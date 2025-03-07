@@ -107,6 +107,7 @@ export interface Constructor {
  * Represents a forum post.
  */
 export interface ForumPost {
+	lastEvaluatedKey: any;
 	id: string;
 	userId: string;
 	edited: boolean;

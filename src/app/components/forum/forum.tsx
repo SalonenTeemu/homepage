@@ -32,6 +32,7 @@ export default function Forum() {
 	const [isReplyEdit, setIsReplyEdit] = useState(false);
 	const [lastEvaluatedKey, setLastEvaluatedKey] = useState<any>(null);
 	const [loadingMore, setLoadingMore] = useState(false);
+	const [loadingMoreReplies, setLoadingMoreReplies] = useState<{ [key: string]: boolean }>({});
 
 	const user = authContext?.user;
 	const menuRef = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -57,6 +58,8 @@ export default function Forum() {
 
 	/**
 	 * Fetches the posts from the server.
+	 *
+	 * @param loadMore Whether to load more posts or not
 	 */
 	const fetchPosts = async (loadMore = false) => {
 		setLoading(true);
@@ -75,15 +78,30 @@ export default function Forum() {
 	};
 
 	/**
-	 * Fetches the replies for a post.
+	 * Fetches the replies for a post. If loadMore is true, fetches more replies using the last evaluated key.
 	 *
 	 * @param postId The post ID to fetch replies for
+	 * @param loadMore Whether to load more replies or not
+	 * @param postLastEvaluatedKey The last evaluated key for pagination
 	 */
-	const fetchReplies = async (postId: string) => {
+	const fetchReplies = async (postId: string, loadMore = false, postLastEvaluatedKey?: any) => {
 		try {
-			const res = await fetch(`/api/forum?threadId=${postId}`);
+			const res = await fetch(
+				`/api/forum?threadId=${postId}&limit=10${loadMore && postLastEvaluatedKey ? `&lastEvaluatedKey=${JSON.stringify(postLastEvaluatedKey)}` : ""}`
+			);
 			const data = await res.json();
-			setPosts((prev) => prev.map((post) => (post.id === postId ? { ...post, replies: data.posts } : post)));
+			const fetchedReplies = data.replies || [];
+			setPosts((prev) =>
+				prev.map((post) =>
+					post.id === postId
+						? {
+								...post,
+								replies: loadMore ? [...(post.replies || []), ...fetchedReplies] : fetchedReplies,
+								lastEvaluatedKey: data.lastEvaluatedKey,
+							}
+						: post
+				)
+			);
 		} catch (err) {
 			notificationContext?.addNotification("error", "Failed to fetch replies");
 		}
@@ -116,11 +134,12 @@ export default function Forum() {
 			);
 
 			if (res) {
-				const data = await res.json();
+				const responseData = await res.json();
+				const data = responseData.response;
 
 				if (res.ok) {
-					fetchPosts();
 					setNewPost("");
+					setPosts((prev) => [{ ...data, replies: [], replyCount: 0 }, ...prev]);
 					notificationContext?.addNotification("success", "Post sent successfully");
 				} else {
 					notificationContext?.addNotification("error", `Failed to send post. ${data.response}.`);
@@ -160,13 +179,19 @@ export default function Forum() {
 			);
 
 			if (res) {
-				const data = await res.json();
+				const responseData = await res.json();
+				const data = responseData.response;
 				if (res.ok) {
-					fetchReplies(postId);
 					setReplyContent((prev) => ({ ...prev, [postId]: "" }));
 					setPosts((prevPosts) =>
 						prevPosts.map((post) =>
-							post.id === postId ? { ...post, replyCount: (post.replyCount ?? 0) + 1 } : post
+							post.id === postId
+								? {
+										...post,
+										replies: [data, ...(post.replies || [])],
+										replyCount: (post.replyCount ?? 0) + 1,
+									}
+								: post
 						)
 					);
 					notificationContext?.addNotification("success", "Reply sent successfully");
@@ -214,9 +239,6 @@ export default function Forum() {
 			}
 			return { ...prev, [postId]: isOpen };
 		});
-		if (!showReplies[postId]) {
-			toggleReplies(postId);
-		}
 	}, []);
 
 	/**
@@ -233,6 +255,7 @@ export default function Forum() {
 	 *
 	 * @param postId The post ID to edit.
 	 * @param isReply Whether the post is a reply or not.
+	 * @param content The content of the post.
 	 */
 	const editPost = (postId: string, isReply: boolean, content: string) => {
 		setEditPostId(postId);
@@ -529,6 +552,22 @@ export default function Forum() {
 									</div>
 								))}
 
+								{post.lastEvaluatedKey && (
+									<div className="mb-4 mt-4 flex justify-center">
+										<button
+											className="rounded-md bg-lime-500 px-4 py-2 font-semibold text-slate-950 transition hover:bg-lime-600"
+											onClick={() => {
+												setLoadingMoreReplies((prev) => ({ ...prev, [post.id]: true }));
+												fetchReplies(post.id, true, post.lastEvaluatedKey).finally(() =>
+													setLoadingMoreReplies((prev) => ({ ...prev, [post.id]: false }))
+												);
+											}}
+										>
+											{loadingMoreReplies[post.id] ? "Loading..." : "Load More Replies"}
+										</button>
+									</div>
+								)}
+
 								{user && replyFormOpen[post.id] && (
 									<div className="mt-2">
 										<input
@@ -568,7 +607,7 @@ export default function Forum() {
 							fetchPosts(true).finally(() => setLoadingMore(false));
 						}}
 					>
-						{loadingMore ? "Loading..." : "Load More"}
+						{loadingMore ? "Loading..." : "Load More Posts"}
 					</button>
 				</div>
 			)}

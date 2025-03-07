@@ -140,7 +140,6 @@ export const getPieceValue = function (piece: any, x: number, y: number) {
 		} else if (piece.type === "k") {
 			return 900 + (isWhite ? kingEvalWhite[y][x] : kingEvalBlack[y][x]);
 		} else {
-			console.log("Unknown piece type: " + piece.type);
 			return 0;
 		}
 	};
