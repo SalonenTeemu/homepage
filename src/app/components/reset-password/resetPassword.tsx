@@ -86,7 +86,7 @@ export default function ResetPassword() {
 				const data = await res.json();
 
 				if (res.ok) {
-					notificationContext?.addNotification("success", "Your password has been reset successfully.");
+					notificationContext?.addNotification("success", "Your password has been reset.");
 					if (user) {
 						authContext.fetchProfile();
 					}
@@ -98,7 +98,7 @@ export default function ResetPassword() {
 					setTimerVisible(false);
 					return;
 				}
-			} catch (err) {
+			} catch {
 				notificationContext?.addNotification("error", "Something went wrong. Please try again.");
 				setTimerVisible(false);
 			}

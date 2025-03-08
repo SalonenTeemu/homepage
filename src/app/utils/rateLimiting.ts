@@ -12,7 +12,7 @@ const rateLimitOptions = {
  * Define rate limiting options for forum posting.
  */
 const postRateLimitOptions = {
-	max: 1000, // Max posts per user per day
+	max: 10, // Max posts per user per day
 	ttl: 24 * 60 * 60 * 1000, // 24 hours
 };
 

@@ -14,7 +14,7 @@ export default function Technologies({
 	};
 }) {
 	return (
-		<div className="mb-4 mt-4 flex w-full flex-col rounded border-2 border-slate-300 p-4 hover:border-lime-500">
+		<div className="mb-4 mt-4 flex w-full flex-col rounded-lg border-2 border-slate-300 p-4 hover:border-lime-500">
 			<div className="flex flex-col text-left">
 				<div className="flex flex-row flex-wrap pb-2 pt-2">
 					{params.content.map((x) => (

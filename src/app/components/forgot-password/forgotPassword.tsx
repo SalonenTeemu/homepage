@@ -36,7 +36,7 @@ export default function ForgotPassword() {
 			}
 			notificationContext?.addNotification("success", `Password reset request has been sent to ${email}.`);
 			setEmail("");
-		} catch (err) {
+		} catch {
 			notificationContext?.addNotification("error", "Error requesting password reset. Please try again.");
 		}
 	};

@@ -45,7 +45,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 			const data = await res.json();
 
 			setUser(data);
-		} catch (err) {
+		} catch {
 			setUser(null);
 		} finally {
 			setLoading(false);
@@ -85,7 +85,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 				if (!res.ok) {
 					logout();
 				}
-			} catch (err) {
+			} catch {
 				logout();
 			}
 		};

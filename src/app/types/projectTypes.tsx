@@ -1,11 +1,11 @@
 /**
  * Represents a project in the projects page.
  */
-export interface ProjectType {
+export interface Project {
 	title: string;
 	description: string;
 	link: string;
-	gitHubLink: string;
+	gitHubLink?: string;
 }
 
 /**

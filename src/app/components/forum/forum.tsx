@@ -33,6 +33,7 @@ export default function Forum() {
 	const [lastEvaluatedKey, setLastEvaluatedKey] = useState<any>(null);
 	const [loadingMore, setLoadingMore] = useState(false);
 	const [loadingMoreReplies, setLoadingMoreReplies] = useState<{ [key: string]: boolean }>({});
+	const [isGuidelinesModalOpen, setIsGuidelinesModalOpen] = useState(false);
 
 	const user = authContext?.user;
 	const menuRef = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -70,8 +71,8 @@ export default function Forum() {
 			const data = await res.json();
 			setPosts((prev) => (loadMore ? [...prev, ...data.posts] : data.posts));
 			setLastEvaluatedKey(data.lastEvaluatedKey);
-		} catch (err) {
-			notificationContext?.addNotification("error", "Failed to fetch posts");
+		} catch {
+			notificationContext?.addNotification("error", "Failed to fetch posts.");
 		} finally {
 			setLoading(false);
 		}
@@ -102,8 +103,8 @@ export default function Forum() {
 						: post
 				)
 			);
-		} catch (err) {
-			notificationContext?.addNotification("error", "Failed to fetch replies");
+		} catch {
+			notificationContext?.addNotification("error", "Failed to fetch replies.");
 		}
 	};
 
@@ -140,12 +141,12 @@ export default function Forum() {
 				if (res.ok) {
 					setNewPost("");
 					setPosts((prev) => [{ ...data, replies: [], replyCount: 0 }, ...prev]);
-					notificationContext?.addNotification("success", "Post sent successfully");
+					notificationContext?.addNotification("success", "Post sent.");
 				} else {
 					notificationContext?.addNotification("error", `Failed to send post. ${data.response}.`);
 				}
 			}
-		} catch (err) {
+		} catch {
 			notificationContext?.addNotification("error", "Failed to send post. Please try again later.");
 		}
 	};
@@ -194,12 +195,13 @@ export default function Forum() {
 								: post
 						)
 					);
-					notificationContext?.addNotification("success", "Reply sent successfully");
+					setShowReplies((prev) => ({ ...prev, [postId]: true }));
+					notificationContext?.addNotification("success", "Reply sent.");
 				} else {
 					notificationContext?.addNotification("error", `Failed to send reply. ${data.response}.`);
 				}
 			}
-		} catch (err) {
+		} catch {
 			notificationContext?.addNotification("error", "Failed to send reply.");
 		}
 	};
@@ -270,8 +272,9 @@ export default function Forum() {
 	const handleEditPost = async () => {
 		if (!editPostId) return;
 
-		if (!editContent.trim()) {
-			notificationContext?.addNotification("error", "Post content cannot be empty.");
+		if (!editContent.trim()) return;
+		if (!isPostValid(editContent)) {
+			notificationContext?.addNotification("error", `Post cannot exceed ${maxPostLength} characters.`);
 			return;
 		}
 
@@ -313,15 +316,15 @@ export default function Forum() {
 							)
 						);
 					}
-					notificationContext?.addNotification("success", "Post edited successfully");
+					notificationContext?.addNotification("success", "Post edited.");
+					setMenuOpen((prev) => ({ ...prev, [editPostId]: false }));
+					setIsEditModalOpen(false);
+					setEditPostId(null);
+					setEditContent("");
+					setIsReplyEdit(false);
 				}
 			}
-			setMenuOpen((prev) => ({ ...prev, [editPostId]: false }));
-			setIsEditModalOpen(false);
-			setEditPostId(null);
-			setEditContent("");
-			setIsReplyEdit(false);
-		} catch (err) {
+		} catch {
 			notificationContext?.addNotification("error", "Failed to edit post.");
 			setMenuOpen((prev) => ({ ...prev, [editPostId]: false }));
 			setIsEditModalOpen(false);
@@ -381,18 +384,25 @@ export default function Forum() {
 							)
 						);
 					}
-					notificationContext?.addNotification("success", "Post deleted successfully");
+					notificationContext?.addNotification("success", "Post deleted.");
 				}
 			}
 			setIsDeleteModalOpen(false);
 			setPostToDelete(null);
 			setMenuOpen((prev) => ({ ...prev, [id]: false }));
-		} catch (err) {
+		} catch {
 			notificationContext?.addNotification("error", "Failed to delete post.");
 			setIsDeleteModalOpen(false);
 			setPostToDelete(null);
 			setMenuOpen((prev) => ({ ...prev, [id]: false }));
 		}
+	};
+
+	/**
+	 * Toggles the guidelines modal.
+	 */
+	const toggleGuidelinesModal = () => {
+		setIsGuidelinesModalOpen((prev) => !prev);
 	};
 
 	return (
@@ -401,23 +411,31 @@ export default function Forum() {
 
 			{user ? (
 				<div className="mb-6 flex flex-col gap-2">
-					<input
-						type="text"
-						className="flex-1 rounded-md border-2 border-slate-700 bg-slate-800 p-3 text-slate-50 placeholder-slate-400 hover:border-lime-500"
-						placeholder="Write a new post..."
-						value={newPost}
-						onChange={(e) => setNewPost(e.target.value)}
-					/>
-					<div className="ml-1 flex justify-between text-slate-400">
+					<div className="flex">
+						<input
+							type="text"
+							className="flex-1 rounded-md border-2 border-slate-700 bg-slate-800 p-3 text-slate-50 placeholder-slate-400 hover:border-lime-500"
+							placeholder="Write a new post..."
+							value={newPost}
+							onChange={(e) => setNewPost(e.target.value)}
+						/>
+						<button
+							onClick={sendPost}
+							className="ml-2 mr-1 rounded-md bg-lime-500 px-4 py-2 font-semibold text-slate-950 transition hover:bg-lime-600"
+						>
+							Send Post
+						</button>
+					</div>
+					<div className="ml-1 flex items-center text-slate-400 selection:text-slate-950">
 						<span>
 							{newPost.length}/{maxPostLength}
 						</span>
-						<button
-							onClick={sendPost}
-							className="mr-1 rounded-md bg-lime-500 px-4 py-2 font-semibold text-slate-950 transition hover:bg-lime-600"
+						<p
+							onClick={toggleGuidelinesModal}
+							className="ml-2 cursor-pointer font-semibold transition hover:text-lime-500"
 						>
-							Send
-						</button>
+							{isGuidelinesModalOpen ? "Close Information" : "View Information"}
+						</p>
 					</div>
 				</div>
 			) : (
@@ -427,6 +445,36 @@ export default function Forum() {
 			{loading && <p className="text-center text-slate-400">Loading...</p>}
 
 			<div className="space-y-4">
+				{isGuidelinesModalOpen && (
+					<div className="rounded-lg border-2 border-slate-700 bg-slate-800 p-4">
+						<h2 className="text-xl font-bold text-lime-500 selection:text-slate-950">
+							Welcome to the Chat Forum!
+						</h2>
+						<p className="mt-2 text-slate-50">
+							This is a space where you can connect with others by posting messages and replying to
+							discussions. To participate, you need to be logged in.
+						</p>
+						<p className="mt-2 font-semibold">Please keep the following in mind:</p>
+						<ul className="mt-2 list-inside list-disc text-slate-50">
+							<li>
+								<span className="font-semibold">Protect your privacy: </span>Avoid sharing personal
+								information.
+							</li>
+							<li>
+								<span className="font-semibold">Be respectful: </span>Do not post inappropriate or
+								offensive content.
+							</li>
+							<li>
+								<span className="font-semibold">Keep it clean: </span>Do not post spam.
+							</li>
+							<li>
+								<span className="font-semibold">Note: </span>The forum is not actively maintained, so
+								issues may occur.
+							</li>
+						</ul>
+						<p className="mt-2 font-semibold text-lime-500 selection:text-slate-950">Happy posting!</p>
+					</div>
+				)}
 				{posts.map((post) => (
 					<div key={post.id} className="rounded-lg border-2 border-slate-700 p-4 hover:border-lime-500">
 						<div className="flex justify-between">
@@ -570,26 +618,27 @@ export default function Forum() {
 
 								{user && replyFormOpen[post.id] && (
 									<div className="mt-2">
-										<input
-											type="text"
-											className="w-full rounded-md border border-slate-700 bg-slate-800 p-2 text-slate-50 placeholder-slate-400 hover:border-lime-500"
-											placeholder="Write a reply..."
-											value={replyContent[post.id] || ""}
-											onChange={(e) =>
-												setReplyContent((prev) => ({ ...prev, [post.id]: e.target.value }))
-											}
-										/>
-
+										<div className="flex">
+											<input
+												type="text"
+												className="flex-1 rounded-md border border-slate-700 bg-slate-800 p-2 text-slate-50 placeholder-slate-400 hover:border-lime-500"
+												placeholder="Write a reply..."
+												value={replyContent[post.id] || ""}
+												onChange={(e) =>
+													setReplyContent((prev) => ({ ...prev, [post.id]: e.target.value }))
+												}
+											/>
+											<button
+												onClick={() => sendReply(post.id)}
+												className="ml-2 rounded-md bg-lime-500 px-4 py-2 font-semibold text-slate-950 transition hover:bg-lime-600"
+											>
+												Send Reply
+											</button>
+										</div>
 										<div className="flex justify-between text-slate-400">
 											<span className="ml-1 mt-1">
 												{replyContent[post.id]?.length || 0}/{maxPostLength}
 											</span>
-											<button
-												onClick={() => sendReply(post.id)}
-												className="mt-2 rounded-md bg-lime-500 px-4 py-2 font-semibold text-slate-950 transition hover:bg-lime-600"
-											>
-												Send Reply
-											</button>
 										</div>
 									</div>
 								)}
@@ -645,6 +694,9 @@ export default function Forum() {
 							onChange={(e) => setEditContent(e.target.value)}
 							rows={5}
 						/>
+						<div className="mt-1 text-right text-slate-400">
+							{editContent.length}/{maxPostLength}
+						</div>
 						<div className="mt-6 flex justify-between">
 							<button
 								className="mr-2 w-full rounded-md bg-slate-700 py-2 text-slate-50 hover:bg-slate-600"

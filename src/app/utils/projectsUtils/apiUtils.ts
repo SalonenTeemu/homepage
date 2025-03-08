@@ -65,7 +65,7 @@ export async function validateAccessToken(cookieStore: any): Promise<{
 			return { status: 403, error: "Invalid or expired access token" };
 		}
 		return { status: 200, userToken };
-	} catch (error) {
+	} catch {
 		return { status: 500, error: "Token validation failed" };
 	}
 }

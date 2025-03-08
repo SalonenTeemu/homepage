@@ -48,7 +48,7 @@ export default function ConfirmEmail() {
 					const data = await res.json();
 
 					if (res.ok) {
-						setStatus("Your email has been confirmed successfully!");
+						setStatus("Your email has been confirmed!");
 						authContext?.fetchProfile();
 						redirectAfterTimeout(user, router);
 					} else {
@@ -57,7 +57,7 @@ export default function ConfirmEmail() {
 						);
 						redirectAfterTimeout(user, router);
 					}
-				} catch (err) {
+				} catch {
 					setStatus(
 						"An error occurred while confirming your email. You can request a new confirmation email from the profile page."
 					);

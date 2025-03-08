@@ -55,7 +55,7 @@ export async function middleware(req: NextRequest) {
 				}
 
 				return NextResponse.next(); // Allow access if role matches
-			} catch (err) {
+			} catch {
 				return NextResponse.rewrite(new URL("/", req.url));
 			}
 		}

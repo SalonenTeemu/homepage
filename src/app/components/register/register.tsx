@@ -94,7 +94,7 @@ export default function Register() {
 			}
 			notificationContext?.addNotification("success", "Registration successful. Please login.");
 			router.push("/login");
-		} catch (err) {
+		} catch {
 			notificationContext?.addNotification("error", "Registration failed. Please try again.");
 		}
 	};

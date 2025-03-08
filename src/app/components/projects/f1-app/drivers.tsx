@@ -18,12 +18,12 @@ export default async function Drivers() {
 		} else {
 			error = "No standings found";
 		}
-	} catch (err: any) {
+	} catch {
 		error = "Failed to fetch driver standings data";
 	}
 
 	if (error) {
-		return <div className="min-h-screen w-full text-slate-50">Error: {error}</div>;
+		return <div className="min-h-screen w-full text-center text-slate-50">Error: {error}</div>;
 	}
 
 	if (!driverData || driverData.length === 0) {

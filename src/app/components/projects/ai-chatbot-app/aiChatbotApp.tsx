@@ -107,7 +107,7 @@ export default function AIChatbotApp() {
 
 			setMessages((prevMessages) => [...prevMessages, { sender: "ai", text: aiMessage }]);
 			setPrompt("");
-		} catch (err) {
+		} catch {
 			setMessages((prevMessages) => [...prevMessages, { sender: "ai", text: "An error occurred." }]);
 		} finally {
 			setLoading(false);

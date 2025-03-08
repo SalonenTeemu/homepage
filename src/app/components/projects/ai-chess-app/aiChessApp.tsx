@@ -69,7 +69,7 @@ export default function ChessGame() {
 				setGame(gameCopy);
 				setHistory([...history, gameCopy.fen()]);
 				return result;
-			} catch (error) {
+			} catch {
 				playSound("illegal");
 				notificationContext?.addNotification("error", "Invalid move.");
 				return false;

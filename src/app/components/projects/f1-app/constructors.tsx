@@ -18,12 +18,12 @@ export default async function Constructors() {
 		} else {
 			throw new Error("Could not retrieve any constructor standings data");
 		}
-	} catch (err) {
+	} catch {
 		error = "Failed to fetch constructors standings data";
 	}
 
 	if (error) {
-		return <div className="min-h-screen w-full text-slate-50">Error: {error}</div>;
+		return <div className="min-h-screen w-full text-center text-slate-50">Error: {error}</div>;
 	}
 
 	if (!constructorData || constructorData.length === 0) {

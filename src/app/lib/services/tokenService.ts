@@ -23,7 +23,7 @@ export async function storeRefreshToken(id: string, refreshToken: string) {
 	};
 	try {
 		await ddbDocClient.send(new PutCommand(params));
-	} catch (error) {
+	} catch {
 		throw new Error("Could not store refresh token.");
 	}
 }
@@ -45,7 +45,7 @@ export async function getRefreshTokenFromDB(refreshToken: string) {
 	try {
 		const result = await ddbDocClient.send(new QueryCommand(params));
 		return result.Items ? result.Items[0] : null;
-	} catch (error) {
+	} catch {
 		throw new Error("Could not get refresh token.");
 	}
 }
@@ -66,7 +66,7 @@ export async function revokeRefreshToken(refreshToken: string) {
 	};
 	try {
 		await ddbDocClient.send(new UpdateCommand(params));
-	} catch (error) {
+	} catch {
 		throw new Error("Could not revoke refresh token.");
 	}
 }
@@ -83,7 +83,7 @@ export async function deleteRefreshToken(refreshToken: string) {
 	};
 	try {
 		await ddbDocClient.send(new DeleteCommand(params));
-	} catch (error) {
+	} catch {
 		throw new Error("Could not delete refresh token.");
 	}
 }

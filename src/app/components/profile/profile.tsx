@@ -130,14 +130,14 @@ export default function Profile() {
 				setConfirmPassword("");
 				setIsEditing(false);
 
-				notificationContext?.addNotification("success", "Profile updated successfully.");
+				notificationContext?.addNotification("success", "Profile updated.");
 			} else {
 				notificationContext?.addNotification(
 					"error",
 					"Error updating profile. Session expired or too many requests."
 				);
 			}
-		} catch (err) {
+		} catch {
 			notificationContext?.addNotification("error", "Error updating profile. Please try again.");
 		}
 	};
@@ -159,7 +159,7 @@ export default function Profile() {
 			if (res) {
 				if (res.ok) {
 					authContext?.logout();
-					notificationContext?.addNotification("success", "Account deleted successfully.");
+					notificationContext?.addNotification("success", "Account deleted.");
 				} else {
 					const data = await res.json();
 					notificationContext?.addNotification("error", `Error deleting profile. ${data.response}.`);
@@ -170,7 +170,7 @@ export default function Profile() {
 					"Error updating profile. Session expired or too many requests."
 				);
 			}
-		} catch (err) {
+		} catch {
 			notificationContext?.addNotification("error", "Error deleting profile. Please try again.");
 		}
 	};
@@ -217,7 +217,7 @@ export default function Profile() {
 					"Error updating profile. Session expired or too many requests."
 				);
 			}
-		} catch (err) {
+		} catch {
 			notificationContext?.addNotification("error", "Error sending confirmation email. Please try again.");
 		}
 	};

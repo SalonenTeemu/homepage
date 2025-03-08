@@ -137,5 +137,10 @@ export const projectDescriptions = () => {
 			link: "/projects/ai-chess-app",
 			gitHubLink: "https://github.com/SalonenTeemu/ai-chess",
 		},
+		forum: {
+			title: "Chat forum",
+			description: `A simple chat forum that allows users to ......`,
+			link: "/forum",
+		},
 	};
 };

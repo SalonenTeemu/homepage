@@ -35,7 +35,7 @@ export async function createTokens(user: any) {
 		await storeRefreshToken(user.id, refreshToken);
 
 		return { accessToken, refreshToken };
-	} catch (error) {
+	} catch {
 		return null;
 	}
 }
@@ -54,7 +54,7 @@ export async function createToken(id: string, expirationTime: string = expiratio
 			.setProtectedHeader({ alg: "HS256" })
 			.sign(new TextEncoder().encode(secret));
 		return token;
-	} catch (error) {
+	} catch {
 		return null;
 	}
 }
@@ -73,7 +73,7 @@ export async function verifyAccessToken(token: string) {
 			return null;
 		}
 		return payload as unknown as { id: string; role: string };
-	} catch (err) {
+	} catch {
 		return null;
 	}
 }
@@ -99,7 +99,7 @@ export async function verifyRefreshToken(refreshToken: string) {
 		}
 
 		return payload as unknown as { id: string; role: string };
-	} catch (error) {
+	} catch {
 		return null;
 	}
 }
@@ -118,7 +118,7 @@ export async function verifyToken(token: string) {
 			return null;
 		}
 		return payload as unknown as { id: string };
-	} catch (err) {
+	} catch {
 		return null;
 	}
 }

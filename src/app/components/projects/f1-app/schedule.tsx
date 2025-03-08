@@ -18,7 +18,7 @@ export default async function Schedule() {
 		} else {
 			error = "No races found";
 		}
-	} catch (err) {
+	} catch {
 		error = "Failed to fetch race schedule data";
 	}
 
