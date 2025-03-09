@@ -9,7 +9,7 @@ import Footer from "../components/common/footer";
 import { inter } from "@/app/components/common/fonts";
 
 export const metadata: Metadata = {
-	title: "About | Teemu Salonen",
+	title: "About Me | Teemu Salonen",
 };
 
 /**
