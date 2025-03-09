@@ -92,6 +92,7 @@ export default function Forum() {
 			);
 			const data = await res.json();
 			const fetchedReplies = data.replies || [];
+
 			setPosts((prev) =>
 				prev.map((post) =>
 					post.id === postId
@@ -99,6 +100,7 @@ export default function Forum() {
 								...post,
 								replies: loadMore ? [...(post.replies || []), ...fetchedReplies] : fetchedReplies,
 								lastEvaluatedKey: data.lastEvaluatedKey,
+								allRepliesFetched: !data.lastEvaluatedKey,
 							}
 						: post
 				)
@@ -184,17 +186,46 @@ export default function Forum() {
 				const data = responseData.response;
 				if (res.ok) {
 					setReplyContent((prev) => ({ ...prev, [postId]: "" }));
-					setPosts((prevPosts) =>
-						prevPosts.map((post) =>
-							post.id === postId
-								? {
-										...post,
-										replies: [data, ...(post.replies || [])],
-										replyCount: (post.replyCount ?? 0) + 1,
-									}
-								: post
-						)
-					);
+
+					const post = posts.find((post) => post.id === postId);
+
+					let fetchedReplies = false;
+
+					if (
+						!repliesFetched[postId] &&
+						(!post?.allRepliesFetched ||
+							((post.replyCount ?? 0) > 0 && (!post?.replies || post.replies.length === 0)))
+					) {
+						await fetchReplies(postId);
+						fetchedReplies = true;
+					}
+
+					const shouldAddDirectly = post?.allRepliesFetched || !post?.replies || post.replies.length === 0;
+
+					if (shouldAddDirectly && !fetchedReplies) {
+						setPosts((prevPosts) =>
+							prevPosts.map((post) =>
+								post.id === postId
+									? {
+											...post,
+											replies: [...(post.replies || []), data],
+											replyCount: (post.replyCount ?? 0) + 1,
+										}
+									: post
+							)
+						);
+					} else {
+						setPosts((prevPosts) =>
+							prevPosts.map((post) =>
+								post.id === postId
+									? {
+											...post,
+											replyCount: (post.replyCount ?? 0) + 1,
+										}
+									: post
+							)
+						);
+					}
 					setShowReplies((prev) => ({ ...prev, [postId]: true }));
 					notificationContext?.addNotification("success", "Reply sent.");
 				} else {
@@ -379,6 +410,7 @@ export default function Forum() {
 									? {
 											...post,
 											replies: post.replies?.filter((reply) => reply.id !== id),
+											replyCount: (post.replyCount ?? 0) - 1,
 										}
 									: post
 							)
@@ -410,7 +442,7 @@ export default function Forum() {
 			<h1 className="mb-6 text-center text-2xl font-bold text-lime-500 selection:text-slate-950">Chat Forum</h1>
 
 			{user ? (
-				<div className="mb-6 flex flex-col gap-2">
+				<div className="mb-2 flex flex-col gap-2">
 					<div className="flex">
 						<input
 							type="text"
@@ -430,17 +462,20 @@ export default function Forum() {
 						<span>
 							{newPost.length}/{maxPostLength}
 						</span>
-						<p
-							onClick={toggleGuidelinesModal}
-							className="ml-2 cursor-pointer font-semibold transition hover:text-lime-500"
-						>
-							{isGuidelinesModalOpen ? "Close Information" : "View Information"}
-						</p>
 					</div>
 				</div>
 			) : (
-				<p className="mb-4 text-center text-slate-400">Log in to create a post.</p>
+				<p className="mb-2 text-center text-slate-400">Log in to create a post.</p>
 			)}
+
+			<div className="mb-2 ml-1 flex items-center text-slate-400 selection:text-slate-950">
+				<p
+					onClick={toggleGuidelinesModal}
+					className="cursor-pointer font-semibold transition hover:text-lime-500"
+				>
+					{isGuidelinesModalOpen ? "Close Forum Info" : "View Forum Info"}
+				</p>
+			</div>
 
 			{loading && <p className="text-center text-slate-400">Loading...</p>}
 
@@ -465,7 +500,8 @@ export default function Forum() {
 								offensive content.
 							</li>
 							<li>
-								<span className="font-semibold">Keep it clean: </span>Do not post spam.
+								<span className="font-semibold">Keep it clean: </span>No spamming. You can post up to 10
+								messages per day.
 							</li>
 							<li>
 								<span className="font-semibold">Note: </span>The forum is not actively maintained, so
@@ -475,6 +511,7 @@ export default function Forum() {
 						<p className="mt-2 font-semibold text-lime-500 selection:text-slate-950">Happy posting!</p>
 					</div>
 				)}
+				{!loading && posts.length === 0 && <p className="text-center text-slate-400">No posts to display.</p>}
 				{posts.map((post) => (
 					<div key={post.id} className="rounded-lg border-2 border-slate-700 p-4 hover:border-lime-500">
 						<div className="flex justify-between">

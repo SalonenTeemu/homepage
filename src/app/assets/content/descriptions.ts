@@ -139,7 +139,13 @@ export const projectDescriptions = () => {
 		},
 		forum: {
 			title: "Chat forum",
-			description: `A simple chat forum that allows users to ......`,
+			description: `
+
+			This chat forum allows logged-in users to post messages, reply to existing threads, and edit or delete their own posts. 
+			Users can create new threads and participate in discussions. All posts are stored in AWS DynamoDB. 
+			To prevent spam, the forum includes rate limiting, allowing users to post up to 10 messages per day.
+			Please remember to not share any personal information on the forum.
+			Additionally, please note that the forum is not actively maintained, so issues may occur.`,
 			link: "/forum",
 		},
 	};

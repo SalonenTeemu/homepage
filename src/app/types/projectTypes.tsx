@@ -116,4 +116,5 @@ export interface ForumPost {
 	displayName: string;
 	createdAt: string;
 	replyCount?: number;
+	allRepliesFetched?: boolean;
 }

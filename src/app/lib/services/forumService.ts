@@ -126,7 +126,7 @@ export async function getReplies(postId: string, limit: number = 10, lastEvaluat
 		ExpressionAttributeValues: {
 			":threadId": postId,
 		},
-		ScanIndexForward: false,
+		ScanIndexForward: true,
 	};
 
 	try {

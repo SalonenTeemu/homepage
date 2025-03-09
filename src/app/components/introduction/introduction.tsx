@@ -40,11 +40,18 @@ export default function Introduction() {
 										{" "}
 										projects{" "}
 									</Link>
-									I have worked on.
+									I have worked on. Additionally, there is a{" "}
+									<Link
+										className="font-semibold text-lime-500 selection:text-slate-950 hover:text-slate-50"
+										href="/forum"
+									>
+										chat forum{" "}
+									</Link>
+									where authenticated users can post and participate in discussions.
 								</p>
 								<p className="pl-0 pt-2">
-									Built with Next.js, TypeScript, Tailwind CSS, and other modern technologies, the
-									site uses AWS DynamoDB for database storage and is deployed on Vercel.
+									Built with Next.js, TypeScript, Tailwind CSS, and other technologies, the site uses
+									AWS DynamoDB for database storage and is deployed on Vercel.
 								</p>
 								<p className="pl-0 pt-2">
 									<span className="text-lime-500 selection:text-slate-950">Please note </span>that the
@@ -56,6 +63,10 @@ export default function Introduction() {
 									questions or feedback. You can find my LinkedIn, email, and a link to my GitHub
 									profile in the footer below, where you can also explore more of my projects.
 								</p>
+								<p className="pb-2 pl-0 pt-2">
+									<span className="text-lime-500 selection:text-slate-950">Latest update</span>:
+									09.03.2025
+								</p>
 							</div>
 						</div>
 					</div>
@@ -65,41 +76,58 @@ export default function Introduction() {
 						<p className="text-md 3xl:text-3xl pb-4 pt-4 text-xl lg:text-xl 2xl:text-xl">Features</p>
 						<div className="mb-2 mt-4 flex w-full flex-col rounded-lg border-2 border-slate-300 p-4 hover:border-lime-500">
 							<div className="flex flex-col text-left">
+								<p className="pt-2">The website features several key pages:</p>
+								<ul className="ml-8 list-disc pb-2">
+									<li>
+										<Link
+											className="font-semibold text-lime-500 selection:text-slate-950 hover:text-slate-50"
+											href="/about"
+										>
+											About Me:{" "}
+										</Link>
+										This page provides information about me, my resume, and links to my LinkedIn and
+										GitHub profiles.
+									</li>
+									<li>
+										<Link
+											className="font-semibold text-lime-500 selection:text-slate-950 hover:text-slate-50"
+											href="/projects"
+										>
+											Projects:{" "}
+										</Link>
+										Here, you will find a selection of applications I have worked on and chose to
+										include on the website. Each project includes a brief description and, when
+										available, a link to its GitHub repository.
+									</li>
+									<li>
+										<Link
+											className="font-semibold text-lime-500 selection:text-slate-950 hover:text-slate-50"
+											href="/forum"
+										>
+											Forum:{" "}
+										</Link>
+										This page hosts a chat forum where authenticated users can participate in
+										discussions by posting and replying to others.
+									</li>
+								</ul>
+
 								<p className="pl-0 pt-2">
-									The
-									<Link
-										className="font-semibold text-lime-500 selection:text-slate-950 hover:text-slate-50"
-										href="/projects"
-									>
-										{" "}
-										projects page{" "}
-									</Link>
-									features a selection of applications I have worked on and chose to add to the
-									website. Each project includes a brief description along with a link to its GitHub
-									repository.
+									The website also includes user authentication and authorization:
 								</p>
-								<p className="pl-0 pt-2">
-									The application includes user authentication and authorization:
-								</p>
-								<ul className="ml-8 list-disc">
+								<ul className="ml-8 list-disc pb-2">
+									<li>
+										Access the login, registration, and profile pages from the menu in the top right
+										corner.
+									</li>
 									<li>Users can register an account and log in using their username or email.</li>
+
 									<li>User details are stored in AWS DynamoDB.</li>
-									<li>Users can view and update their profile or delete their account.</li>
+									<li>Users can view, update, or delete their profile at any time.</li>
 									<li>
 										After confirming their email address, users can request a password reset via
 										email.
 									</li>
 								</ul>
-								<p className="pl-0 pt-2">
-									<span className="text-lime-500 selection:text-slate-950">Please note </span>
-									that the application currently lacks specific functionalities for logged-in users.
-									However, I plan to add more features in the future, such as a forum where
-									authenticated users can post and comment on other user&apos;s posts.
-								</p>
-								<p className="pb-2 pl-0 pt-2">
-									<span className="text-lime-500 selection:text-slate-950">Latest update</span>:
-									24.02.2025
-								</p>
 							</div>
 						</div>
 					</div>

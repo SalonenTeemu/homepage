@@ -16,7 +16,7 @@ export default function Projects() {
 					This page includes some personal projects created for learning purposes and fun.
 					<br />
 					To try out an application, simply click its title. You can also view the projects GitHub repository
-					by clicking the GitHub icon.
+					by clicking the GitHub icon if available.
 				</p>
 			</div>
 			<Project params={{ content: descriptions.aiChessApp }} />
