@@ -55,8 +55,8 @@ export default function Introduction() {
 								</p>
 								<p className="pl-0 pt-2">
 									<span className="text-lime-500 selection:text-slate-950">Please note </span>that the
-									application is not in active development and is a hobby project. Updates will be
-									made as I find time and have meaningful ideas to implement.
+									application is not in active development and is a hobby project so issues may occur.
+									Updates will be made as I find time and have meaningful ideas to implement.
 								</p>
 								<p className="pb-2 pl-0 pt-2">
 									Feel free to explore the site, and do not hesitate to reach out if you have any

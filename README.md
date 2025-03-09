@@ -1,10 +1,14 @@
 # Homepage
 
-This is my homepage. It's build with Next.js and hosted at [salonenteemu.fi](https://salonenteemu.fi).
+This is my homepage. It is built with Next.js and hosted at [salonenteemu.fi](https://salonenteemu.fi).
 
-## Application Deployment and Dependencies
+## Deployment and Dependencies
 
-The website is deployed on Vercel and uses AWS DynamoDB as the database option.
+The website is deployed on Vercel and uses AWS DynamoDB as the database.
+
+## Note
+
+This project was created as a platform for learning full-stack web development and experimenting with new technologies. As such, it is a hobby project and is not actively maintained, so occasional issues may occur.
 
 ## Running the Application
 
@@ -16,17 +20,30 @@ Open the application in a browser at: `http://localhost:3000/`
 
 ## Application Features
 
-- **User Authentication**: Users can register an account and log in using their username or email. Authentication is handled via JWT for user sessions.
-- **Google reCAPTCHA**: Implemented on the registration form to prevent bot signups.
-- **Database Storage**: User details are stored in AWS DynamoDB.
-- **User Profile**: Users can view and update their profile or delete their account.
+### Database Storage
+
+- User details and chat forum posts are stored in AWS DynamoDB.
+
+### User Authentication and Authorization
+
+- **User Registration and Login**: Users can create an account and log in using their username or email.
+- **JWT Authentication**: User sessions are managed with JSON Web Tokens (JWT).
+- **Google reCAPTCHA**: Integrated into the registration form to help prevent bot signups.
+- **User Profile Management**: Users can view, update, or delete their profile at any time.
 - **Password Recovery**: After confirming their email address, users can request a password reset via email.
 
-**Please note that the application currently lacks specific functionalities for logged-in users. However, I plan to add more features in the future, such as a forum where authenticated users can post and comment on other user's posts.**
+### Forum Page
+
+The Forum page allows authenticated users to:
+
+- Post new messages
+- Reply to existing discussions
+- Edit and delete their own posts
+- Post up to 10 messages per day to reduce spam
 
 ### Projects Page
 
-The projects page showcases some personal projects I have worked on and wanted to add to the website. Below are short descriptions and links to their original GitHub repositories.
+The Projects page showcases a selection of personal projects I have worked on and wanted to add to the website. Each project includes a brief description and a link to its respective GitHub repository.
 
 #### ai-chess
 
@@ -35,7 +52,7 @@ A chess application where users can play against an AI opponent. The AI is power
 - Play as white or black
 - Choose from three AI difficulty levels (easy, medium, hard)
 - Undo moves and reset the game
-- Sound effects for moves, captures, checkmate, etc.
+- Sound effects for moves, captures, checkmate, and more
 
 [ai-chess original GitHub repository](https://github.com/SalonenTeemu/ai-chess)
 

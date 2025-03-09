@@ -167,7 +167,7 @@ export default function AIChatbotApp() {
 					</button>
 				</form>
 				<p className="mt-4 text-center text-sm text-slate-400">
-					Do not give any personal information to the chatbot.
+					Avoid sharing personal information with the chatbot.
 				</p>
 			</div>
 		</div>

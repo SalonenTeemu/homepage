@@ -59,7 +59,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 			url: "https://salonenteemu.fi/forum",
 			lastModified: new Date(),
 			changeFrequency: "monthly",
-			priority: 0.5,
+			priority: 0.7,
 		},
 		{
 			url: "https://salonenteemu.fi/register",
