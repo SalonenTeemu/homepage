@@ -31,7 +31,11 @@ export default function Footer() {
 					}}
 				/>
 			</div>
-			<div className="text-center">Teemu Salonen{" ("}{new Date().getFullYear()}{")"}</div>
+			<div className="text-center">
+				Teemu Salonen{" ("}
+				{new Date().getFullYear()}
+				{")"}
+			</div>
 		</div>
 	);
 }

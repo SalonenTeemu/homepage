@@ -52,7 +52,7 @@ export const metadata: Metadata = {
 		"EPL table",
 		"EPL matches",
 		"Formula 1 standings",
-		"Forumula 1 driver standings",
+		"Formula 1 driver standings",
 		"Formula 1 constructor standings",
 		"F1 standings",
 		"AI chatbot App",

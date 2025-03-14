@@ -87,6 +87,8 @@ export default function AIChatbotApp() {
 
 		const userMessage = prompt;
 
+		setPrompt("");
+
 		setMessages((prevMessages) => [...prevMessages, { sender: "user", text: userMessage }]);
 
 		setLoading(true);
@@ -167,7 +169,7 @@ export default function AIChatbotApp() {
 					</button>
 				</form>
 				<p className="mt-4 text-center text-sm text-slate-400">
-					Avoid sharing personal information with the chatbot.
+					Avoid sharing any personal information with the chatbot.
 				</p>
 			</div>
 		</div>

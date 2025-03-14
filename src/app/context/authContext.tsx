@@ -6,6 +6,7 @@ import { useNotification } from "@/app/context/notificationContext";
 import { fetchWithAuth } from "../utils/projectsUtils/apiUtils";
 import { User } from "@/app/types/authTypes";
 
+// Define the AuthContextProps interface
 export interface AuthContextProps {
 	user: User | null;
 	loading: boolean;
@@ -56,11 +57,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	 * Logs out the user by sending a POST request to the server and clearing the user state.
 	 */
 	const logout = useCallback(async () => {
-		await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
-		if (pathname === "/profile") {
-			router.push("/");
+		try {
+			await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
+			if (pathname === "/profile") {
+				router.push("/");
+			}
+			setUser(null);
+		} catch {
+			notificationContext?.addNotification!("error", "Failed to log out.");
 		}
-		setUser(null);
 	}, [pathname, router]);
 
 	// Fetch the user profile on mount

@@ -123,7 +123,7 @@ export const projectDescriptions = () => {
 		},
 		aiChatbotApp: {
 			title: "AI chatbot application",
-			description: `A simple AI chatbot powered by the Google Gemini API, utilizing the 1.5 Flash model.
+			description: `A simple AI chatbot powered by the Google Gemini API, utilizing the 2.0 Flash model.
 			You can type messages, and the chatbot will respond accordingly.
 			Please remember not to share any personal information with the chatbot.`,
 			link: "/projects/ai-chatbot-app",
@@ -139,9 +139,7 @@ export const projectDescriptions = () => {
 		},
 		forum: {
 			title: "Chat forum",
-			description: `
-
-			This chat forum allows logged-in users to post messages, reply to existing threads, and edit or delete their own posts. 
+			description: `This chat forum allows logged-in users to post messages, reply to existing threads, and edit or delete their own posts. 
 			Users can create new threads and participate in discussions. All posts are stored in AWS DynamoDB. 
 			To prevent spam, the forum includes rate limiting, allowing users to post up to 10 messages per day.
 			Please remember to not share any personal information on the forum.

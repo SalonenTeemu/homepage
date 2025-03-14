@@ -56,12 +56,6 @@ A chess application where users can play against an AI opponent. The AI is power
 
 [ai-chess original GitHub repository](https://github.com/SalonenTeemu/ai-chess)
 
-#### ai-chatbot
-
-A simple AI chatbot built using the Google Gemini API (1.5 Flash model). Users can type messages and receive AI-generated responses. **Remember to not give any personal information to the chatbot.**
-
-[ai-chatbot original GitHub repository](https://github.com/SalonenTeemu/ai-chatbot)
-
 #### premier-league-app
 
 An English Premier League application that displays:
@@ -72,6 +66,12 @@ An English Premier League application that displays:
 The application uses [football-data.org API](https://www.football-data.org/) to retrieve the data.
 
 [premier-league-app original GitHub repository](https://github.com/SalonenTeemu/premier-league-app)
+
+#### ai-chatbot
+
+A simple AI chatbot built using the Google Gemini API (2.0 Flash model). Users can type messages and receive AI-generated responses. **Remember to not share any personal information with the chatbot.**
+
+[ai-chatbot original GitHub repository](https://github.com/SalonenTeemu/ai-chatbot)
 
 #### f1-app
 
