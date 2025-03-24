@@ -6,7 +6,8 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "eslint . --fix"
+		"lint": "eslint . --fix",
+		"postinstall": "npm rebuild sharp"
 	},
 	"dependencies": {
 		"@aws-sdk/client-dynamodb": "^3.758.0",
