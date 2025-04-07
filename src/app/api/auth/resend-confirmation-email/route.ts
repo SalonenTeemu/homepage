@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { sendConfirmationEmail } from "@/app/lib/services/emailService";
 import { createToken } from "@/app/lib/services/authService";
 import { getUserById } from "@/app/lib/services/userService";
-import { validateAccessToken } from "@/app/utils/projectsUtils/apiUtils";
+import { validateAccessToken } from "@/app/utils/apiUtils";
 import logger from "@/app/lib/logger";
 
 /**

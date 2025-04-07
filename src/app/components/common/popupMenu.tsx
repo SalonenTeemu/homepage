@@ -16,13 +16,13 @@ interface PopupMenuProps {
  */
 export default function PopupMenu({ isOpen }: PopupMenuProps) {
 	const authContext = useAuth();
-	const [user, setUser] = useState(authContext?.user);
+	const [user, setUser] = useState(authContext.user);
 
 	useEffect(() => {
-		setUser(authContext?.user);
-	}, [authContext?.user]);
+		setUser(authContext.user);
+	}, [authContext.user]);
 
-	const logout = authContext?.logout;
+	const logout = authContext.logout;
 
 	return (
 		<div

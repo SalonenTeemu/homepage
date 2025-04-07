@@ -12,7 +12,7 @@ import {
 } from "@/app/utils/utils";
 import { useAuth } from "../../context/authContext";
 import { useNotification } from "@/app/context/notificationContext";
-import { fetchWithAuth } from "@/app/utils/projectsUtils/apiUtils";
+import { fetchWithAuth } from "@/app/utils/apiUtils";
 
 /**
  * The Profile component.
@@ -34,7 +34,7 @@ export default function Profile() {
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 	const [showConfirmPasswordModal, setShowConfirmPasswordModal] = useState(false);
 
-	const user = authContext?.user;
+	const user = authContext.user;
 
 	const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 	const toggleConfirmPasswordVisibility = () => setShowConfirmPassword((prev) => !prev);
@@ -70,26 +70,26 @@ export default function Profile() {
 	 */
 	const handleSave = async () => {
 		if (username && !isUsernameValid(username)) {
-			notificationContext?.addNotification(
+			notificationContext.addNotification(
 				"error",
 				`Username must be at least ${usernameMinLength} and at most ${usernameMaxLength} characters.`
 			);
 			return;
 		}
 		if (email && !isEmailValid(email)) {
-			notificationContext?.addNotification("error", "Invalid email address.");
+			notificationContext.addNotification("error", "Invalid email address.");
 			return;
 		}
 		if (isPasswordUpdate) {
 			if (password && !isPasswordValid(password)) {
-				notificationContext?.addNotification(
+				notificationContext.addNotification(
 					"error",
 					`Password must be at least ${passwordMinLength} characters, include at least one uppercase letter, and at least one number.`
 				);
 				return;
 			}
 			if (password && password !== confirmPassword) {
-				notificationContext?.addNotification("error", "Passwords do not match.");
+				notificationContext.addNotification("error", "Passwords do not match.");
 				return;
 			}
 		}
@@ -112,33 +112,33 @@ export default function Profile() {
 						username,
 					}),
 				},
-				authContext?.logout,
-				notificationContext?.addNotification!
+				authContext.logout,
+				notificationContext.addNotification
 			);
 
 			if (res) {
 				const data = await res.json();
 
 				if (!res.ok) {
-					notificationContext?.addNotification("error", `Profile update failed. ${data.response}.`);
+					notificationContext.addNotification("error", `Profile update failed. ${data.response}.`);
 					return;
 				}
-				authContext?.setUser(data);
+				authContext.setUser(data);
 				setEmail(data.email);
 				setUsername(data.displayName);
 				setPassword("");
 				setConfirmPassword("");
 				setIsEditing(false);
 
-				notificationContext?.addNotification("success", "Profile updated.");
+				notificationContext.addNotification("success", "Profile updated.");
 			} else {
-				notificationContext?.addNotification(
+				notificationContext.addNotification(
 					"error",
 					"Error updating profile. Session expired or too many requests."
 				);
 			}
 		} catch {
-			notificationContext?.addNotification("error", "Error updating profile. Please try again.");
+			notificationContext.addNotification("error", "Error updating profile. Please try again.");
 		}
 	};
 
@@ -152,26 +152,26 @@ export default function Profile() {
 				{
 					method: "DELETE",
 				},
-				authContext?.logout,
-				notificationContext?.addNotification!
+				authContext.logout,
+				notificationContext.addNotification
 			);
 
 			if (res) {
 				if (res.ok) {
-					authContext?.logout();
-					notificationContext?.addNotification("success", "Account deleted.");
+					authContext.logout();
+					notificationContext.addNotification("success", "Account deleted.");
 				} else {
 					const data = await res.json();
-					notificationContext?.addNotification("error", `Error deleting profile. ${data.response}.`);
+					notificationContext.addNotification("error", `Error deleting profile. ${data.response}.`);
 				}
 			} else {
-				notificationContext?.addNotification(
+				notificationContext.addNotification(
 					"error",
 					"Error updating profile. Session expired or too many requests."
 				);
 			}
 		} catch {
-			notificationContext?.addNotification("error", "Error deleting profile. Please try again.");
+			notificationContext.addNotification("error", "Error deleting profile. Please try again.");
 		}
 	};
 
@@ -197,28 +197,25 @@ export default function Profile() {
 				{
 					method: "POST",
 				},
-				authContext?.logout,
-				notificationContext?.addNotification!
+				authContext.logout,
+				notificationContext.addNotification
 			);
 
 			if (res) {
 				if (res.ok) {
-					notificationContext?.addNotification("success", "A new confirmation email has been sent.");
+					notificationContext.addNotification("success", "A new confirmation email has been sent.");
 				} else {
 					const data = await res.json();
-					notificationContext?.addNotification(
-						"error",
-						`Error sending confirmation email. ${data.response}.`
-					);
+					notificationContext.addNotification("error", `Error sending confirmation email. ${data.response}.`);
 				}
 			} else {
-				notificationContext?.addNotification(
+				notificationContext.addNotification(
 					"error",
 					"Error updating profile. Session expired or too many requests."
 				);
 			}
 		} catch {
-			notificationContext?.addNotification("error", "Error sending confirmation email. Please try again.");
+			notificationContext.addNotification("error", "Error sending confirmation email. Please try again.");
 		}
 	};
 

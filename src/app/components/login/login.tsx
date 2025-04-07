@@ -30,12 +30,12 @@ export default function Login() {
 		e.preventDefault();
 
 		if (!usernameOrEmail || (!isUsernameValid(usernameOrEmail) && !isEmailValid(usernameOrEmail))) {
-			notificationContext?.addNotification("error", "Login failed. Invalid username or email.");
+			notificationContext.addNotification("error", "Login failed. Invalid username or email.");
 			return;
 		}
 
 		if (!password || !isPasswordValid(password)) {
-			notificationContext?.addNotification("error", "Login failed. Invalid password.");
+			notificationContext.addNotification("error", "Login failed. Invalid password.");
 			return;
 		}
 
@@ -55,14 +55,14 @@ export default function Login() {
 			const data = await res.json();
 
 			if (!res.ok) {
-				notificationContext?.addNotification("error", `Login failed. ${data.response}.`);
+				notificationContext.addNotification("error", `Login failed. ${data.response}.`);
 				return;
 			}
-			await authContext?.fetchProfile();
-			notificationContext?.addNotification("success", "Welcome!");
+			await authContext.fetchProfile();
+			notificationContext.addNotification("success", "Welcome!");
 			router.push("profile");
 		} catch {
-			notificationContext?.addNotification("error", "Login failed. Please try again.");
+			notificationContext.addNotification("error", "Login failed. Please try again.");
 		}
 	};
 

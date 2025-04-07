@@ -41,12 +41,12 @@ export default function Register() {
 		e.preventDefault();
 
 		if (!captchaValue) {
-			notificationContext?.addNotification("error", "Please verify the CAPTCHA.");
+			notificationContext.addNotification("error", "Please verify the CAPTCHA.");
 			return;
 		}
 
 		if (!isUsernameValid(username)) {
-			notificationContext?.addNotification(
+			notificationContext.addNotification(
 				"error",
 				`Username must be at least ${usernameMinLength} and at most ${usernameMaxLength} characters.`
 			);
@@ -55,20 +55,20 @@ export default function Register() {
 
 		if (email) {
 			if (!isEmailValid(email)) {
-				notificationContext?.addNotification("error", "Invalid email address.");
+				notificationContext.addNotification("error", "Invalid email address.");
 				return;
 			}
 		}
 
 		if (!isPasswordValid(password)) {
-			notificationContext?.addNotification(
+			notificationContext.addNotification(
 				"error",
 				`Password must be at least ${passwordMinLength} characters, include at least one uppercase letter, and at least one number.`
 			);
 			return;
 		}
 		if (password !== confirmPassword) {
-			notificationContext?.addNotification("error", "Passwords do not match.");
+			notificationContext.addNotification("error", "Passwords do not match.");
 			return;
 		}
 
@@ -89,13 +89,13 @@ export default function Register() {
 			const data = await res.json();
 
 			if (!res.ok) {
-				notificationContext?.addNotification("error", `Registration failed. ${data.response}.`);
+				notificationContext.addNotification("error", `Registration failed. ${data.response}.`);
 				return;
 			}
-			notificationContext?.addNotification("success", "Registration successful. Please login.");
+			notificationContext.addNotification("success", "Registration successful. Please login.");
 			router.push("/login");
 		} catch {
-			notificationContext?.addNotification("error", "Registration failed. Please try again.");
+			notificationContext.addNotification("error", "Registration failed. Please try again.");
 		}
 	};
 

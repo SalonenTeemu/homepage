@@ -71,7 +71,7 @@ export default function ChessGame() {
 				return result;
 			} catch {
 				playSound("illegal");
-				notificationContext?.addNotification("error", "Invalid move.");
+				notificationContext.addNotification("error", "Invalid move.");
 				return false;
 			}
 		},
@@ -130,16 +130,16 @@ export default function ChessGame() {
 	const handleDraw = (gameState: Chess) => {
 		if (gameState.isDrawByFiftyMoves()) {
 			setStatus("Draw by 50-move rule.");
-			notificationContext?.addNotification("info", "Game is drawn by 50-move rule.");
+			notificationContext.addNotification("info", "Game is drawn by 50-move rule.");
 		} else if (gameState.isInsufficientMaterial()) {
 			setStatus("Draw by insufficient material.");
-			notificationContext?.addNotification("info", "Game is drawn by insufficient material.");
+			notificationContext.addNotification("info", "Game is drawn by insufficient material.");
 		} else if (gameState.isThreefoldRepetition()) {
 			setStatus("Draw by repetition.");
-			notificationContext?.addNotification("info", "Game is drawn by repetition.");
+			notificationContext.addNotification("info", "Game is drawn by repetition.");
 		} else if (gameState.isStalemate()) {
 			setStatus("Stalemate.");
-			notificationContext?.addNotification("info", "Game is a stalemate.");
+			notificationContext.addNotification("info", "Game is a stalemate.");
 		} else {
 			setStatus("Game over.");
 		}
@@ -188,7 +188,7 @@ export default function ChessGame() {
 			const turnLowerCase = turn.toLowerCase();
 			if (gameState.isCheckmate()) {
 				setStatus("Checkmate. " + turn + " wins.");
-				notificationContext?.addNotification(
+				notificationContext.addNotification(
 					playerColor === turnLowerCase ? "success" : "error",
 					playerColor === turnLowerCase ? "Checkmate. You win!" : "Checkmate. " + turn + " wins."
 				);
@@ -247,7 +247,7 @@ export default function ChessGame() {
 			setGame(newGame);
 			setHistory([...history]);
 		} else {
-			notificationContext?.addNotification("error", "Cannot undo further.");
+			notificationContext.addNotification("error", "Cannot undo further.");
 		}
 	}, [history]);
 

@@ -17,7 +17,7 @@ export default function ConfirmEmail() {
 	const [status, setStatus] = useState<string>("Validating...");
 	const [timer, setTimer] = useState<number>(10);
 
-	const user = authContext?.user;
+	const user = authContext.user;
 
 	/**
 	 * Redirects the user after a timeout.
@@ -49,7 +49,7 @@ export default function ConfirmEmail() {
 
 					if (res.ok) {
 						setStatus("Your email has been confirmed!");
-						authContext?.fetchProfile();
+						authContext.fetchProfile();
 						redirectAfterTimeout(user, router);
 					} else {
 						setStatus(

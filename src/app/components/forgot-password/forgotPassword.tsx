@@ -18,7 +18,7 @@ export default function ForgotPassword() {
 	 */
 	const handleSubmit = async () => {
 		if (!email || !isEmailValid(email)) {
-			notificationContext?.addNotification("error", "Invalid email.");
+			notificationContext.addNotification("error", "Invalid email.");
 			return;
 		}
 		try {
@@ -31,13 +31,13 @@ export default function ForgotPassword() {
 			const data = await res.json();
 
 			if (!res.ok) {
-				notificationContext?.addNotification("error", `Error requesting password reset. ${data.response}.`);
+				notificationContext.addNotification("error", `Error requesting password reset. ${data.response}.`);
 				return;
 			}
-			notificationContext?.addNotification("success", `Password reset request has been sent to ${email}.`);
+			notificationContext.addNotification("success", `Password reset request has been sent to ${email}.`);
 			setEmail("");
 		} catch {
-			notificationContext?.addNotification("error", "Error requesting password reset. Please try again.");
+			notificationContext.addNotification("error", "Error requesting password reset. Please try again.");
 		}
 	};
 

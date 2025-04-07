@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useNotification } from "@/app/context/notificationContext";
-import { fetchWithAuth } from "../utils/projectsUtils/apiUtils";
+import { fetchWithAuth } from "../utils/apiUtils";
 import { User } from "@/app/types/authTypes";
 
 // Define the AuthContextProps interface
@@ -37,7 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	 */
 	const fetchProfile = async () => {
 		try {
-			const res = await fetchWithAuth("/api/profile", {}, logout, notificationContext?.addNotification!);
+			const res = await fetchWithAuth("/api/profile", {}, logout, notificationContext.addNotification);
 
 			if (!res) {
 				setUser(null);
@@ -64,7 +64,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 			}
 			setUser(null);
 		} catch {
-			notificationContext?.addNotification!("error", "Failed to log out.");
+			notificationContext.addNotification!("error", "Failed to log out.");
 		}
 	}, [pathname, router]);
 
@@ -110,5 +110,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
  */
 export function useAuth() {
 	const context = useContext(AuthContext);
+	if (!context) {
+		throw new Error("useAuth must be used within an AuthProvider");
+	}
 	return context;
 }

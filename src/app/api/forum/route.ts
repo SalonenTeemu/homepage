@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { getUserById } from "@/app/lib/services/userService";
-import { validateAccessToken } from "@/app/utils/projectsUtils/apiUtils";
+import { validateAccessToken } from "@/app/utils/apiUtils";
 import { savePost, getPostById, getPosts, getReplies, updatePost, deletePost } from "@/app/lib/services/forumService";
 import { maxPostLength, isPostValid } from "@/app/utils/utils";
 import logger from "@/app/lib/logger";

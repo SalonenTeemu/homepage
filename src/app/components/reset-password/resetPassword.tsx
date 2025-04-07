@@ -25,11 +25,11 @@ export default function ResetPassword() {
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 	const [timerVisible, setTimerVisible] = useState(false);
 
-	const user = authContext?.user;
+	const user = authContext.user;
 
 	useEffect(() => {
 		if (!token) {
-			notificationContext?.addNotification("error", "Cannot reset password. No token found in the URL.");
+			notificationContext.addNotification("error", "Cannot reset password. No token found in the URL.");
 			setTimerVisible(true);
 			redirectAfterTimeout(user, router);
 		}
@@ -65,14 +65,14 @@ export default function ResetPassword() {
 	const handleSubmit = async () => {
 		if (token) {
 			if (!isPasswordValid(password)) {
-				notificationContext?.addNotification(
+				notificationContext.addNotification(
 					"error",
 					`Password must be at least ${passwordMinLength} characters, include at least one uppercase letter, and at least one number.`
 				);
 				return;
 			}
 			if (password !== confirmPassword) {
-				notificationContext?.addNotification("error", "Passwords do not match.");
+				notificationContext.addNotification("error", "Passwords do not match.");
 				return;
 			}
 
@@ -86,24 +86,24 @@ export default function ResetPassword() {
 				const data = await res.json();
 
 				if (res.ok) {
-					notificationContext?.addNotification("success", "Your password has been reset.");
+					notificationContext.addNotification("success", "Your password has been reset.");
 					if (user) {
 						authContext.fetchProfile();
 					}
 					setTimerVisible(true);
 					redirectAfterTimeout(user, router);
 				} else {
-					notificationContext?.addNotification("error", `Error resetting password. ${data.response}.`);
+					notificationContext.addNotification("error", `Error resetting password. ${data.response}.`);
 					redirectAfterTimeout(user, router);
 					setTimerVisible(false);
 					return;
 				}
 			} catch {
-				notificationContext?.addNotification("error", "Something went wrong. Please try again.");
+				notificationContext.addNotification("error", "Something went wrong. Please try again.");
 				setTimerVisible(false);
 			}
 		} else {
-			notificationContext?.addNotification("error", "Error confirming email. No token found in the URL.");
+			notificationContext.addNotification("error", "Error confirming email. No token found in the URL.");
 			setTimerVisible(true);
 			redirectAfterTimeout(user, router);
 		}

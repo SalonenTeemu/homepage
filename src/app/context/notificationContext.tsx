@@ -45,9 +45,20 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
 	);
 }
 
-// Custom hook to use the notification context
-export const useNotification = () => useContext(NotificationContext);
+/**
+ * The useNotification hook provides access to the notification functions.
+ *
+ * @returns The notification context
+ */
+export const useNotification = () => {
+	const context = useContext(NotificationContext);
+	if (!context) {
+		throw new Error("useNotification must be used within a NotificationProvider");
+	}
+	return context;
+};
 
+// NotificationContainer Component
 function NotificationContainer({
 	notifications,
 }: {

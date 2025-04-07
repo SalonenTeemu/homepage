@@ -5,7 +5,7 @@ import { formatDistanceToNow } from "date-fns";
 import { ForumPost } from "@/app/types/projectTypes";
 import { useAuth } from "@/app/context/authContext";
 import { useNotification } from "@/app/context/notificationContext";
-import { fetchWithAuth } from "@/app/utils/projectsUtils/apiUtils";
+import { fetchWithAuth } from "@/app/utils/apiUtils";
 import { maxPostLength, isPostValid } from "@/app/utils/utils";
 
 /**
@@ -35,7 +35,7 @@ export default function Forum() {
 	const [loadingMoreReplies, setLoadingMoreReplies] = useState<{ [key: string]: boolean }>({});
 	const [isGuidelinesModalOpen, setIsGuidelinesModalOpen] = useState(false);
 
-	const user = authContext?.user;
+	const user = authContext.user;
 	const menuRef = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
 	useEffect(() => {
@@ -72,7 +72,7 @@ export default function Forum() {
 			setPosts((prev) => (loadMore ? [...prev, ...data.posts] : data.posts));
 			setLastEvaluatedKey(data.lastEvaluatedKey);
 		} catch {
-			notificationContext?.addNotification("error", "Failed to fetch posts.");
+			notificationContext.addNotification("error", "Failed to fetch posts.");
 		} finally {
 			setLoading(false);
 		}
@@ -106,7 +106,7 @@ export default function Forum() {
 				)
 			);
 		} catch {
-			notificationContext?.addNotification("error", "Failed to fetch replies.");
+			notificationContext.addNotification("error", "Failed to fetch replies.");
 		}
 	};
 
@@ -115,12 +115,12 @@ export default function Forum() {
 	 */
 	const sendPost = async () => {
 		if (!user) {
-			notificationContext?.addNotification("error", "You must be logged in to post.");
+			notificationContext.addNotification("error", "You must be logged in to post.");
 			return;
 		}
 		if (!newPost.trim()) return;
 		if (!isPostValid(newPost)) {
-			notificationContext?.addNotification("error", `Post cannot exceed ${maxPostLength} characters.`);
+			notificationContext.addNotification("error", `Post cannot exceed ${maxPostLength} characters.`);
 			return;
 		}
 
@@ -132,8 +132,8 @@ export default function Forum() {
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ content: newPost }),
 				},
-				authContext?.logout || (() => {}),
-				notificationContext?.addNotification!
+				authContext.logout || (() => {}),
+				notificationContext.addNotification
 			);
 
 			if (res) {
@@ -143,13 +143,13 @@ export default function Forum() {
 				if (res.ok) {
 					setNewPost("");
 					setPosts((prev) => [{ ...data, replies: [], replyCount: 0 }, ...prev]);
-					notificationContext?.addNotification("success", "Post sent.");
+					notificationContext.addNotification("success", "Post sent.");
 				} else {
-					notificationContext?.addNotification("error", `Failed to send post. ${data.response}.`);
+					notificationContext.addNotification("error", `Failed to send post. ${data.response}.`);
 				}
 			}
 		} catch {
-			notificationContext?.addNotification("error", "Failed to send post. Please try again later.");
+			notificationContext.addNotification("error", "Failed to send post. Please try again later.");
 		}
 	};
 
@@ -160,12 +160,12 @@ export default function Forum() {
 	 */
 	const sendReply = async (postId: string) => {
 		if (!user) {
-			notificationContext?.addNotification("error", "You must be logged in to reply.");
+			notificationContext.addNotification("error", "You must be logged in to reply.");
 			return;
 		}
 		if (!replyContent[postId]?.trim()) return;
 		if (!isPostValid(replyContent[postId])) {
-			notificationContext?.addNotification("error", `Reply cannot exceed ${maxPostLength} characters.`);
+			notificationContext.addNotification("error", `Reply cannot exceed ${maxPostLength} characters.`);
 			return;
 		}
 
@@ -177,8 +177,8 @@ export default function Forum() {
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ content: replyContent[postId], threadId: postId }),
 				},
-				authContext?.logout || (() => {}),
-				notificationContext?.addNotification!
+				authContext.logout || (() => {}),
+				notificationContext.addNotification
 			);
 
 			if (res) {
@@ -227,13 +227,13 @@ export default function Forum() {
 						);
 					}
 					setShowReplies((prev) => ({ ...prev, [postId]: true }));
-					notificationContext?.addNotification("success", "Reply sent.");
+					notificationContext.addNotification("success", "Reply sent.");
 				} else {
-					notificationContext?.addNotification("error", `Failed to send reply. ${data.response}.`);
+					notificationContext.addNotification("error", `Failed to send reply. ${data.response}.`);
 				}
 			}
 		} catch {
-			notificationContext?.addNotification("error", "Failed to send reply.");
+			notificationContext.addNotification("error", "Failed to send reply.");
 		}
 	};
 
@@ -305,7 +305,7 @@ export default function Forum() {
 
 		if (!editContent.trim()) return;
 		if (!isPostValid(editContent)) {
-			notificationContext?.addNotification("error", `Post cannot exceed ${maxPostLength} characters.`);
+			notificationContext.addNotification("error", `Post cannot exceed ${maxPostLength} characters.`);
 			return;
 		}
 
@@ -317,13 +317,13 @@ export default function Forum() {
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ id: editPostId, content: editContent }),
 				},
-				authContext?.logout || (() => {}),
-				notificationContext?.addNotification!
+				authContext.logout,
+				notificationContext.addNotification
 			);
 			if (res) {
 				if (!res.ok) {
 					const data = await res.json();
-					notificationContext?.addNotification("error", `Failed to edit post. ${data.response}.`);
+					notificationContext.addNotification("error", `Failed to edit post. ${data.response}.`);
 				} else {
 					if (!isReplyEdit) {
 						setPosts((prevPosts) =>
@@ -347,7 +347,7 @@ export default function Forum() {
 							)
 						);
 					}
-					notificationContext?.addNotification("success", "Post edited.");
+					notificationContext.addNotification("success", "Post edited.");
 					setMenuOpen((prev) => ({ ...prev, [editPostId]: false }));
 					setIsEditModalOpen(false);
 					setEditPostId(null);
@@ -356,7 +356,7 @@ export default function Forum() {
 				}
 			}
 		} catch {
-			notificationContext?.addNotification("error", "Failed to edit post.");
+			notificationContext.addNotification("error", "Failed to edit post.");
 			setMenuOpen((prev) => ({ ...prev, [editPostId]: false }));
 			setIsEditModalOpen(false);
 			setEditPostId(null);
@@ -392,14 +392,14 @@ export default function Forum() {
 					headers: { "Content-Type": "application/json" },
 					body: JSON.stringify({ id }),
 				},
-				authContext?.logout || (() => {}),
-				notificationContext?.addNotification!
+				authContext.logout,
+				notificationContext.addNotification
 			);
 
 			if (res) {
 				if (!res.ok) {
 					const data = await res.json();
-					notificationContext?.addNotification("error", `Failed to delete post. ${data.response}.`);
+					notificationContext.addNotification("error", `Failed to delete post. ${data.response}.`);
 				} else {
 					if (!isReply) {
 						setPosts((prev) => prev.filter((post) => post.id !== id));
@@ -416,14 +416,14 @@ export default function Forum() {
 							)
 						);
 					}
-					notificationContext?.addNotification("success", "Post deleted.");
+					notificationContext.addNotification("success", "Post deleted.");
 				}
 			}
 			setIsDeleteModalOpen(false);
 			setPostToDelete(null);
 			setMenuOpen((prev) => ({ ...prev, [id]: false }));
 		} catch {
-			notificationContext?.addNotification("error", "Failed to delete post.");
+			notificationContext.addNotification("error", "Failed to delete post.");
 			setIsDeleteModalOpen(false);
 			setPostToDelete(null);
 			setMenuOpen((prev) => ({ ...prev, [id]: false }));
