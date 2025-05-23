@@ -20,7 +20,7 @@ export default function ResetPassword() {
 	const notificationContext = useNotification();
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
-	const [timer, setTimer] = useState<number>(10);
+	const [timer, setTimer] = useState<number>(5);
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 	const [timerVisible, setTimerVisible] = useState(false);
@@ -56,7 +56,7 @@ export default function ResetPassword() {
 			} else {
 				router.push("/login");
 			}
-		}, 10000);
+		}, 5000);
 	};
 
 	/**
