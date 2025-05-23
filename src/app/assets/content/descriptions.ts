@@ -75,6 +75,7 @@ export const resumeDescriptions = () => {
 			"AWS",
 			"Firebase",
 			"Databricks",
+			"Frends",
 		],
 		hobbies: ["Sports", "Games", "Running"],
 	};

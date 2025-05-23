@@ -20,8 +20,8 @@ export default function AboutMe() {
 		<>
 			<div className="flex h-full w-full flex-col items-center justify-center pb-12 pt-12 text-center lg:flex-row lg:pt-24">
 				<div className="flex w-full justify-center p-4 lg:w-1/2 lg:justify-end">
-					<div className="-full mr-0 flex flex-row justify-center md:w-4/5 lg:ml-8 lg:mr-4 lg:w-full xl:ml-16 xl:mr-16 xl:w-4/5 2xl:w-4/5">
-						<div className="w-2/3 overflow-hidden rounded-xl">
+					<div className="-full mr-0 flex flex-row justify-center pb-2 pt-2 md:w-4/5 lg:ml-8 lg:mr-4 lg:w-full xl:ml-16 xl:mr-16 xl:w-4/5 2xl:w-4/5">
+						<div className="w-3/4 overflow-hidden rounded-xl">
 							<Image src={profilePicture} alt="Picture of Teemu Salonen" placeholder="blur" priority />
 						</div>
 					</div>
