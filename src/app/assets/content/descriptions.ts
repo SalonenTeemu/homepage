@@ -17,6 +17,16 @@ export const resumeDescriptions = () => {
 					"Gathered and analysed data for pricing models",
 				],
 			},
+			trenrg: {
+				company: "Tampereen Energia Oy",
+				title: "Trainee, Integrations",
+				years: "2025",
+				description: [
+					"Migrating system integrations by updating target frameworks on the Frends platform",
+					"Designing and implementing new cross-system integrations",
+					"Resolving issues with current integrations",
+				],
+			},
 		},
 		education: {
 			master: {
@@ -94,8 +104,8 @@ export const aboutMeDescriptions = () => {
 		aboutMe2: `I am committed to continuous learning and have gained knowledge in various programming languages and tools. 
 		While my primary strength lies in full-stack web development, I am always eager to explore new technologies and environments.`,
 
-		aboutMe3: `My experience ranges from independent projects to large-scale applications used worldwide. 
-		I am driven by a passion for growth and innovation, and I am excited about new opportunities and challenges that will help me evolve as a developer.`,
+		aboutMe3: `My experience ranges from independent hobby and academic projects to working on large-scale applications used worldwide in a professional setting. In my professional role, I have worked on system integrations, enabling communication between different platforms.
+		I am driven by a passion for growth and innovation, and am committed to continuous improvement through challenges that help me grow as a developer.`,
 	};
 };
 

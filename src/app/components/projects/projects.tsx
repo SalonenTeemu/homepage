@@ -13,7 +13,7 @@ export default function Projects() {
 		<div className="container mx-auto px-4 py-8">
 			<div className="text-center">
 				<p className="3xl:text-2xl pb-4 pt-4 text-lg lg:text-xl 2xl:text-xl">
-					This page includes some personal projects created for learning purposes and fun.
+					This page includes some personal projects created for learning purposes and for fun.
 					<br />
 					To try out an application, simply click its title. You can also view the projects GitHub repository
 					by clicking the GitHub icon if available.
