@@ -20,7 +20,7 @@ export const resumeDescriptions = () => {
 			trenrg: {
 				company: "Tampereen Energia Oy",
 				title: "Trainee, Integrations",
-				years: "2025",
+				years: "2025-",
 				description: [
 					"Migrating system integrations by updating target frameworks on the Frends platform",
 					"Designing and implementing new cross-system integrations",

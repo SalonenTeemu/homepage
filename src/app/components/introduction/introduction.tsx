@@ -65,7 +65,7 @@ export default function Introduction() {
 								</p>
 								<p className="pb-2 pl-0 pt-2">
 									<span className="text-lime-500 selection:text-slate-950">Latest update</span>:
-									30.07.2025
+								28.08.2025
 								</p>
 							</div>
 						</div>
