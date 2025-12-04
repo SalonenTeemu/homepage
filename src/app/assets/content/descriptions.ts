@@ -22,9 +22,8 @@ export const resumeDescriptions = () => {
 				title: "Trainee, Integrations",
 				years: "2025-",
 				description: [
-					"Migrating system integrations by updating target frameworks on the Frends platform",
-					"Designing and implementing new cross-system integrations",
-					"Resolving issues with current integrations",
+					"Designing and implementing new cross-system integrations on the Frends integration platform",
+					"Maintaining and improving existing integrations",
 				],
 			},
 		},
