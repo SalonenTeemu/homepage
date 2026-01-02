@@ -1,3 +1,5 @@
+"use client";
+
 import LinkedInIcon from "@/app/assets/icons/linkedInIcon";
 import LinkIconWrapper from "../about/linkIconWrapper";
 import GitHubIcon from "@/app/assets/icons/gitHubIcon";
