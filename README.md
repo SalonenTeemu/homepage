@@ -69,7 +69,7 @@ The application uses [football-data.org API](https://www.football-data.org/) to 
 
 #### ai-chatbot
 
-A simple AI chatbot built using the Google Gemini API (2.5 Flash model). Users can type messages and receive AI-generated responses. **Remember to not share any personal information with the chatbot.**
+A simple AI chatbot built using the Google Gemini API. Users can type messages and receive AI-generated responses. **Remember to not share any personal information with the chatbot.**
 
 [ai-chatbot original GitHub repository](https://github.com/SalonenTeemu/ai-chatbot)
 
