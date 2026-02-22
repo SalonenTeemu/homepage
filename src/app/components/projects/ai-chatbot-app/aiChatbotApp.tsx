@@ -79,38 +79,48 @@ export default function AIChatbotApp() {
 	const messageContainerRef = useRef<HTMLDivElement>(null);
 
 	/**
-	 * Handles the form submission to send a message to the AI.
+	 * Handles the form submission to send a message to the AI and receive a response.
+	 * Sends the user's prompt to the backend API and streams the AI's response back to the UI in real-time.
 	 */
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		if (!prompt || loading) return;
 
-		const userMessage = prompt;
-
+		setMessages((prev) => [...prev, { sender: "user", text: prompt }]);
 		setPrompt("");
-
-		setMessages((prevMessages) => [...prevMessages, { sender: "user", text: userMessage }]);
-
 		setLoading(true);
+
 		try {
 			const res = await fetch("/api/chatbot", {
 				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
+				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ prompt }),
 			});
 
-			const data = await res.json();
-			if (!res.ok) {
-				setMessages((prevMessages) => [...prevMessages, { sender: "ai", text: data.response }]);
-			}
-			const aiMessage = data.response;
+			if (!res.body) throw new Error("No stream returned");
 
-			setMessages((prevMessages) => [...prevMessages, { sender: "ai", text: aiMessage }]);
-			setPrompt("");
-		} catch {
-			setMessages((prevMessages) => [...prevMessages, { sender: "ai", text: "An error occurred." }]);
+			const reader = res.body.getReader();
+			const decoder = new TextDecoder();
+			let aiMessage = "";
+
+			// Add empty message placeholder
+			setMessages((prev) => [...prev, { sender: "ai", text: "" }]);
+
+			// Read the stream chunk by chunk
+			while (true) {
+				const { done, value } = await reader.read();
+				if (done) break;
+
+				const chunk = decoder.decode(value, { stream: true });
+				aiMessage += chunk;
+
+				// Update last AI message
+				setMessages((prev) =>
+					prev.map((msg, idx) => (idx === prev.length - 1 ? { ...msg, text: aiMessage } : msg))
+				);
+			}
+		} catch (err) {
+			setMessages((prev) => [...prev, { sender: "ai", text: "An error occurred." }]);
 		} finally {
 			setLoading(false);
 		}
