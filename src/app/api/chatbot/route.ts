@@ -6,7 +6,7 @@ if (!process.env.GENERATIVE_AI_API_KEY) {
 	throw new Error("GENERATIVE_AI_API_KEY is not defined");
 }
 const genAI = new GoogleGenerativeAI(process.env.GENERATIVE_AI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
 /**
  * Responds to a POST request to generate content using the AI model.
