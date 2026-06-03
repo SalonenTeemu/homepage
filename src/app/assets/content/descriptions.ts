@@ -11,81 +11,50 @@ export const resumeDescriptions = () => {
 				title: "Trainee",
 				years: "2023-2024",
 				description: [
-					"Programmed global pricing application",
+					"Programmed a global pricing application",
 					"Updated global pricing models for products",
-					"Created and updated SharePoint sites and report templates",
+					"Created and maintained SharePoint sites and report templates",
 					"Gathered and analysed data for pricing models",
 				],
 			},
 			trenrg: {
 				company: "Tampereen Energia Oy",
-				title: "Trainee, Integrations",
+				title: "Systems Integration Developer",
 				years: "2025-",
 				description: [
-					"Designing and implementing new cross-system integrations on the Frends integration platform",
-					"Maintaining and improving existing integrations",
+					"Designing, implementing, and modifying system integrations on the Frends integration platform",
+					"Maintaining, enhancing, and troubleshooting existing integrations",
+					"Developing integration solutions that support business needs",
 				],
 			},
 		},
 		education: {
 			master: {
 				university: "Tampere University",
-				years: "2024-2026 (Ongoing)",
+				years: "2024-2026",
 				level: "Master of Science in Computer Science",
 				major: "Software Engineering",
+				thesisTitle:
+					"Cost and Performance Analysis of Visual AI Inference Across Different Computing Architectures",
+				thesisLink: "https://trepo.tuni.fi/handle/10024/157793",
+				githubRepo: "https://github.com/SalonenTeemu/visual-inference-architecture-benchmark",
 			},
 			bachelor: {
 				university: "Tampere University",
 				years: "2021-2024",
 				level: "Bachelor of Science in Computer Science",
 				minor: "Business Studies",
-				thesis: "Development of serverless web applications with AWS",
+				thesisTitle:
+					"Development of Serverless Web Applications in AWS: An Overview of Services, Benefits, and Challenges",
+				thesisLink: "https://trepo.tuni.fi/handle/10024/157793",
 			},
 		},
-		technologies: [
-			"Python",
-			"JavaScript",
-			"TypeScript",
-			"React",
-			"Redux.js",
-			"Next.js",
-			"Vue.js",
-			"Svelte",
-			"Angular",
-			"Tailwind CSS",
-			"Bootstrap",
-			"Node.js",
-			"Express.js",
-			"Mocha",
-			"Swagger",
-			"Coveralls",
-			"Java",
-			"C#",
-			".NET",
-			".NET Framework",
-			"Blazor",
-			"C++",
-			"C",
-			"Haskell",
-			"Scala",
-			"Erlang",
-			"SQL",
-			"PostgreSQL",
-			"VBA",
-			"RabbitMQ",
-			"Docker",
-			"Kubernetes",
-			"Terraform",
-			"Git",
-			"GitHub Actions",
-			"Jenkins",
-			"AWS",
-			"Firebase",
-			"Vercel",
-			"Android",
-			"Databricks",
-			"Frends",
-		],
+		technologies: {
+			programmingLanguages: ["JavaScript", "TypeScript", "Java", "Python", "C", "C++", "C#", "SQL"],
+			backend: ["Frends", "REST & SOAP APIs", "Node.js", ".NET", "PostgreSQL"],
+			frontend: ["React", "Angular", "Next.js", "HTML", "CSS", "Tailwind CSS"],
+			cloud: ["Git", "Docker", "GitHub Actions", "Jenkins", "AWS", "Azure", "Vercel"],
+		},
 		hobbies: ["Sports", "Games", "Running"],
 	};
 };
@@ -97,14 +66,15 @@ export const resumeDescriptions = () => {
  */
 export const aboutMeDescriptions = () => {
 	return {
-		aboutMe1: `My name is Teemu Salonen, a Computer Science student pursuing a master's degree focusing on Software Engineering at Tampere University.
-		My passion for technology began with a curiosity about how software is built, leading me to this field.`,
+		aboutMe1: `My name is Teemu Salonen, a Master of Science in Computer Science from Tampere University. 
+		My passion for technology began with a curiosity about how software is built, which eventually led me to pursue a career in software development and systems integration.`,
 
-		aboutMe2: `I am committed to continuous learning and have gained knowledge in various programming languages and tools. 
-		While my primary strength lies in full-stack web development, I am always eager to explore new technologies and environments.`,
+		aboutMe2: `I have experience working with a wide range of programming languages, frameworks, and cloud technologies. 
+		My expertise spans software development, system integrations, and web technologies, and I enjoy learning new tools and approaches to solve technical challenges.`,
 
-		aboutMe3: `My experience ranges from independent hobby and academic projects to working on large-scale applications used worldwide in a professional setting. In my professional role, I have worked on system integrations, enabling communication between different platforms.
-		I am driven by a passion for growth and innovation, and am committed to continuous improvement through challenges that help me grow as a developer.`,
+		aboutMe3: `My experience ranges from independent hobby and academic projects to professional work on business-critical systems. 
+		In my current role, I design, implement, and maintain system integrations on the Frends platform, helping build reliable solutions that support business needs. 
+		I am motivated by continuous learning, problem-solving, and creating practical solutions that deliver value through technology.`,
 	};
 };
 

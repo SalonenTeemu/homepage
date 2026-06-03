@@ -17,5 +17,7 @@ export interface EducationType {
 	level: string;
 	major?: string;
 	minor?: string;
-	thesis?: string;
+	thesisTitle?: string;
+	thesisLink?: string;
+	githubRepo?: string;
 }

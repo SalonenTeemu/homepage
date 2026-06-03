@@ -8,7 +8,7 @@ The website is deployed on Vercel and uses AWS DynamoDB as the database.
 
 ## Note
 
-This project was created as a platform for learning full-stack web development and experimenting with new technologies. As such, it is a hobby project and is not actively maintained, so occasional issues may occur.
+This project was created as a platform for learning web development and experimenting with new technologies. As such, it is a hobby project and is not actively maintained, so occasional issues may occur.
 
 ## Running the Application
 

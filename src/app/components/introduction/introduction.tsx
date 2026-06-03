@@ -21,8 +21,8 @@ export default function Introduction() {
 						<div className="mb-2 mt-4 flex w-full flex-col rounded-lg border-2 border-slate-300 p-4 hover:border-lime-500">
 							<div className="flex flex-col text-left">
 								<p className="pl-0 pt-2">
-									Welcome to my personal website, created as a platform for learning full-stack web
-									development and experimenting with new technologies.
+									Welcome to my personal website, created as a platform for learning web development
+									and experimenting with new technologies.
 								</p>
 								<p className="pl-0 pt-2">
 									The site features details{" "}
@@ -97,7 +97,7 @@ export default function Introduction() {
 										</Link>
 										Here, you will find a selection of applications I have worked on and chose to
 										include on the website. Each project includes a brief description and, when
-										available, a link to its GitHub repository.
+										available, a link to its original GitHub repository.
 									</li>
 									<li>
 										<Link
