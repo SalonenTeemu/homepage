@@ -36,7 +36,7 @@ export const resumeDescriptions = () => {
 				major: "Software Engineering",
 				thesisTitle:
 					"Cost and Performance Analysis of Visual AI Inference Across Different Computing Architectures",
-				thesisLink: "https://trepo.tuni.fi/handle/10024/157793",
+				thesisLink: "https://urn.fi/URN:NBN:fi:tuni-202605276443",
 				githubRepo: "https://github.com/SalonenTeemu/visual-inference-architecture-benchmark",
 			},
 			bachelor: {
@@ -46,7 +46,7 @@ export const resumeDescriptions = () => {
 				minor: "Business Studies",
 				thesisTitle:
 					"Development of Serverless Web Applications in AWS: An Overview of Services, Benefits, and Challenges",
-				thesisLink: "https://trepo.tuni.fi/handle/10024/157793",
+				thesisLink: "https://urn.fi/URN:NBN:fi:tuni-202405135740",
 			},
 		},
 		technologies: {
