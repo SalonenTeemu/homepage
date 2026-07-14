@@ -1,11 +1,18 @@
 /**
- * Represents a work experience type in the resume page.
+ * Represents a work experience role.
  */
 export interface ExperienceType {
-	company: string;
 	title: string;
 	years: string;
 	description: string[];
+}
+
+/**
+ * Represents a group of work experiences for a specific company in the resume page.
+ */
+export interface ExperienceGroupType {
+	company: string;
+	roles: ExperienceType[];
 }
 
 /**

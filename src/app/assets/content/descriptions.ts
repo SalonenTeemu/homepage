@@ -6,32 +6,49 @@
 export const resumeDescriptions = () => {
 	return {
 		workExperience: {
-			valmet: {
-				company: "Valmet Technologies Oy",
-				title: "Trainee",
-				years: "2023-2024",
-				description: [
-					"Programmed a global pricing application",
-					"Updated global pricing models for products",
-					"Created and maintained SharePoint sites and report templates",
-					"Gathered and analysed data for pricing models",
-				],
-			},
 			trenrg: {
 				company: "Tampereen Energia Oy",
-				title: "Systems Integration Developer",
-				years: "2025-",
-				description: [
-					"Designing, implementing, and modifying system integrations on the Frends integration platform",
-					"Maintaining, enhancing, and troubleshooting existing integrations",
-					"Developing integration solutions that support business needs",
+				roles: [
+					{
+						title: "ICT Specialist",
+						years: "2026–present",
+						description: [
+							"Developing and maintaining integration solutions that support business needs",
+							"Contributing to ICT development projects",
+							"Supporting the administration and development of the Microsoft 365 environment",
+						],
+					},
+					{
+						title: "Systems Integration Developer",
+						years: "2025–2026",
+						description: [
+							"Designed, implemented, and enhanced system integrations on the Frends integration platform",
+							"Maintained, enhanced, and troubleshot existing integrations",
+							"Developed integration solutions that supported business needs",
+						],
+					},
+				],
+			},
+			valmet: {
+				company: "Valmet Technologies Oy",
+				roles: [
+					{
+						title: "Trainee",
+						years: "2023–2024",
+						description: [
+							"Programmed a global pricing application",
+							"Updated global pricing models for products",
+							"Created and maintained SharePoint sites and report templates",
+							"Gathered and analysed data for pricing models",
+						],
+					},
 				],
 			},
 		},
 		education: {
 			master: {
 				university: "Tampere University",
-				years: "2024-2026",
+				years: "2024–2026",
 				level: "Master of Science in Computer Science",
 				major: "Software Engineering",
 				thesisTitle:
@@ -41,7 +58,7 @@ export const resumeDescriptions = () => {
 			},
 			bachelor: {
 				university: "Tampere University",
-				years: "2021-2024",
+				years: "2021–2024",
 				level: "Bachelor of Science in Computer Science",
 				minor: "Business Studies",
 				thesisTitle:
@@ -72,8 +89,8 @@ export const aboutMeDescriptions = () => {
 		aboutMe2: `I have experience working with a wide range of programming languages, frameworks, and cloud technologies. 
 		My expertise spans software development, system integrations, and web technologies, and I enjoy learning new tools and approaches to solve technical challenges.`,
 
-		aboutMe3: `My experience ranges from independent hobby and academic projects to professional work on business-critical systems. 
-		In my current role, I design, implement, and maintain system integrations on the Frends platform, helping build reliable solutions that support business needs. 
+		aboutMe3: `My experience ranges from independent hobby and academic projects to professional work on business-critical systems.
+		In my current role, I contribute to business system integrations, ICT development projects, and the continuous development of the Microsoft 365 environment, helping deliver reliable technology solutions that support business needs.
 		I am motivated by continuous learning, problem-solving, and creating practical solutions that deliver value through technology.`,
 	};
 };

@@ -18,8 +18,10 @@ export default function Education({
 	return (
 		<div className="mb-4 mt-4 flex w-full flex-col rounded-lg border-2 border-slate-300 p-4 hover:border-lime-500">
 			<div className="flex flex-col pb-2 text-left">
-				<p className="pl-0 pt-2">{params.content.university}</p>
-				<p className="pl-0">{params.content.level}</p>
+				<p className="pb-2 pl-0 pt-2 font-semibold text-lime-500 selection:text-slate-950">
+					{params.content.university}
+				</p>
+				<p className="pl-0 font-medium">{params.content.level}</p>
 				<p className="pb-2 pl-0 text-slate-300">{params.content.years}</p>
 				{params.content.major && <p className="pb-2 pl-0">Major: {params.content.major}</p>}
 				{params.content.minor && <p className="pb-2 pl-0">Minor: {params.content.minor}</p>}

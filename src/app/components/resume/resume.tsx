@@ -1,4 +1,4 @@
-import Experience from "@/app/components/resume/experience";
+import ExperienceGroup from "@/app/components/resume/experienceGroup";
 import Education from "@/app/components/resume/education";
 import Hobbies from "@/app/components/resume/hobbies";
 import Technologies from "@/app/components/resume/technologies";
@@ -22,8 +22,8 @@ export default function Resume() {
 				<div className="flex w-full justify-center p-4 lg:w-1/2 lg:justify-end">
 					<div className="mr-0 flex w-full flex-col md:w-5/6 lg:ml-8 lg:mr-4 lg:w-5/6 xl:ml-16 xl:mr-16 xl:w-4/5 2xl:w-3/4">
 						<p className="text-md 3xl:text-3xl pb-4 pt-4 lg:text-lg 2xl:text-xl">Work Experience</p>
-						<Experience params={{ content: descriptions.workExperience.trenrg }} />
-						<Experience params={{ content: descriptions.workExperience.valmet }} />
+						<ExperienceGroup params={{ content: descriptions.workExperience.trenrg }} />
+						<ExperienceGroup params={{ content: descriptions.workExperience.valmet }} />
 
 						<p className="text-md 3xl:text-3xl pb-4 pt-8 lg:text-lg 2xl:text-xl">Interests</p>
 						<Hobbies params={{ content: descriptions.hobbies }} />
