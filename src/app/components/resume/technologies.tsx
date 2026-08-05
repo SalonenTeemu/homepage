@@ -46,7 +46,7 @@ export default function Technologies({ params }: TechnologiesProps) {
 							{items.map((x) => (
 								<p
 									key={`${x}-${makeId(5)}`}
-									className="m-1 rounded-full bg-lime-500 px-3 py-1 text-slate-950"
+									className="m-1 rounded-full bg-lime-500 px-3 py-1 text-slate-950 transition-none duration-300 ease-in-out hover:transform-none motion-reduce:transition-none motion-reduce:hover:transform-none lg:transition lg:hover:-translate-y-1"
 								>
 									{x}
 								</p>
