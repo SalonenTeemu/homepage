@@ -19,10 +19,10 @@ export const resumeDescriptions = () => {
 						],
 					},
 					{
-						title: "Systems Integration Developer",
+						title: "Systems Integration Specialist",
 						years: "2025–2026",
 						description: [
-							"Designed, implemented, and enhanced system integrations on the Frends integration platform",
+							"Designed, implemented, and enhanced system integrations",
 							"Maintained, enhanced, and troubleshot existing integrations",
 							"Developed integration solutions that supported business needs",
 						],
