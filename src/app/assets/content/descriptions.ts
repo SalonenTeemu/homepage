@@ -22,9 +22,8 @@ export const resumeDescriptions = () => {
 						title: "Systems Integration Specialist",
 						years: "2025–2026",
 						description: [
-							"Designed, implemented, and enhanced system integrations",
-							"Maintained, enhanced, and troubleshot existing integrations",
-							"Developed integration solutions that supported business needs",
+							"Developed and maintained integration solutions that supported business needs",
+							"Troubleshot and resolved issues with existing integration solutions",
 						],
 					},
 				],
