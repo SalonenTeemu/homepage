@@ -89,8 +89,8 @@ export const aboutMeDescriptions = () => {
 		aboutMe2: `I have experience working with a wide range of programming languages, frameworks, and cloud technologies. 
 		My expertise spans software development, system integrations, and web technologies, and I enjoy learning new tools and approaches to solve technical challenges.`,
 
-		aboutMe3: `My experience ranges from independent hobby and academic projects to professional work on business-critical systems.
-		In my current role, I contribute to business system integrations, ICT development projects, and the continuous development of the Microsoft 365 environment, helping deliver reliable technology solutions that support business needs.
+		aboutMe3: `Currently, I contribute to business system integrations, ICT development projects, and the continuous development of the Microsoft 365 environment, helping deliver reliable technology solutions that support business needs.
+		My background includes independent hobby projects, academic work, and professional experience with business-critical systems.
 		I am motivated by continuous learning, problem-solving, and creating practical solutions that deliver value through technology.`,
 	};
 };
