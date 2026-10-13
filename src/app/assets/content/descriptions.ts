@@ -119,7 +119,7 @@ export const projectDescriptions = () => {
 		},
 		aiChatbotApp: {
 			title: "AI chatbot application",
-			description: `A simple AI chatbot powered by the Google Gemini API, utilizing the 2.0 Flash model.
+			description: `A simple AI chatbot powered by the Google Gemini API, utilizing the Flash model.
 			You can type messages, and the chatbot will respond accordingly.
 			Please remember not to share any personal information with the chatbot.`,
 			link: "/projects/ai-chatbot-app",

@@ -1,12 +1,23 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenAI } from "@google/genai";
 import logger from "@/app/lib/logger";
 
 if (!process.env.GENERATIVE_AI_API_KEY) {
 	logger.error("GENERATIVE_AI_API_KEY is not defined");
 	throw new Error("GENERATIVE_AI_API_KEY is not defined");
 }
-const genAI = new GoogleGenerativeAI(process.env.GENERATIVE_AI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
+
+if (!process.env.GENERATIVE_AI_MODEL) {
+	logger.error("GENERATIVE_AI_MODEL is not defined");
+	throw new Error("GENERATIVE_AI_MODEL is not defined");
+}
+
+// Initialize the Google Generative AI client with the API key
+const ai = new GoogleGenAI({
+	apiKey: process.env.GENERATIVE_AI_API_KEY,
+});
+
+// Define the model to be used for generating content
+const MODEL = process.env.GENERATIVE_AI_MODEL;
 
 /**
  * Responds to a POST request to generate content using the AI model.
@@ -24,9 +35,12 @@ export async function POST(req: Request) {
 	}
 
 	try {
-		const result = await model.generateContent(prompt);
+		const result = await ai.models.generateContent({
+			model: MODEL,
+			contents: prompt,
+		});
 		logger.info("Chatbot: Generated AI response successfully");
-		return new Response(JSON.stringify({ response: result.response.text() }), {
+		return new Response(JSON.stringify({ response: result.text }), {
 			status: 200,
 		});
 	} catch (err) {
